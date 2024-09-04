@@ -1,1 +1,32 @@
-<p>navbar works!</p>
+<nav [ngClass]="{'bg-white/80 text-black shadow-md saturate-[180%] backdrop-blur-md': scrolled, 'bg-transparent text-white': !scrolled}" 
+     class="fixed top-0 left-0 right-0 transition-all duration-300 z-50 p-3">
+  <div class="container mx-auto">
+    <div class="flex justify-between items-center">
+      <div>
+        <a routerLink="/">
+          <img src="assets/logo.png" alt="Logo" />
+        </a>
+      </div>
+      <ul class="flex space-x-10 font-semibold text-base font-sans">
+        <li class="hover:border-b-2 transition-all ease-in-out">
+          <a routerLink="/">Home</a>
+        </li>
+        <li class="hover:border-b-2 transition-all ease-in-out">
+          <a routerLink="/">Manu</a>
+        </li>
+        <li class="hover:border-b-2 transition-all ease-in-out">
+          <a routerLink="/">Boardgame</a>
+        </li>
+        <li class="hover:border-b-2 transition-all ease-in-out">
+          <a routerLink="/">Q&A</a>
+        </li>
+        <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
+            <a routerLink="/">Sign in</a>
+          </li>
+          <li class="border-2 border-white rounded-full px-3 bg-transparent text-white text-lg font-semibold">
+            <a routerLink="/">Sign up</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
