@@ -41,6 +41,39 @@ app.get('/students', async (req, res) => {
   }
 });
 
+
+// getallmanu
+app.get('/manu', async (req, res) => {
+  try {
+    const database = client.db('cafeboardgame');
+    const collection = database.collection('Menu');
+    
+    // Fetch all documents from the students collection
+    const Manu = await collection.find({}).toArray();
+    
+    // Send the retrieved documents as a response
+    res.status(200).json(Manu);
+  } catch (error) {
+    console.error("Error fetching Manu:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get('/boardgame', async (req, res) => {
+  try {
+    const database = client.db('cafeboardgame');
+    const collection = database.collection('boardgame');
+    
+    // Fetch all documents from the students collection
+    const item = await collection.find({}).toArray();
+    
+    // Send the retrieved documents as a response
+    res.status(200).json(item);
+  } catch (error) {
+    console.error("Error fetching Boardgame:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // Start the Express server
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
