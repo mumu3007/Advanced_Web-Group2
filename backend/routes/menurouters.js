@@ -1,75 +1,110 @@
 const express = require('express');
-const Menu = require('../models/Menu')
+const Coffeemenu = require('../models/CoffeeMenu'); // Ensure the correct path to the model
+const router = express.Router();
+const mongoose = require('mongoose');
 
-module.exports = (client) => {
-  const router = express.Router();
-  const database = client.db('cafeboardgame');
 
-  router.get('/menu', async (req, res) => {
-    try {
-      const menuItems = await database.collection('CoffeeMenu').find({}).toArray();
-      res.status(200).json(menuItems);
-    } catch (error) {
-      console.error("Error fetching menu:", error);
-      res.status(500).send("Internal Server Error");
+
+
+// Get all coffee menus
+router.get('/coffeemenu', async (req, res, next) => {
+  try {
+    const coffeemenus = await Coffeemenu.find();
+    res.json(coffeemenus);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Get a coffee menu by ID
+router.get('/coffeemenu/:id', async (req, res, next) => {
+  try {
+    const coffeemenu = await Coffeemenu.findById(req.params.id);
+    if (!coffeemenu) {
+      return res.status(404).json({ message: 'Coffee menu not found' });
     }
-  });
+    res.json(coffeemenu);
+  } catch (err) {
+    next(err);
+  }
+});
 
-  router.get('/menu/:menuName', async (req, res) => {
-    try {
-      const menuName = req.params.menuName;
-      const menuItems = await database.collection('CoffeeMenu').find({ name: menuName }).toArray();
-      res.status(200).json(menuItems);
-    } catch (error) {
-      console.error("Error fetching menu:", error);
-      res.status(500).send("Internal Server Error");
+// Create a new coffee menu (POST)
+router.post('/coffeemenu', async (req, res, next) => {
+  try {
+    const { name, price, description, photo } = req.body;
+    
+    // Create a new CoffeeMenu document
+    const newCoffeeMenu = new Coffeemenu({
+      name,
+      price,
+      description,
+      photo
+    });
+    
+    // Save the new menu to the database
+    const savedCoffeeMenu = await newCoffeeMenu.save();
+    
+    // Respond with the newly created menu
+    res.status(201).json(savedCoffeeMenu);
+  } catch (err) {
+    // Pass any errors to the error handler
+    next(err);
+  }
+});
+
+//ยังทำงานไม่ได้ ติดหาด้วยไอดีเพราะว่า ใน database เป็น objecId แต่รับมาเป็นตัวเลขธรรม
+router.put('/coffeemenu/:id', async (req, res, next) => {
+  try {
+    const { name, price, description, photo } = req.body;
+   
+
+    // Convert the ID to ObjectId
+    const objectId = new mongoose.ObjectId(req.params.id);
+    
+    // Find the menu by ID and update it with the provided data
+    const updatedCoffeeMenu = await Coffeemenu.findByIdAndUpdate(
+      objectId,
+      { name, price, description, photo },
+      { new: true, runValidators: true } // Ensure it returns the updated document and applies validation
+    );
+    
+    // Check if the coffee menu exists
+    if (!updatedCoffeeMenu) {
+      return res.status(404).json({ message: 'Coffee menu not found' });
     }
-  });
+    
+    // Respond with the updated menu
+    res.json(updatedCoffeeMenu);
+  } catch (err) {
+    // Pass any errors to the error handler
+    next(err);
+  }
+});
 
-  router.post('/menu', async (req, res) => {
-    const newMenuItem = req.body; // คาดว่ามีข้อมูลเป็น object
-    console.log('Received data:', newMenuItem); // ตรวจสอบข้อมูลที่ได้รับ
-    try {
-      // ใช้ insertOne เพื่อเพิ่มข้อมูลเดียว
-      const result = await database.collection('CoffeeMenu').insertMany(newMenuItem);
-      console.log('Insert result:', result); // ตรวจสอบผลลัพธ์การ insert
-      res.status(201).json(result);
-    } catch (error) {
-      console.error("Error adding menu item:", error);
-      res.status(500).send("Internal Server Error");
+
+
+// Delete a coffee menu by ID (DELETE)
+router.delete('/coffeemenu/:id', async (req, res, next) => {
+  try {
+    const deletedCoffeeMenu = await Coffeemenu.findByIdAndDelete(req.params.id);
+    if (!deletedCoffeeMenu) {
+      return res.status(404).json({ message: 'Coffee menu not found' });
     }
-  });
+    res.json({ message: 'Coffee menu deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
 
-  router.patch('/menu', async (req, res) => {
-    const newData = req.body;
-    console.log('Received data:', newData); // ตรวจสอบข้อมูลที่ได้รับ
-    try {
-      // ใช้ insertOne เพื่อเพิ่มข้อมูลเดียว
-      const result = await database.collection('CoffeeMenu').updateOne(
-        { name: newData.name },
-        {
-          $set: { 'price': newData.price },
-          $currentDate: { lastModified: true }
-        }
-      );
-      console.log('Update result:', result); // ตรวจสอบผลลัพธ์การ insert
-      res.status(201).json(result);
-    } catch (error) {
-      console.error("Error updating menu item:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  });
 
-  router.delete('/menu/:menuName', async (req, res) => {
-    try {
-      const menuName = req.params.menuName;
-      const menuItems = await database.collection('CoffeeMenu').deleteOne({ name: menuName });
-      res.status(200).json(menuItems);
-    } catch (error) {
-      console.error("Error delete menu:", error);
-      res.status(500).send("Internal Server Error");
-    }
-  });
+function numberToHexString(num) {
+  let hex = num.toString(16);
+  while (hex.length < 24) {
+    hex = '0' + hex;
+  }
+  return hex;
+}
 
-  return router;
-};
+
+module.exports = router;
