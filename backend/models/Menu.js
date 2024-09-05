@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 
-const manuSchema = mongoose.Schema({
+const menuSchema = mongoose.Schema({
     name: {
         type: String
     },
-    Price: {
+    price: {
         type: Number
     },
 })
 
-module.exports = mongoose.model('Menu', manuSchema)
+module.exports = mongoose.model('Menu', menuSchema)
