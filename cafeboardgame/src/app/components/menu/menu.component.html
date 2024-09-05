@@ -1,0 +1,11 @@
+<div *ngFor="let item of menuItems">
+    <p>{{ item.name }} - {{ item.price }} บาท</p>
+  </div>
+  
+  <!-- Form เพื่อเพิ่มเมนูใหม่ -->
+  <form (submit)="addMenuItem({ name: itemName.value, price: itemPrice.value })">
+    <input #itemName placeholder="ชื่อเมนู" />
+    <input #itemPrice placeholder="ราคาเมนู" type="number" />
+    <button type="submit">เพิ่มเมนู</button>
+  </form>
+  
