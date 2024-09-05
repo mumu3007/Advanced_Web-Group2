@@ -7,7 +7,7 @@ module.exports = (client) => {
 
   router.get('/menu', async (req, res) => {
     try {
-      const menuItems = await database.collection('Menu').find({}).toArray();
+      const menuItems = await database.collection('CoffeeMenu').find({}).toArray();
       res.status(200).json(menuItems);
     } catch (error) {
       console.error("Error fetching menu:", error);
@@ -18,7 +18,7 @@ module.exports = (client) => {
   router.get('/menu/:menuName', async (req, res) => {
     try {
       const menuName = req.params.menuName;
-      const menuItems = await database.collection('Menu').find({ name: menuName }).toArray();
+      const menuItems = await database.collection('CoffeeMenu').find({ name: menuName }).toArray();
       res.status(200).json(menuItems);
     } catch (error) {
       console.error("Error fetching menu:", error);
@@ -31,7 +31,7 @@ module.exports = (client) => {
     console.log('Received data:', newMenuItem); // ตรวจสอบข้อมูลที่ได้รับ
     try {
       // ใช้ insertOne เพื่อเพิ่มข้อมูลเดียว
-      const result = await database.collection('Menu').insertOne(newMenuItem);
+      const result = await database.collection('CoffeeMenu').insertMany(newMenuItem);
       console.log('Insert result:', result); // ตรวจสอบผลลัพธ์การ insert
       res.status(201).json(result);
     } catch (error) {
@@ -45,7 +45,7 @@ module.exports = (client) => {
     console.log('Received data:', newData); // ตรวจสอบข้อมูลที่ได้รับ
     try {
       // ใช้ insertOne เพื่อเพิ่มข้อมูลเดียว
-      const result = await database.collection('Menu').updateOne(
+      const result = await database.collection('CoffeeMenu').updateOne(
         { name: newData.name },
         {
           $set: { 'price': newData.price },
@@ -63,7 +63,7 @@ module.exports = (client) => {
   router.delete('/menu/:menuName', async (req, res) => {
     try {
       const menuName = req.params.menuName;
-      const menuItems = await database.collection('Menu').deleteOne({ name: menuName });
+      const menuItems = await database.collection('CoffeeMenu').deleteOne({ name: menuName });
       res.status(200).json(menuItems);
     } catch (error) {
       console.error("Error delete menu:", error);
