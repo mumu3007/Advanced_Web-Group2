@@ -1,28 +1,100 @@
-<div class="bg-orange-100 -z-10">
-    <app-navbar></app-navbar>
-   
-    
-  
-    <div class="container mx-auto relative">
-      <div
-        class="text-[80px] font-bold text-red-600 font-seymour p-12 h-screen drop-shadow-2xl"
-      >
-        Yummy
-        <div class="ml-28">
-          Fun Times!
-        </div>
-        <div class="text-[60px] ml-72 relative z-20"> <!-- เพิ่ม relative และ z-20 -->
-          Let's eat
-        </div>
-      </div>
-      <div class="absolute w-[480px] top-[23%] left-[-200px]">
-        <img src="../../../assets/Macha.png"/>
-      </div>
-      <div class="absolute w-[550px] top-[230px] left-[22%]">
-        <img src="../../../assets/cupcake.png"/>
-      </div>
-      <div class="absolute w-[560px] top-[-65px] right-[-75px]">
-        <img src="../../../assets/pang.png"/>
+<div class="bg-orange-100/50 -z-10">
+  <app-navbar></app-navbar>
+  <section class="container mx-auto relative h-screen">
+    <div
+      class="ml-32 text-[80px] text-redProject font-seymour py-24 px-12 drop-shadow-2xl"
+    >
+      Enjoy <span class="text-transparent text-border">Yummy</span>
+      <div class="">
+        <span class="text-transparent text-border">&Fun</span> Timess...
       </div>
     </div>
-  </div>
+    <div class="absolute w-[40%] h-auto top-[10%] left-[-290px]">
+      <img src="../../../assets/Macha.png" />
+    </div>
+    <div class="absolute w-[550px] h-auto top-[180px] left-[13%]">
+      <img src="../../../assets/cupcake.png" />
+    </div>
+    <div
+      class="absolute text-[70px] right-[350px] leading-[80px] font-seymour text-border text-redProject"
+    >
+      EAT<span class="text-transparent">E</span><br />
+      <div class="flex items-center">
+        <span class="text-transparent">AT</span>
+        <span><img src="../../../assets/Group 129.png" alt="Group 129" /></span>
+      </div>
+      <div class="flex items-center">
+        <span><img src="../../../assets/Group 130.png" /></span>EAT
+      </div>
+    </div>
+    <div class="absolute w-[40%] h-auto top-[-65px] right-[-115px]">
+      <img src="../../../assets/pang.png" />
+    </div>
+  </section>
+  <!------------------------------------------------------------->
+  <section class="flex flex-col items-center mt-20">
+    <h1 class="text-red-600 text-5xl font-bold mb-10">OUR MENU</h1>
+    <div class="relative w-full flex justify-center items-center">
+      <button
+        (click)="prevSlide()"
+        class="absolute left-5 text-2xl text-red-600"
+      >
+        &lt;
+      </button>
+      <!-- Card Carousel -->
+      <div class="flex justify-between space-x-10 overflow-hidden w-[80%]">
+        <div
+          *ngFor="let item of menuItems; let i = index"
+          [ngClass]="{
+            'scale-110': i === currentIndex,
+            'opacity-50': i !== currentIndex
+          }"
+          class="transition-all duration-500 transform transition-transform ease-in-out w-[200px] h-[300px] flex flex-col items-center justify-center bg-transparent"
+          [style.transform]="getTransform(i)"
+        >
+          <img
+            [src]="item.image"
+            alt="{{ item.name }}"
+            class="w-40 h-40 object-cover mb-4"
+          />
+          <h2 class="text-center text-red-600 text-lg">{{ item.name }}</h2>
+          <p class="text-center text-lg font-bold text-red-600">
+            ${{ item.price }}
+          </p>
+          <div *ngIf="i === currentIndex" class="mt-4">
+            <button class="bg-red-600 text-white py-2 px-4 rounded">
+              LEARN MORE
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        (click)="nextSlide()"
+        class="absolute right-5 text-2xl text-red-600"
+      >
+        &gt;
+      </button>
+    </div>
+  </section>
+  <!------------------------------------------------------------->
+  <!-- <section class="flex flex-col items-center mt-20">
+    <h1 class="text-red-600 text-5xl font-bold mb-10">OUR BOARDGAME</h1>
+    <div class="grid grid-col-8 grid-rows-3 gap-4">
+      <div class="relative col-start-1 row-start-1 col-span-5 text-redProject border border-redProject rounded-xl p-8 shadow-lg">
+        <h2 class="font-bold text-3xl">LET IT FUN BEGIN!</h2>
+        <p class="font-bold text-xl uppercase">Find the fun here and pick the board game you’d like to play <br/>and reserve your playtime today!</p>
+        <button class="absolute bg-red-600 text-white text-sm py-2 px-4 rounded-lg right-7 bottom-2">
+          LEARN MORE
+        </button>
+      </div>
+      <div class="col-span-2 row-start-1 text-redProject border border-redProject rounded-xl shadow-lg">
+        <img src="../../../assets/sherock.png" class="w-full h-full object-cover rounded-xl" />
+      </div>
+      <div class="col-span-3 row-start-2 text-redProject border border-redProject rounded-xl shadow-lg">
+        <img src="../../../assets/image 14.png">
+
+      </div>
+    </div>
+    
+  </section> -->
+</div>

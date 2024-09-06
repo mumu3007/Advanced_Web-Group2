@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         seymour: ['"Seymour One"', 'sans-serif'], // Add Seymour One font
       },
+      colors: {
+        'redProject': '#D2091C',
+      },
     },
   },
   plugins: [],
