@@ -5,7 +5,7 @@ const menuRoutes = require('./menurouters');
 
 const router = express.Router();
 
-router.use('/auth', authRoutes); 
+router.use('/register', authRoutes); 
 router.use('/boardgame', boardgameRoutes);  
 router.use('/menu', menuRoutes); 
 
