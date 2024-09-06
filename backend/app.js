@@ -10,8 +10,6 @@ const routes = require('./routes');
 
 
 
-
-
 dotenv.config();
 const mongoURI = process.env.MONGO_URI;
 
