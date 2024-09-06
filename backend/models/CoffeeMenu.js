@@ -7,9 +7,6 @@ const coffeeMenuSchema = new mongoose.Schema({
   description: String,
   photo: String
 
-}, { collection: 'CoffeeMenu' });  // Explicitly set collection name
+});  // Explicitly set collection name
 
-// Create and export the Coffeemenu model
-const Coffeemenu = mongoose.model('Coffeemenu', coffeeMenuSchema);
-
-module.exports = Coffeemenu;
+module.exports = mongoose.model('Coffeemenu', coffeeMenuSchema);

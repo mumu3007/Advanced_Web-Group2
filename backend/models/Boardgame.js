@@ -2,10 +2,8 @@ const mongoose = require('mongoose')
 
 const boardGameSchema = new mongoose.Schema({
     name: String,
-    Description: String,
+    description: String,
     quantity: Number,
-  }, { collection: 'Boardgame' });  // Explicitly set collection name
+});  // Explicitly set collection name
   
-const boardgame = mongoose.model('Boardgame', boardGameSchema)
-
-module.exports = boardgame;
+module.exports = mongoose.model('Boardgame', boardGameSchema);
