@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ name, email, password: hashedPassword });
+    const user = new User({ name, email, password: hashedPassword, phone });
     await user.save();
 
     res.status(201).json({ message: "User registered successfully", user });
@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
    
     let user = await User.findById(req.params.id);
@@ -53,6 +53,7 @@ router.put('/:id', async (req, res) => {
     if (name) user.name = name;
     if (email) user.email = email;
     if (password) user.password = await bcrypt.hash(password, 10);
+    if (phone) user.phone = phone;
 
     user = await user.save();
     res.status(200).json({ message: 'User updated successfully', user });

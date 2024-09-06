@@ -1,5 +1,6 @@
 const express = require('express');
 const Coffeemenu = require('../models/CoffeeMenu'); // Ensure the correct path to the model
+const CakeMenu = require('../models/CakeMenu');
 const router = express.Router();
 const mongoose = require('mongoose');
 
@@ -93,6 +94,29 @@ router.delete('/coffeemenu/:id', async (req, res, next) => {
     }
     res.json({ message: 'Coffee menu deleted successfully' });
   } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/cakemenu', async (req, res, next) => {
+  try {
+    const { name, price, description, photo } = req.body;
+
+    // Create a new CoffeeMenu document
+    const newCakeMenu = new CakeMenu({
+      name,
+      price,
+      description,
+      photo
+    });
+
+    // Save the new menu to the database
+    const savedCakeMenu = await newCakeMenu.save();
+
+    // Respond with the newly created menu
+    res.status(201).json(savedCakeMenu);
+  } catch (err) {
+    // Pass any errors to the error handler
     next(err);
   }
 });
