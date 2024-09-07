@@ -9,11 +9,15 @@ import { ApiService } from '../../services/menu/menuservice.service';
 export class MenuComponent implements OnInit {
 
   menuItems: any[] = [];
+  displayedItems: any[] = [];
+  currentPage: number = 0;
+  itemsPerPage: number = 6;
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.loadMenuItems();
+    this.updateDisplayedItems();
   }
 
   // ฟังก์ชันเพื่อเรียกเมนูจาก API
@@ -39,5 +43,26 @@ export class MenuComponent implements OnInit {
         console.error('Error adding menu item:', error);
       }
     );
+  }
+
+  updateDisplayedItems() {
+    const start = this.currentPage * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.displayedItems = this.menuItems.slice(start, end);
+    console.log("refresh complete")
+  }
+
+  nextPage() {
+    if ((this.currentPage + 1) * this.itemsPerPage < this.menuItems.length) {
+      this.currentPage++;
+      this.updateDisplayedItems();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updateDisplayedItems();
+    }
   }
 }

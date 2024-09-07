@@ -13,11 +13,11 @@ export class ApiService {
 
   // ฟังก์ชันเพื่อเรียก GET API
   getMenuItems(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu`);
+    return this.http.get(`${this.apiUrl}/menu/coffeemenu`);
   }
 
   // ฟังก์ชันเพื่อเรียก POST API
   addMenuItem(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/menu`, data);
+    return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data);
   }
 }

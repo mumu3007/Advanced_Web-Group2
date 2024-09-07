@@ -1,11 +1,58 @@
-<div *ngFor="let item of menuItems">
+<!-- <div *ngFor="let item of menuItems">
     <p>{{ item.name }} - {{ item.price }} บาท</p>
   </div>
-  
-  <!-- Form เพื่อเพิ่มเมนูใหม่ -->
-  <form (submit)="addMenuItem({ name: itemName.value, price: itemPrice.value })">
+   -->
+<!-- Form เพื่อเพิ่มเมนูใหม่ -->
+<!-- <form (submit)="addMenuItem({ name: itemName.value, price: itemPrice.value, description: itemDescription.value, photo: itemPhoto.value})">
     <input #itemName placeholder="ชื่อเมนู" />
     <input #itemPrice placeholder="ราคาเมนู" type="number" />
+    <input #itemDescription placeholder="คำอธิบาย" />
+    <input #itemPhoto placeholder="ลิงค์รูปภาพ"/>
     <button type="submit">เพิ่มเมนู</button>
-  </form>
-  
+  </form> -->
+<div class="bg-[#F4F1EC] h-screen">
+  <div class="text-center text-2xl font-bold mb-4 text-[#D2091C]">BEVERAGE MENU</div>
+  <div class="flex justify-center">
+    <div class="grid grid-cols-3 gap-8">
+      <div *ngFor="let item of displayedItems"
+        class="p-4 flex flex-col  border-2 border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64">
+        <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
+        <div class="px-4">
+          <div class="mb-2"><img [src]="item.photo" alt=""></div>
+          <div class="text-center">
+            <div class="text-lg font-semibold">{{ item.name }}</div>
+            <div class="flex justify-between">
+              <div>ร้อน</div>
+              __________________
+              <div>${{item.price}}</div>
+            </div>
+            <div class="flex justify-between">
+              <div>เย็น</div>
+              __________________
+              <div>${{item.price+10}}</div>
+            </div>
+            <div class="flex justify-between">
+              <div>ปั่น</div>
+              __________________
+              <div>${{item.price+20}}</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="flex justify-center items-center mt-4 space-x-4">
+    <button (click)="prevPage()" [disabled]="currentPage === 0"
+      class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
+      ← Previous
+    </button>
+    <span>Page {{ currentPage + 1 }}</span>
+    <button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= menuItems.length"
+      class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
+      Next →
+    </button>
+  </div>
+</div>
