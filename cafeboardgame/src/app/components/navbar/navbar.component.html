@@ -1,5 +1,3 @@
- 
-
 <nav [ngClass]="{'bg-white/80 text-white shadow-md saturate-[180%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled}" 
      class="fixed top-0 left-0 right-0 transition-all duration-300 z-50 p-3">
   <div class="container mx-auto">
@@ -22,12 +20,24 @@
         <li class="hover:border-b-2 transition-all ease-in-out">
           <a routerLink="/">Q&A</a>
         </li>
-        <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
+
+        <!-- ถ้า login แล้ว -->
+        <ng-container *ngIf="isLoggedIn">
+          <li>Welcome, {{userData.name}} </li>
+          <li (click)="logout()" class="cursor-pointer border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
+            Sign out
+          </li>
+        </ng-container>
+
+        <!-- ถ้ายังไม่ login -->
+        <ng-container *ngIf="!isLoggedIn">
+          <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
             <a routerLink="/login">Sign in</a>
           </li>
           <li class="border-2 border-white rounded-full px-3 bg-transparent text-white text-lg font-semibold">
             <a routerLink="/register">Sign up</a>
           </li>
+        </ng-container>
       </ul>
     </div>
   </div>

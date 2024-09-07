@@ -18,7 +18,7 @@ export class LoginComponent {
       (response) => {
         localStorage.setItem('token', response.token);
         console.log("Login successful")
-        // this.router.navigate(['/protected']);
+        this.router.navigate(['/protected']);
         this.message = 'Login successful!';
       },
       (error) => {
