@@ -5,8 +5,6 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 
-
-
 // Get all coffee menus
 router.get('/coffeemenu', async (req, res, next) => {
   try {
@@ -33,12 +31,14 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
-    const { name, price, description, photo } = req.body;
+    const { name, s_price, m_price, l_price, description, photo } = req.body;
     
     // Create a new CoffeeMenu document
     const newCoffeeMenu = new Coffeemenu({
       name,
-      price,
+      s_price,
+      m_price,
+      l_price,
       description,
       photo
     });

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 // Define the schema for the CoffeeMenu
 const coffeeMenuSchema = new mongoose.Schema({
   name: String,
-  price: Number,
+  s_price: Number,
+  m_price: Number,
+  l_price: Number,
   description: String,
   photo: String
 
