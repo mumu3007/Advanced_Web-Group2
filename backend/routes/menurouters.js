@@ -4,9 +4,6 @@ const CakeMenu = require('../models/CakeMenu');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-
-
-
 // Get all coffee menus
 router.get('/coffeemenu', async (req, res, next) => {
   try {
