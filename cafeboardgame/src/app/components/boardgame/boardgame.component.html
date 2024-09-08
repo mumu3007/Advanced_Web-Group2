@@ -1,0 +1,177 @@
+<div class="bg-orange-100/50">
+  <app-navbar></app-navbar>
+  <div class="container mx-auto">
+    <section class="flex justify-between h-screen items-center px-10">
+      <!-- ตัวละครทางซ้าย -->
+      <div class="relative flex items-center">
+        <div
+          class="rounded-3xl border-4 border-orange-400 p-5 w-[250px] relative text-right"
+        >
+          <p class="font-koulen text-orange-500 text-xl">Let’s Goooo!</p>
+        </div>
+        <img
+          src="../../../assets/left_character.png"
+          alt="Left character"
+          class="absolute left-[-35%] w-[250px]"
+        />
+      </div>
+
+      <!-- ตัวละครตรงกลางและข้อความ -->
+      <div class="relative flex items-center">
+        <div
+          class="rounded-3xl border-4 border-orange-400 p-5 w-[500px] text-right relative shadow-xl"
+        >
+          <label class="text-[40px] font-koulen text-orange-500"
+            >RESERVE YOUR TIME <br />
+            AND LET THE FUN BEGIN!</label
+          >
+          <button
+            class="bg-orange-500 text-white text-xl font-bold mt-5 px-6 py-2 rounded-full"
+          >
+            RESERVE
+          </button>
+        </div>
+        <img
+          src="../../../assets/fisherman.png"
+          alt="Fisherman character"
+          class="absolute left-[-30%] w-[400px] drop-shadow-2xl"
+        />
+      </div>
+
+      <!-- ตัวละครทางขวา -->
+      <div class="relative flex items-center">
+        <div
+          class="rounded-3xl border-4 border-orange-400 p-5 w-[300px] relative"
+        >
+          <p class="font-koulen text-orange-500 text-xl">Let’s fun together!</p>
+        </div>
+        <img
+          src="../../../assets/right_character.png"
+          alt="Right character"
+          class="absolute right-[-30%] w-[300px]"
+        />
+      </div>
+    </section>
+    <section class="px-10 py-5">
+      <!-- Header Section -->
+      <div class="flex w-full justify-center items-center mb-10">
+        <div
+          class="text-orange-500 text-[50px] font-koulen basis-[20%] flex justify-center items-center"
+        >
+          <h1>COMING SOON</h1>
+        </div>
+        <div class="basis-auto flex-1">
+          <hr class="border-orange-500 w-full border-b-2 mt-2" />
+        </div>
+        <div class="basis-1/5 w-full flex justify-center">
+          <!-- Left Arrow Button -->
+          <button
+            class="text-orange-500 text-4xl font-bold"
+            (click)="moveLeft()"
+          >
+            <span>&#8592;</span>
+          </button>
+          <button
+            class="text-orange-500 text-4xl font-bold"
+            (click)="moveRight()"
+          >
+            <span>&#8594;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Carousel Section -->
+      <div class="flex justify-between items-center">
+        <!-- Cards Container -->
+        <div class="flex space-x-5 overflow-hidden">
+          <ng-container *ngFor="let card of displayedCards">
+            <div class="border-4 border-orange-400 p-5 rounded-3xl w-[400px]">
+              <img
+                [src]="card.img"
+                [alt]="card.title"
+                class="w-full rounded-xl"
+              />
+              <div class="mt-4">
+                <h2 class="text-orange-500 text-2xl font-koulen">
+                  {{ card.title }}
+                </h2>
+                <p class="text-lg mt-2">{{ card.desc }}</p>
+                <p class="text-gray-600 mt-2">
+                  เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่างตัดสินกันที่การ์ดใบเดียว...
+                </p>
+                <p class="text-orange-500 text-xl font-bold mt-4">
+                  {{ card.price }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Right Arrow Button -->
+      </div>
+    </section>
+    <section class="grid grid-cols-4 grid-rows-3 gap-5">
+      <div class="text-[40px] border border-orange-400 p-5 col-span-2">
+        <label
+          >Get ready for excitement with <br />
+          our brand-new game!</label
+        >
+      </div>
+      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro p-5">
+        <div class="flex">
+          <img src="../../../assets/image 14.png" class="w-44" />
+          <h2 class="text-[48px] font-koulen text-white text-wrap">
+            Power Hungry Pets
+          </h2>
+        </div>
+        <p class="text-[24px]">
+          เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่าง
+          ตัดสินกันที่การ์ดใบเดียวโดยนำเกมสุดฮิตและคลาสสิก
+          อย่าง “จดหมายรัก” มาใส่อาร์ตในสไตล์ “เหมียวระเบิด”
+          เพิ่มความสนุกด้วยการ์ดที่มากขึ้น
+        </p>
+      </div>
+      <div
+        class="col-span-1 row-start-2 row-span-2 flex flex-col justify-center items-center bg-orangePro"
+      >
+        <img src="../../../assets/image 14.png" class="w-32" />
+        <div class="flex flex-col justify-center items-center">
+          <h3 class="text-[32px] text-white font-koulen">POWER HUNGRY CAT</h3>
+          <p class="text-[32px] text-white font-koulen">
+            ศึกป่วนก๊วนต้าวเหมียว
+          </p>
+        </div>
+      </div>
+      <div
+        class="row-start-2 row-span-2 col-span-1 border border-orangePro flex flex-col justify-center items-center text-orangePro"
+      >
+        <img src="../../../assets/image 14.png" class="w-32" />
+        <div class="flex flex-col justify-center items-center">
+          <h3 class="text-[32px] font-koulen">POWER HUNGRY CAT</h3>
+          <p class="text-[32px] font-koulen">ศึกป่วนก๊วนต้าวเหมียว</p>
+        </div>
+      </div>
+    </section>
+    <section class="bg-[#F4F1EC] h-screen">
+      <div class="text-center text-2xl font-bold mb-4 text-orangePro">
+        All the games in our store
+      </div>
+      <div class="flex justify-center">
+        <div class="grid grid-cols-3 gap-8">
+          <div
+            *ngFor="let item of displayedItems"
+            class="p-4 flex flex-col border-2 border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64"
+          >
+            <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
+            <div class="px-4">
+              <div class="mb-2"><img [src]="item.photo" alt="" /></div>
+              <div class="text-center">
+                <div class="text-lg font-semibold">{{ item.name }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
