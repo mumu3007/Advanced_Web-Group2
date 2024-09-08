@@ -10,6 +10,7 @@ module.exports = {
       },
       colors: {
         'redProject': '#D2091C',
+        'orangePro' : '#FF4A00'
       },
     },
   },
