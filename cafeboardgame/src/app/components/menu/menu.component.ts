@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/menu/menuservice.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Import FormBuilder and FormGroup
 
 @Component({
   selector: 'app-menu',
@@ -12,19 +13,33 @@ export class MenuComponent implements OnInit {
   displayedItems: any[] = [];
   currentPage: number = 0;
   itemsPerPage: number = 6;
+  showPopup = false;
+  selectedItem: any;
+  totalPrice=0;
 
-  constructor(private apiService: ApiService) { }
+  // ฟอร์มควบคุม
+   // Add FormGroup
+
+  constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.loadMenuItems();
-    this.updateDisplayedItems();
+    // Subscribe to form changes to update total price
+    this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
   }
 
-  // ฟังก์ชันเพื่อเรียกเมนูจาก API
+  cartForm = this.fb.group({
+    selectedOption: ['hot', Validators.required], // Default to 'hot'
+    selectedSweetness: ['50%', Validators.required], // Default to '50%'
+    additionalDetails: [''],
+    quantity: [1, [Validators.required, Validators.min(1)]],
+  });
+
   loadMenuItems() {
     this.apiService.getMenuItems().subscribe(
       (data) => {
         this.menuItems = data;
+        this.displayedItems = this.menuItems.slice(0, this.itemsPerPage);
       },
       (error) => {
         console.error('Error fetching menu:', error);
@@ -32,17 +47,24 @@ export class MenuComponent implements OnInit {
     );
   }
 
-  // ฟังก์ชันเพื่อเพิ่มเมนูใหม่
-  addMenuItem(newItem: any) {
-    this.apiService.addMenuItem(newItem).subscribe(
-      (response) => {
-        console.log('Menu item added:', response);
-        this.loadMenuItems(); // โหลดข้อมูลใหม่หลังจากเพิ่มเมนู
-      },
-      (error) => {
-        console.error('Error adding menu item:', error);
-      }
-    );
+  scrollToSection(sectionId: string): void {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ฟังก์ชันเปิด popup
+  openPopup(item: any) {
+    this.selectedItem = item;
+    this.showPopup = true;
+    this.calculateTotalPrice(); // อัปเดตราคารวมเมื่อเปิดป็อปอัป
+  }
+
+  // ฟังก์ชันปิด popup
+  closePopup() {
+    this.showPopup = false;
+    this.resetForm();
   }
 
   updateDisplayedItems() {
@@ -64,5 +86,50 @@ export class MenuComponent implements OnInit {
       this.currentPage--;
       this.updateDisplayedItems();
     }
+  }
+
+  // เพิ่มจำนวน
+  increaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    this.cartForm.patchValue({ quantity: currentQuantity! + 1 });
+  }
+
+  // ลดจำนวน
+  decreaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    if (currentQuantity! > 1) {
+      this.cartForm.patchValue({ quantity: currentQuantity! - 1 });
+    }
+  }
+
+  // คำนวณราคารวม
+  calculateTotalPrice() {
+    const { selectedOption, quantity } = this.cartForm.value;
+    let basePrice = this.selectedItem.price;
+    if (selectedOption === 'cold') {
+      basePrice += 10;
+    } else if (selectedOption === 'frappe') {
+      basePrice += 20;
+    }
+    this.totalPrice = basePrice * quantity!;
+  }
+
+  // ฟังก์ชันเพิ่มไปยังตะกร้า
+  addToCart() {
+    if (this.cartForm.valid) {
+      console.log('Added to cart:', this.selectedItem.name);
+      this.closePopup();
+    }
+  }
+
+  // รีเซ็ตฟอร์ม
+  resetForm() {
+    this.cartForm.reset({
+      selectedOption: 'hot',
+      selectedSweetness: '50%',
+      additionalDetails: '',
+      quantity: 1,
+    });
+    this.calculateTotalPrice();
   }
 }

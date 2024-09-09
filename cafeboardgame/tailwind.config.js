@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        seymour: ['"Seymour One"', 'sans-serif'],
-        koulen: ['Koulen', 'sans-serif'], // Add Seymour One font
+        seymour: ['"Seymour One"', 'sans-serif'], // Add Seymour One font
+        koulen: ['"Koulen"', 'cursive']
       },
       colors: {
         'redProject': '#D2091C',
