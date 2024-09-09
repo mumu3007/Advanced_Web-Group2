@@ -15,14 +15,18 @@ export class LoginComponent {
 
   login() {
     this.authService.login(this.user).subscribe(
-      (response) => {
-        localStorage.setItem('token', response.token);
-        console.log("Login successful")
-        this.router.navigate(['/protected']);
-        this.message = 'Login successful!';
+      response => {
+        if (response.error) {
+          this.message = response.error;
+        } else {
+          // รีไดเรกไปยังหน้า home หรือหน้าอื่นหลังจากล็อกอินสำเร็จ
+          this.router.navigate(['/home']);
+          console.log('Login successful');
+        }
       },
-      (error) => {
-        this.message = 'Login failed!';
+      error => {
+        console.log('Login failed', error);
+        this.message = 'Login failed. Please try again.';
       }
     );
   }
