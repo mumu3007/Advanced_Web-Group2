@@ -13,17 +13,17 @@ export class BoardgameserviceService {
 
   // ฟังก์ชันเพื่อเรียก GET API
   getBoardgame(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/boardgame/all`);
+    return this.http.get(`${this.apiUrl}/boardgame/all`,{withCredentials: true}) ;
   }
   get3Boardgame(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/boardgame/boardgame3`);
+    return this.http.get(`${this.apiUrl}/boardgame/boardgame3`,{withCredentials: true});
   }
   getinactiveboardgame(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/boardgame/inactive`);
+    return this.http.get(`${this.apiUrl}/boardgame/inactive`,{withCredentials: true});
   }
 
   // ฟังก์ชันเพื่อเรียก POST API
   addBoardgame(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/boardgame/boardgame`, data);
+    return this.http.post(`${this.apiUrl}/boardgame/boardgame`, data,{withCredentials: true});
   }
 }
