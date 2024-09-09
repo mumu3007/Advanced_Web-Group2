@@ -84,18 +84,18 @@
       <div class="flex justify-between items-center">
         <!-- Cards Container -->
         <div class="flex space-x-5 overflow-hidden">
-          <ng-container *ngFor="let card of displayedCards">
+          <div *ngFor="let card of boardgameinactiveItem">
             <div class="border-4 border-orange-400 p-5 rounded-3xl w-[400px]">
               <img
-                [src]="card.img"
-                [alt]="card.title"
+                [src]="card.photo"
+                [alt]="card.name"
                 class="w-full rounded-xl"
               />
               <div class="mt-4">
                 <h2 class="text-orange-500 text-2xl font-koulen">
-                  {{ card.title }}
+                  {{ card.name }}
                 </h2>
-                <p class="text-lg mt-2">{{ card.desc }}</p>
+                <p class="text-lg mt-2">{{ card.description }}</p>
                 <p class="text-gray-600 mt-2">
                   เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่างตัดสินกันที่การ์ดใบเดียว...
                 </p>
@@ -104,74 +104,114 @@
                 </p>
               </div>
             </div>
-          </ng-container>
+          </div>
         </div>
 
         <!-- Right Arrow Button -->
       </div>
     </section>
     <section class="grid grid-cols-4 grid-rows-3 gap-5">
-      <div class="text-[40px] border border-orange-400 p-5 col-span-2">
+      <div class="text-[40px] border border-orange-400 p-5 rounded-3xl col-span-2">
         <label
           >Get ready for excitement with <br />
           our brand-new game!</label
         >
       </div>
-      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro p-5">
+      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro rounded-3xl p-5">
         <div class="flex">
-          <img src="../../../assets/image 14.png" class="w-44" />
+          <img [src]="boardgameItemsdesc[2].photo" class="w-44" />
           <h2 class="text-[48px] font-koulen text-white text-wrap">
-            Power Hungry Pets
+            {{boardgameItemsdesc[2].name}}
           </h2>
         </div>
         <p class="text-[24px]">
-          เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่าง
-          ตัดสินกันที่การ์ดใบเดียวโดยนำเกมสุดฮิตและคลาสสิก
-          อย่าง “จดหมายรัก” มาใส่อาร์ตในสไตล์ “เหมียวระเบิด”
-          เพิ่มความสนุกด้วยการ์ดที่มากขึ้น
+          {{boardgameItemsdesc[2].description}}
         </p>
       </div>
       <div
-        class="col-span-1 row-start-2 row-span-2 flex flex-col justify-center items-center bg-orangePro"
+        class="col-span-1 row-start-2 row-span-2 flex flex-col justify-center items-center rounded-3xl bg-orangePro"
       >
-        <img src="../../../assets/image 14.png" class="w-32" />
+        <img [src]="boardgameItemsdesc[1].photo" class="w-32" />
         <div class="flex flex-col justify-center items-center">
-          <h3 class="text-[32px] text-white font-koulen">POWER HUNGRY CAT</h3>
+          <h3 class="text-[32px] text-white font-koulen">{{boardgameItemsdesc[1].name}}</h3>
           <p class="text-[32px] text-white font-koulen">
             ศึกป่วนก๊วนต้าวเหมียว
           </p>
         </div>
       </div>
       <div
-        class="row-start-2 row-span-2 col-span-1 border border-orangePro flex flex-col justify-center items-center text-orangePro"
+        class="row-start-2 row-span-2 col-span-1 border border-orangePro rounded-3xl flex flex-col justify-center items-center text-orangePro"
       >
-        <img src="../../../assets/image 14.png" class="w-32" />
+        <img [src]="boardgameItemsdesc[0].photo" class="w-32" />
         <div class="flex flex-col justify-center items-center">
-          <h3 class="text-[32px] font-koulen">POWER HUNGRY CAT</h3>
+          <h3 class="text-[32px] font-koulen">{{boardgameItemsdesc[0].name}}</h3>
           <p class="text-[32px] font-koulen">ศึกป่วนก๊วนต้าวเหมียว</p>
         </div>
       </div>
     </section>
     <section class="bg-[#F4F1EC] h-screen">
-      <div class="text-center text-2xl font-bold mb-4 text-orangePro">
-        All the games in our store
-      </div>
-      <div class="flex justify-center">
-        <div class="grid grid-cols-3 gap-8">
-          <div
-            *ngFor="let item of displayedItems"
-            class="p-4 flex flex-col border-2 border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64"
-          >
+      
             <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
-            <div class="px-4">
-              <div class="mb-2"><img [src]="item.photo" alt="" /></div>
-              <div class="text-center">
-                <div class="text-lg font-semibold">{{ item.name }}</div>
+            <section id="beverage" class="pt-24">
+              <div
+                class="text-center text-4xl font-normal text-[#D2091C] font-koulen"
+              >
+                BEVERAGE MENU
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              <div class="flex justify-center items-center">
+                <button
+                  (click)="prevPage()"
+                  [disabled]="currentPage === 0"
+                  class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
+                >
+                  &lt;
+                </button>
+
+                <div class="grid grid-cols-3 gap-8 p-5 mx-12">
+                  <div
+                    *ngFor="let item of displayedItems"
+                    class="p-4 flex flex-col border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64"
+                  >
+                    <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
+                    <div class="px-4">
+                      <div class="mb-4 flex justify-center">
+                        <img class="max-h-24" [src]="item.photo" alt="" />
+                        
+                      </div>
+                      <div class="text-center flex justify-between">
+                        <div class="text-lg font-normal font-koulen">
+                          {{ item.name }}
+                        </div>
+                        <div class="font-koulen text-lg ">${{ item.price}}</div>
+                      </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <div>
+                        {{item.description}}
+                      </div>
+                      <button
+                        (click)="openPopup(item)"
+                        class="mt-4 px-4 py-1 bg-transparent border-orangePro border text-orangePro rounded-[10px]  font-koulen"
+                      >
+                        BUY
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  (click)="nextPage()"
+                  [disabled]="
+                    (currentPage + 1) * itemsPerPage >= boardgameItems.length
+                  "
+                  class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
+                >
+                  &gt;
+                </button>
+              </div>
+
+              <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
+            </section>
+          
     </section>
   </div>
 </div>
