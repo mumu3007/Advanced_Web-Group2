@@ -15,6 +15,8 @@ const mongoURI = process.env.MONGO_URI;
 const app = express();
 app.use(cors({
   origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 app.use(express.json());

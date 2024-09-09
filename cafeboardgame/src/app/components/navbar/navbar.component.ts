@@ -51,6 +51,12 @@ export class NavbarComponent implements OnInit   {
     this.authService.logout().subscribe(() => {
       this.isLoggedIn = false;
       this.userData = null;
+      this.userId = null;
+     
+
+      setTimeout(() => {
+        window.location.reload(); // Reload หน้าเพื่ออัปเดตการแสดงผล
+      }, 1000); // 1000 มิลลิวินาที (1 วินาที)
       
     });
   }
