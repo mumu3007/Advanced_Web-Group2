@@ -62,14 +62,10 @@ export class AuthService {
       }),
       map((response) => !!response.userId),
       catchError((error) => {
-        console.error('Authentication check failed', error);
         this.userIdSubject.next(null);
         return of(false);
       })
     );
   }
-
-
-
 
 }
