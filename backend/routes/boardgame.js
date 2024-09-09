@@ -5,10 +5,37 @@ const Boardgametype = require('../models/BoardgameType');
 const mongoose = require('mongoose');
 const router = express.Router();
 
+//localhost/boardgame/inactive บอร์ดเกมที่ยังไม่พร้อม
+router.get('/inactive', async (req, res, next) => {
+  try {
+    // Query the database for games with status = false
+    const inactiveBoardgames = await Boardgame.find({ status: false });
+    res.json(inactiveBoardgames);  // Return the result as JSON
+  } catch (err) {
+    next(err);  // Pass any errors to the error handler
+  }
+});
 //get all games
+router.get('/boardgame3', async (req, res, next) => {
+  try {
+    const { asc, limit = 3 } = req.query;  // Get asc and limit from query parameters
+    const query = asc ? { asc: { $regex: asc, $options: 'i' } } : {};  // Use regex to match description (case-insensitive)
+
+    // Query with sort and limit
+    const boardgames = await Boardgame.find(query)
+      .sort({ create_at: -1 })  // Sort by create_at field, -1 for descending (latest first)
+      .limit(parseInt(limit));  // Limit the number of results
+
+    res.json(boardgames);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 router.get('/all', async (req, res, next) => {
   try {
-    const Boardgames = await Boardgame.find();
+    const Boardgames = await Boardgame.find({ status: true});
     res.json(Boardgames);
   } catch (err) {
     next(err);
