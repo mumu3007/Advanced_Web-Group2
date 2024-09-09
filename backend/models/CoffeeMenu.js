@@ -7,7 +7,8 @@ const coffeeMenuSchema = new mongoose.Schema({
   m_price: Number,
   l_price: Number,
   description: String,
-  photo: String
+  photo: String,
+  type_coffee: [String],
 
 });  // Explicitly set collection name
 

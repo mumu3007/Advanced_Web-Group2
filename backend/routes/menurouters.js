@@ -31,7 +31,7 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
-    const { name, s_price, m_price, l_price, description, photo } = req.body;
+    const { name, s_price, m_price, l_price, description, photo, type_coffee } = req.body;
     
     // Create a new CoffeeMenu document
     const newCoffeeMenu = new Coffeemenu({
@@ -40,7 +40,8 @@ router.post('/coffeemenu', async (req, res, next) => {
       m_price,
       l_price,
       description,
-      photo
+      photo,
+      type_coffee
     });
     
     // Save the new menu to the database

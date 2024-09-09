@@ -74,5 +74,21 @@ router.post('/boardgame', async (req, res, next) => {
   }
 });
 
+router.put('/:id', async (req, res, next) => {
+  try{
+    const id = req.params.id
+    const updatedBoardgame = req.body;
+    await Boardgame.findByIdAndUpdate({_id:id} ,updatedBoardgame, {new: true})
+    .then((updatedBoardgame) =>{
+      res.status(200).json(updatedBoardgame)
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error.message });
+    });
+  } catch (err) {
+    next(err);
+  }
+})
+
 
 module.exports = router;
