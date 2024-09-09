@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit   {
     this.checkLoginStatus(); // เช็คสถานะล็อกอินเมื่อโหลดคอมโพเนนต์
     this.authService.getUserId().subscribe((id) => {
       this.userId = id; // ดึง userId และเก็บไว้ในตัวแปร
-      console.log("User ID",this.userId)
+      
       if (this.userId) {
         this.loadUserData(this.userId); // เรียกใช้ getUserById เพื่อดึงข้อมูลผู้ใช้
       }
@@ -38,10 +38,10 @@ export class NavbarComponent implements OnInit   {
   }
 
   loadUserData(userId: string) {
-    console.log("load data",userId)
+    
     this.authService.getUserById(userId).subscribe((data) => {
       this.userData = data; // เก็บข้อมูลผู้ใช้ที่ได้รับ
-      console.log('User data:', this.userData); // ดีบักข้อมูลผู้ใช้
+      
     }, (error) => {
       console.error('Error fetching user data:', error); // ดีบักข้อผิดพลาด
     });

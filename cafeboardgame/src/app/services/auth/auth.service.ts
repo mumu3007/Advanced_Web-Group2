@@ -20,10 +20,7 @@ export class AuthService {
     }
 
     getUserById(id: string): Observable<any> {
-      return this.http.get(`${this.Url}/user/${id}`,{withCredentials: true}).pipe(
-        tap((response: any) => {
-          console.log('User data:', response); // ดีบักข้อมูลผู้ใช้ที่ได้รับจาก backend
-        }),
+      return this.http.get(`${this.Url}/user/${id}`, { withCredentials: true }).pipe(
         catchError((error) => {
           console.error('Error retrieving user by ID:', error);
           return of(null); // คืนค่า null หากเกิดข้อผิดพลาด
