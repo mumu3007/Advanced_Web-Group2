@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, map, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/enviroment';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class AuthService {
  
 
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient) {}
 
     // ฟังก์ชันสำหรับดึง userId
     getUserId(): Observable<string | null> {
