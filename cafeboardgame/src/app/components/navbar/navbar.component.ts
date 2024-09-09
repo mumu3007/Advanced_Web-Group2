@@ -1,73 +1,60 @@
-import { Component, HostListener, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
-import { jwtDecode } from "jwt-decode";
-
-
-
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit  {
-
+export class NavbarComponent implements OnInit   {
   scrolled = false;
-  
 
-  userId: string | null = null; // เก็บ userId จาก token
-  userData: any; // เก็บข้อมูลผู้ใช้
+  isLoggedIn = false;  // เช็คสถานะการล็อกอิน
+  userData: any = null;  // เก็บข้อมูลผู้ใช้
+  userId: string | null = null;  // เพิ่มตัวแปรเก็บ userId
 
-  isLoggedIn = false;
-  constructor(@Inject(PLATFORM_ID) private platformId: Object,
-  private authService: AuthService) {}
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    // ตรวจสอบว่าอยู่ใน browser หรือไม่
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        this.isLoggedIn = true;
-
-        // ถอดรหัส token เพื่อดึง userId
-        const decodedToken: any = jwtDecode(token); // ใช้ jwt-decode ในการถอดรหัส
-        this.userId = decodedToken.userId;
-
-        // เรียกฟังก์ชัน getUserById เพื่อดึงข้อมูลผู้ใช้
-        if (this.userId) {
-          this.getUserById(this.userId);
-        }
-
-        
+    this.checkLoginStatus(); // เช็คสถานะล็อกอินเมื่อโหลดคอมโพเนนต์
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id; // ดึง userId และเก็บไว้ในตัวแปร
+      console.log("User ID",this.userId)
+      if (this.userId) {
+        this.loadUserData(this.userId); // เรียกใช้ getUserById เพื่อดึงข้อมูลผู้ใช้
       }
-    }
+    });
+  }
+
+  checkLoginStatus() {
+    this.authService.isAuthenticated().subscribe((isAuthenticated: boolean) => {
+      this.isLoggedIn = isAuthenticated;
+    });
+  }
+
+  loadUserData(userId: string) {
+    console.log("load data",userId)
+    this.authService.getUserById(userId).subscribe((data) => {
+      this.userData = data; // เก็บข้อมูลผู้ใช้ที่ได้รับ
+      console.log('User data:', this.userData); // ดีบักข้อมูลผู้ใช้
+    }, (error) => {
+      console.error('Error fetching user data:', error); // ดีบักข้อผิดพลาด
+    });
   }
 
   logout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
+    this.authService.logout().subscribe(() => {
       this.isLoggedIn = false;
-    }
+      this.userData = null;
+      
+    });
   }
 
-  getUserById(userId: string) {
-    this.authService.getUserById(userId).subscribe(
-      (response) => {
-        this.userData = response; // เก็บข้อมูลผู้ใช้
-        console.log('User data:', this.userData); // แสดงข้อมูลผู้ใช้
-      },
-      (error) => {
-        console.error('Error fetching user data:', error);
-      }
-    )
-  }
-
-  
-
-  
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

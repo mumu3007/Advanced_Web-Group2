@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { authMiddleware} = require('./middleware')
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -18,9 +19,15 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id,email: user.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+    res.cookie('token', token, {
+      maxAge: 300000,
+      secure: false,
+      httpOnly: true,
+      sameSite: "lax",
+    })
 
     res.status(200).json({ token, message: "Login successful" });
   } catch (error) {
@@ -28,20 +35,25 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/protected", (req, res) => {
-  const token = req.header("Authorization").replace("Bearer ", "");
- 
-  if (!token) {
-    return res.status(401).json({ message: "Authorization denied" });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.userId;
-    res.status(200).json({ message: "Access granted" });
-  } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
-  }
+router.get("/protected", authMiddleware, (req, res) => {
+  res.status(200).json({ userId: req.userId });
 });
+
+
+
+// Route สำหรับ logout
+router.post("/logout", (req, res) => {
+  // ลบ cookies ที่เก็บ JWT token
+  res.clearCookie("token", {
+    httpOnly: true,  // ทำให้แน่ใจว่า cookies นี้ไม่สามารถเข้าถึงได้ผ่าน JavaScript
+    secure: false,    // ใช้ secure เมื่อทำงานบน HTTPS
+    sameSite: "lax" // เพื่อรองรับการใช้งาน Cross-site
+  });
+  
+  // ตอบกลับสถานะว่า logout สำเร็จ
+  res.status(200).json({ message: "Logout successful" });
+});
+
+
 
 module.exports = router;
