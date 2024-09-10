@@ -3,16 +3,16 @@
 <div class="mt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative ">
     <span class="grow h-[2px] bg-redProject"></span>
         <div class="flex justify-center space-x-32 mx-12">
-            <a>ALL ORDERS</a>
-            <a>Beverage Menu</a>
-            <a>Cake and Bakery Menu</a>
+          <a (click)="showSection('all-orders')" class="cursor-pointer hover:text-red-600">ALL ORDERS</a>
+          <a (click)="showSection('beverage-menu')" class="cursor-pointer hover:text-red-600">Beverage Menu</a>
+          <a (click)="showSection('cake-menu')" class="cursor-pointer hover:text-red-600">Cake and Bakery Menu</a>
         </div>
     <span class="grow h-[2px] bg-redProject"></span>
 </div>
-<!-- Section with product details -->
-<div class="container mx-auto mt-1">
-  <div class="mt-12 h-[26rem] overflow-auto pr-4">
-    <div *ngFor="let order of orders" class="flex items-center justify-between py-4 border-b-2 border-red-300 px-10">
+<!-- display products -->
+<div *ngIf="currentSection === 'all-orders'" id="all-orders" class="container mx-auto mt-1">
+  <div class="mt-12 h-[26rem] overflow-auto pr-5">
+    <div *ngFor="let order of orders" class="flex items-center justify-between py-4 border-b-2 border-redProject px-10">
       <div class="flex items-center space-x-4">
         <img [src]="order.image" alt="Order Image" class="w-16 h-16 object-cover rounded-md">
         <div>
@@ -24,4 +24,57 @@
       <div class="text-lg font-semibold w-40 text-end">{{ order.price }} BAHT</div>
     </div>
   </div>
+</div>
+
+<!-- Manage and Manage and display Beverage Menu -->
+<div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="container ml-10 mt">
+  <h3 class="text-redProject text-lg font-koulen ">ADD ITEMS TO THE MENU</h3>
+  <div class="w-1/2 border-2 border-redProject p-6 rounded-lg ">
+    <!-- เพิ่มเมนู -->
+    <form [formGroup]="BeveragemenuForm">
+      <div class="form-group">
+        <input type="text" placeholder="NAME" class="form-control w-full p-2 mb-4 border-2 border-redProject rounded-lg" formControlName='name'>
+        <input type="text" placeholder="TALL CUP PRICE" class="form-control w-full p-2 mb-4 border-2 border-redProject rounded-lg" formControlName='tallcupprice'>
+        <input type="text" placeholder="GRANDE CUP PRICE" class="form-control w-full p-2 mb-4 border-2 border-redProject rounded-lg" formControlName='grandecupprice'>
+        <input type="text" placeholder="VENTI CUP PRICE" class="form-control w-full p-2 mb-4 border-2 border-redProject rounded-lg" formControlName='venticupprice'>
+      </div>
+      
+      <div class="flex justify-between mb-4">
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" formControlName="hot" class="form-checkbox">
+          <span>HOT</span>
+        </label>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" formControlName="iced" class="form-checkbox">
+          <span>ICED</span>
+        </label>
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" formControlName="frappe" class="form-checkbox">
+          <span>FRAPPE</span>
+        </label>
+      </div>
+    
+      <div class="flex justify-between mb-6">
+        <input type="file" formControlName="upload" class="p-2 border-2 border-redProject rounded-lg">
+        <select formControlName="status" class="p-2 border-2 border-redProject rounded-lg">
+          <option>STATUS</option>
+          <option value="available">Available</option>
+          <option value="unavailable">Unavailable</option>
+        </select>
+      </div>
+    
+      <div class="flex justify-between">
+        <button type="button" class="w-1/3 bg-redProject text-white py-2 px-4 rounded-lg">DELETE</button>
+        <button type="submit" class="w-1/3 bg-redProject text-white py-2 px-4 rounded-lg">ADD ITEM</button>
+      </div>
+    </form>
+
+     <!-- แสดงเมนู -->
+     
+  </div>
+</div>
+
+<!-- Manage and Manage and display Cake and Bakery Menu -->
+<div *ngIf="currentSection === 'cake-menu'" id="cake-menu">
+  Content for Cake and Bakery Menu
 </div>
