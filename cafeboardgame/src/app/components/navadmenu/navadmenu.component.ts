@@ -15,4 +15,5 @@ export class NavadmenuComponent {
     const isScrolled = window.scrollY > 10;
     this.scrolled = isScrolled;
   }
+
 }
