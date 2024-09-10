@@ -9,9 +9,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class BoardgameComponent implements OnInit {
 totalPrice: any;
-decreaseQuantity() {
-throw new Error('Method not implemented.');
-}
+
+
 
 
   currentIndex = 0;
@@ -96,6 +95,10 @@ GetinactiveBoardgameItems() {
     }
   }
 
+  cartForm = this.fb.group({
+    quantity: [1, [Validators.required, Validators.min(1)]]
+  });
+
   prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
@@ -118,4 +121,18 @@ GetinactiveBoardgameItems() {
     throw new Error('Method not implemented.');
   }
 
+
+  increaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    if (currentQuantity! < this.selectedItem.quantity)
+    this.cartForm.patchValue({ quantity: currentQuantity! + 1 });
+  }
+
+  // ลดจำนวน
+  decreaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    if (currentQuantity! > 1) {
+      this.cartForm.patchValue({ quantity: currentQuantity! - 1 });
+    }
+  }
 }
