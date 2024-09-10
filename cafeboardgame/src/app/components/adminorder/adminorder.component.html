@@ -1,0 +1,27 @@
+<app-navbaradmin></app-navbaradmin>
+
+<div class="mt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative ">
+    <span class="grow h-[2px] bg-redProject"></span>
+        <div class="flex justify-center space-x-32 mx-12">
+            <a>ALL ORDERS</a>
+            <a>Beverage Menu</a>
+            <a>Cake and Bakery Menu</a>
+        </div>
+    <span class="grow h-[2px] bg-redProject"></span>
+</div>
+<!-- Section with product details -->
+<div class="container mx-auto mt-1">
+  <div class="mt-12 h-[26rem] overflow-auto pr-4">
+    <div *ngFor="let order of orders" class="flex items-center justify-between py-4 border-b-2 border-red-300 px-10">
+      <div class="flex items-center space-x-4">
+        <img [src]="order.image" alt="Order Image" class="w-16 h-16 object-cover rounded-md">
+        <div>
+          <div class="font-bold text-lg w-80">{{ order.name }}</div>
+          <div class="text-sm text-gray-500 whitespace-pre-line">{{ order.description }}</div>
+        </div>
+      </div>
+      <div class="text-lg font-semibold">{{ order.quantity }}</div>
+      <div class="text-lg font-semibold w-40 text-end">{{ order.price }} BAHT</div>
+    </div>
+  </div>
+</div>
