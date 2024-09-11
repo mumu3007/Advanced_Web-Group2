@@ -230,7 +230,7 @@
                     <div class="absolute right-0 bottom-0 flex justify-between w-full ">
                       <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
                       <div class="space-x-3">
-                        <button class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
+                        <button (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
                         <button (click)="togglePopup(245)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
                         <app-payment *ngIf="showPopup" [price]="totalPrice" (close)="togglePopup(totalPrice)"></app-payment> <!-- Update price here -->
 

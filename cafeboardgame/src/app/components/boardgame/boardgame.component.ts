@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { CartService } from '../../services/carts/carts.service';
+import { CartsService } from '../../services/carts/carts.service';
+
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
@@ -10,7 +11,7 @@ import { CartService } from '../../services/carts/carts.service';
 export class BoardgameComponent implements OnInit {
 totalPrice: any;
 
-
+selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to cart
 
 
   currentIndex = 0;
@@ -25,8 +26,39 @@ totalPrice: any;
   showPopup: boolean = false;
   selectedPrice: number = 0;
   
-  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartService: CartService) { }
+  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartsService: CartsService) { }
 
+  selectBoardgame(boardgameId: string): void {
+    // Toggle selection (add or remove from selected array)
+    const index = this.selectedBoardgameIds.indexOf(boardgameId);
+    if (index === -1) {
+      this.selectedBoardgameIds.push(boardgameId);
+      this.addToCart()
+      console.log("เช็ค addtocart"+ this.addToCart)
+    } else {
+      this.selectedBoardgameIds.splice(index, 1);
+    }
+  }
+
+
+  addToCart(): void {
+    const userId = '66da8788376323eb83a883d3'; // Replace with the actual user ID
+
+    // Use CartsService to add the selected boardgames to the cart
+    this.cartsService.addCartItem({
+      user_id: userId,
+      ordercoffee_id: [], 
+      cake_id: [],       
+      boardgame_id: this.selectedBoardgameIds // Add selected boardgames
+    }).subscribe(
+      (cart) => {
+        console.log('Boardgames added to cart:', cart);
+      },
+      (error) => {
+        console.error('Error adding boardgames to cart:', error);
+      }
+    );
+  }
 togglePopup(price: number) {
   this.selectedPrice = price;
   this.showPopup = !this.showPopup; // Toggle modal visibility
