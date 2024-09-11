@@ -14,6 +14,15 @@ router.get('/coffeemenu', async (req, res, next) => {
   }
 });
 
+router.get('/recommended_coffee', async (req, res, next) => {
+  try {
+    const coffeemenus = await Coffeemenu.find( {status: "recommended"});
+    res.json(coffeemenus);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get a coffee menu by ID
 router.get('/coffeemenu/:id', async (req, res, next) => {
   try {
@@ -30,7 +39,7 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
-    const { name, s_price, m_price, l_price, description, photo, type_coffee } = req.body;
+    const { name, s_price, m_price, l_price, description, photo, type_coffee, status } = req.body;
     
     // Create a new CoffeeMenu document
     const newCoffeeMenu = new Coffeemenu({
@@ -40,7 +49,8 @@ router.post('/coffeemenu', async (req, res, next) => {
       l_price,
       description,
       photo,
-      type_coffee
+      type_coffee,
+      status
     });
     
     // Save the new menu to the database
@@ -57,7 +67,7 @@ router.post('/coffeemenu', async (req, res, next) => {
 //ยังทำงานไม่ได้ ติดหาด้วยไอดีเพราะว่า ใน database เป็น objecId แต่รับมาเป็นตัวเลขธรรม
 router.put('/coffeemenu/:id', async (req, res, next) => {
   try {
-    const { name, price, description, photo } = req.body;
+    const { name, s_price, m_price, l_price, description, photo, type_coffee, status } = req.body;
    
 
     // Convert the ID to ObjectId
@@ -66,7 +76,7 @@ router.put('/coffeemenu/:id', async (req, res, next) => {
     // Find the menu by ID and update it with the provided data
     const updatedCoffeeMenu = await Coffeemenu.findByIdAndUpdate(
       objectId,
-      { name, price, description, photo },
+      { name, s_price, m_price, l_price, description, photo,type_coffee, status },
       { new: true, runValidators: true } // Ensure it returns the updated document and applies validation
     );
     

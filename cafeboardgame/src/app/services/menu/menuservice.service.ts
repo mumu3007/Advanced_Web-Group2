@@ -16,6 +16,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/menu/coffeemenu`,{withCredentials: true});
   }
 
+  getRecommendedItems(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/menu/recommended_coffee`, { withCredentials: true });
+  }
+
   // ฟังก์ชันเพื่อเรียก POST API
   addMenuItem(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data, {withCredentials: true});

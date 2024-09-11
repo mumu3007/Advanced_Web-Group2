@@ -26,9 +26,14 @@
   <div class="flex justify-center items-center relative mb-24">
     <span class="grow h-[2px] bg-redProject"></span>
     <div class="flex justify-center space-x-8 font-koulen text-4xl text-redProject tracking-wider mx-12 gap-24">
-      <a (click)="scrollToSection('todays-special')" class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">TODAY'S SPECIAL</a>
-      <a (click)="scrollToSection('beverage')" class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">BEVERAGE</a>
-      <a (click)="scrollToSection('cake')" class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">CAKE AND BAKERY</a>
+      <a (click)="scrollToSection('todays-special')"
+        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">TODAY'S
+        SPECIAL</a>
+      <a (click)="scrollToSection('beverage')"
+        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">BEVERAGE</a>
+      <a (click)="scrollToSection('cake')"
+        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">CAKE AND
+        BAKERY</a>
     </div>
     <span class="grow h-[2px] bg-redProject"></span>
   </div>
@@ -37,10 +42,41 @@
 
   <section id="todays-special" class="pt-24">
     <div class="text-5xl font-normal text-[#D2091C] font-koulen pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
-    <div class="flex justify-center">
-      <!-- เนื้อหา Today's Special -->
-      <p class="text-center p-4">รายละเอียดของเมนูพิเศษวันนี้...</p>
+    <div class="flex gap-40 overflow-x-auto h-96 items-center py-8 px-20">
+      <div *ngFor="let item of recommendedItems" class="">
+
+        <div class="relative flex items-center ml-24">
+          <div class="rounded-3xl border-[3px] border-redProject p-5 w-[390px] h-[260px] relative flex justify-end ">
+            <div class="w-[75%]">
+
+              <p class="font-koulen text-orange-500 text-3xl text-center">{{item.name}}</p>
+              <div class="flex text-2xl">
+                <div class="text-start font-normal font-koulen pt-1">
+                  <p>TALL</p>
+                  <p>GRANDE</p>
+                  <p>VENTI</p>
+                </div>
+                <div class="px-2">
+                  <p>__________</p>
+                  <p>__________</p>
+                  <p>__________</p>
+                </div>
+                <div class="text-end font-normal font-koulen pt-1">
+                  <p>{{item.price}} BAHT</p>
+                  <p>{{item.price+10}} BAHT</p>
+                  <p>{{item.price+20}} BAHT</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <img [src]="item.photo" alt="Left character" class="absolute left-[-30%] w-[220px] " />
+        </div>
+
+      </div>
     </div>
+
+
   </section>
 
   <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
@@ -48,33 +84,50 @@
     <div class="text-center text-4xl font-normal text-[#D2091C] font-koulen">BEVERAGE MENU</div>
     <div class="flex justify-center items-center">
 
-      <button (click)="prevPage()" [disabled]="currentPage === 0" 
+      <button (click)="prevPage()" [disabled]="currentPage === 0"
         class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&lt;
       </button>
-      
+
       <div class="grid grid-cols-3 gap-8 p-5 mx-12">
         <div *ngFor="let item of displayedItems"
-          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64">
+          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4">
             <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="item.photo" alt=""></div>
             <div class="text-center">
               <div class="text-lg font-normal font-koulen ">{{ item.name }}</div>
-              <div class="flex justify-between">
-                <p>S</p>
+              <div class="flex">
+                <div class="text-start font-normal font-koulen pt-1">
+                  <p>TALL</p>
+                  <p>GRANDE</p>
+                  <p>VENTI</p>
+                </div>
+                <div class="px-2">
+                  <p>_______________</p>
+                  <p>_______________</p>
+                  <p>_______________</p>
+                </div>
+                <div class="text-end font-normal font-koulen pt-1">
+                  <p>{{item.price}} BAHT</p>
+                  <p>{{item.price+10}} BAHT</p>
+                  <p>{{item.price+20}} BAHT</p>
+                </div>
+              </div>
+              <!-- <div class="flex justify-between">
+                <p class="font-normal font-koulen">TALL</p>
                 __________________
                 <div class="font-normal font-koulen ">${{item.price}}</div>
               </div>
               <div class="flex justify-between">
-                <p>M</p>
+                <p class="font-normal font-koulen">GRANDE</p>
                 __________________
                 <div class="font-normal font-koulen ">${{item.price+10}}</div>
               </div>
-              <div class="flex justify-between">
-                <p>L</p>
+              <div class="flex justify-between ">
+                <p class="font-normal font-koulen">VENTI</p>
                 __________________
-                <div class="font-normal font-koulen ">${{item.price+20}}</div>
-              </div>
+                <div class="font-normal font-koulen">${{item.price+20}}</div>
+              </div> -->
             </div>
           </div>
           <div class="flex justify-center">
@@ -89,7 +142,7 @@
       </button>
     </div>
 
-    
+
 
 
     <!-- <div class="flex justify-center items-center mt-4 space-x-4">
@@ -217,12 +270,12 @@
         class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&gt;
       </button>
     </div>
-    
+
     <!-- ป็อปอัป -->
     <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
       <div class="bg-white p-6 rounded-[30px] w-[27rem] h-[40rem]">
         <h2 class="text-3xl text-center font-koulen mb-6">{{selectedItem.name}}</h2>
-    
+
         <form [formGroup]="cartForm" (ngSubmit)="addToCart()">
           <!-- เลือกประเภทเครื่องดื่ม -->
           <div class="mb-4">
@@ -244,7 +297,7 @@
               </label>
             </div>
           </div>
-    
+
           <!-- เลือกระดับความหวาน -->
           <div class="mb-4">
             <label class="block font-semibold mb-2">เลือกระดับความหวาน</label>
@@ -256,25 +309,25 @@
               <option value="100%">100%</option>
             </select>
           </div>
-    
+
           <!-- เพิ่มรายละเอียดเพิ่มเติม -->
           <div class="mb-4">
             <label class="block font-semibold mb-2">รายละเอียดเพิ่มเติม</label>
             <input type="text" formControlName="additionalDetails" class="w-full border-2 rounded px-2 py-1">
           </div>
-    
+
           <!-- ปุ่มเพิ่มลดจำนวน -->
           <div class="mb-4 flex items-center">
             <button type="button" (click)="decreaseQuantity()" class="px-2 py-1 bg-gray-300 rounded mr-2">-</button>
             <span>{{ cartForm.get('quantity')?.value }}</span>
             <button type="button" (click)="increaseQuantity()" class="px-2 py-1 bg-gray-300 rounded ml-2">+</button>
           </div>
-    
+
           <!-- แสดงผลรวมราคา -->
           <div class="mb-4">
             <label class="block font-semibold mb-2">ราคารวม: ${{ totalPrice }}</label>
           </div>
-    
+
           <!-- ปุ่มยืนยันและยกเลิก -->
           <div class="flex justify-end space-x-2">
             <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded"
@@ -285,5 +338,5 @@
       </div>
     </div>
   </section>
-  
+
 </div>
