@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BoardgameserviceService } from '../../services/boardgameservice.service';
+import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
-
+import { CartService } from '../../services/carts/carts.service';
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
@@ -22,10 +22,10 @@ totalPrice: any;
   itemsPerPage: number = 6;
   showPopupSelectItem: boolean = false;
   selectedItem: any;
-constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder) { }
-
-showPopup: boolean = false;
-selectedPrice: number = 245; // Set the default price (or change dynamically)
+  showPopup: boolean = false;
+  selectedPrice: number = 0;
+  
+  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartService: CartService) { }
 
 togglePopup(price: number) {
   this.selectedPrice = price;
@@ -104,6 +104,7 @@ GetinactiveBoardgameItems() {
   }
 
   cartForm = this.fb.group({
+    price: [{ value: 0, disabled: true }] ,
     quantity: [1, [Validators.required, Validators.min(1)]]
   });
 
@@ -133,17 +134,39 @@ GetinactiveBoardgameItems() {
     
 
 
-  increaseQuantity() {
-    const currentQuantity = this.cartForm.get('quantity')?.value;
-    if (currentQuantity! < this.selectedItem.quantity)
-    this.cartForm.patchValue({ quantity: currentQuantity! + 1 });
-  }
+    increaseQuantity() {
+      const currentQuantity = this.cartForm.get('quantity')?.value;
+      const maxQuantity = this.selectedItem?.quantity; // Optional chaining to handle null or undefined
+    
+      if (currentQuantity != null && maxQuantity != null && currentQuantity < maxQuantity) {
+        // Increment the quantity
+        this.cartForm.patchValue({ quantity: currentQuantity + 1 });
+    
+        // Calculate and update the total price based on the new quantity
+        const updatedQuantity = this.cartForm.get('quantity')?.value;
+        if (updatedQuantity != null && this.selectedItem?.price != null) {
+          const totalPrice = updatedQuantity * this.selectedItem.price;
+          this.totalPrice = totalPrice; // Store the updated total price
+        }
+      }
+    }
+    
+
 
   // ลดจำนวน
   decreaseQuantity() {
     const currentQuantity = this.cartForm.get('quantity')?.value;
-    if (currentQuantity! > 1) {
-      this.cartForm.patchValue({ quantity: currentQuantity! - 1 });
+  
+    if (currentQuantity != null && currentQuantity > 1) {
+      // Decrement the quantity
+      this.cartForm.patchValue({ quantity: currentQuantity - 1 });
+  
+      // Calculate and update the total price based on the new quantity
+      const updatedQuantity = this.cartForm.get('quantity')?.value;
+      if (updatedQuantity != null && this.selectedItem?.price != null) {
+        const totalPrice = updatedQuantity * this.selectedItem.price;
+        this.totalPrice = totalPrice; // Store the updated total price
+      }
     }
   }
 }

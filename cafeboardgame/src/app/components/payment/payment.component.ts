@@ -6,8 +6,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './payment.component.css'
 })
 export class PaymentComponent {
+  
   @Input() price: number = 0;
   @Output() close = new EventEmitter<void>();
+
   onFileUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
