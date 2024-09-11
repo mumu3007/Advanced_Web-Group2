@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, map, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/enviroment';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,7 @@ export class AuthService {
  
 
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient) {}
 
     // ฟังก์ชันสำหรับดึง userId
     getUserId(): Observable<string | null> {
@@ -21,10 +20,7 @@ export class AuthService {
     }
 
     getUserById(id: string): Observable<any> {
-      return this.http.get(`${this.Url}/user/${id}`,{withCredentials: true}).pipe(
-        tap((response: any) => {
-          console.log('User data:', response); // ดีบักข้อมูลผู้ใช้ที่ได้รับจาก backend
-        }),
+      return this.http.get(`${this.Url}/user/${id}`, { withCredentials: true }).pipe(
         catchError((error) => {
           console.error('Error retrieving user by ID:', error);
           return of(null); // คืนค่า null หากเกิดข้อผิดพลาด
@@ -63,14 +59,10 @@ export class AuthService {
       }),
       map((response) => !!response.userId),
       catchError((error) => {
-        console.error('Authentication check failed', error);
         this.userIdSubject.next(null);
         return of(false);
       })
     );
   }
-
-
-
 
 }

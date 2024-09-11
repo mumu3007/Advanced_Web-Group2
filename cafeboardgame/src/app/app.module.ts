@@ -12,6 +12,9 @@ import { HomeComponent } from './components/home/home.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CartComponent } from './components/cart/cart.component';
+import { AdminorderComponent } from './components/adminorder/adminorder.component';
+import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
+import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,11 @@ import { CartComponent } from './components/cart/cart.component';
     HomeComponent,
     BoardgameComponent,
     ProfileComponent,
-    CartComponent
+    CartComponent,
+    AdminorderComponent,
+    NavbaradminComponent,
+    NavadmenuComponent
+
   ],
   imports: [
     BrowserModule,
