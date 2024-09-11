@@ -7,6 +7,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './guards/auth-guard.guard';
+import { CartComponent } from './components/cart/cart.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'boardgame', component: BoardgameComponent },
+  { path: 'cart', component: CartComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminorderComponent },
