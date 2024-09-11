@@ -20,9 +20,17 @@ totalPrice: any;
   displayedItems: any[] = [];
   currentPage: number = 0;
   itemsPerPage: number = 6;
-  showPopup: boolean = false;
+  showPopupSelectItem: boolean = false;
   selectedItem: any;
 constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder) { }
+
+showPopup: boolean = false;
+selectedPrice: number = 245; // Set the default price (or change dynamically)
+
+togglePopup(price: number) {
+  this.selectedPrice = price;
+  this.showPopup = !this.showPopup; // Toggle modal visibility
+}
 
   ngOnInit(): void {
     this.loadMenuItems();
@@ -108,18 +116,21 @@ GetinactiveBoardgameItems() {
     // ฟังก์ชันเปิด popup
     openPopup(item: any) {
       this.selectedItem = item;
-      this.showPopup = !this.showPopup;
+      this.showPopupSelectItem = !this.showPopupSelectItem;
    
     }
     closePopup() {
 
-      this.showPopup = !this.showPopup;
+      this.showPopupSelectItem = !this.showPopupSelectItem;
       this.resetForm();
    
     }
-  resetForm() {
-    throw new Error('Method not implemented.');
-  }
+    resetForm() {
+      this.cartForm.reset({
+        quantity: 1
+      });
+    }
+    
 
 
   increaseQuantity() {

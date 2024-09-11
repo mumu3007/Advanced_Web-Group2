@@ -14,6 +14,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
     ProfileComponent,
     AdminorderComponent,
     NavbaradminComponent,
-    NavadmenuComponent
+    NavadmenuComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
