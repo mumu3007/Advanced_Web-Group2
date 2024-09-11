@@ -9,9 +9,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class BoardgameComponent implements OnInit {
 totalPrice: any;
-decreaseQuantity() {
-throw new Error('Method not implemented.');
-}
+
+
 
 
   currentIndex = 0;
@@ -21,9 +20,17 @@ throw new Error('Method not implemented.');
   displayedItems: any[] = [];
   currentPage: number = 0;
   itemsPerPage: number = 6;
-  showPopup: boolean = false;
+  showPopupSelectItem: boolean = false;
   selectedItem: any;
 constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder) { }
+
+showPopup: boolean = false;
+selectedPrice: number = 245; // Set the default price (or change dynamically)
+
+togglePopup(price: number) {
+  this.selectedPrice = price;
+  this.showPopup = !this.showPopup; // Toggle modal visibility
+}
 
   ngOnInit(): void {
     this.loadMenuItems();
@@ -96,6 +103,10 @@ GetinactiveBoardgameItems() {
     }
   }
 
+  cartForm = this.fb.group({
+    quantity: [1, [Validators.required, Validators.min(1)]]
+  });
+
   prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
@@ -105,17 +116,34 @@ GetinactiveBoardgameItems() {
     // ฟังก์ชันเปิด popup
     openPopup(item: any) {
       this.selectedItem = item;
-      this.showPopup = !this.showPopup;
+      this.showPopupSelectItem = !this.showPopupSelectItem;
    
     }
     closePopup() {
 
-      this.showPopup = !this.showPopup;
+      this.showPopupSelectItem = !this.showPopupSelectItem;
       this.resetForm();
    
     }
-  resetForm() {
-    throw new Error('Method not implemented.');
+    resetForm() {
+      this.cartForm.reset({
+        quantity: 1
+      });
+    }
+    
+
+
+  increaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    if (currentQuantity! < this.selectedItem.quantity)
+    this.cartForm.patchValue({ quantity: currentQuantity! + 1 });
   }
 
+  // ลดจำนวน
+  decreaseQuantity() {
+    const currentQuantity = this.cartForm.get('quantity')?.value;
+    if (currentQuantity! > 1) {
+      this.cartForm.patchValue({ quantity: currentQuantity! - 1 });
+    }
+  }
 }

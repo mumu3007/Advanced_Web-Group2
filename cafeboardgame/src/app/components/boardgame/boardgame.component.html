@@ -154,15 +154,15 @@
             <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
             <section id="beverage" class="pt-24">
               <div
-                class="text-center text-4xl font-normal text-[#D2091C] font-koulen"
+                class="text-center text-4xl font-normal text-orangePro font-koulen mb-8"
               >
-                BEVERAGE MENU
+              All the games in our store
               </div>
               <div class="flex justify-center items-center">
                 <button
                   (click)="prevPage()"
                   [disabled]="currentPage === 0"
-                  class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
+                  class="h-12 text-4xl text-orangePro disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
                 >
                   &lt;
                 </button>
@@ -170,31 +170,32 @@
                 <div class="grid grid-cols-3 gap-8 p-5 mx-12">
                   <div
                     *ngFor="let item of displayedItems"
-                    class="p-4 flex flex-col border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64"
+                    class="p-4 flex flex-col border-[3px] border-orangePro outline-3 outline-red-50 rounded-[30px] w-64"
                   >
                     <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
                     <div class="px-4">
                       <div class="mb-4 flex justify-center">
-                        <img class="max-h-24" [src]="item.photo" alt="" />
+                        <img class="max-h-56" [src]="item.photo" alt="" />
                         
                       </div>
                       <div class="text-center flex justify-between">
-                        <div class="text-lg font-normal font-koulen">
+                        <div class="text-2xl font-normal font-koulen">
                           {{ item.name }}
-                        </div>
-                        <div class="font-koulen text-lg ">${{ item.price}}</div>
+                        </div>  
+                        <div class="font-koulen text-2xl ">{{ item.price}} BAHT</div>
                       </div>
                     </div>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center max-h-20 overflow-hidden">
                       <div>
                         {{item.description}}
                       </div>
                       <button
                         (click)="openPopup(item)"
-                        class="mt-4 px-4 py-1 bg-transparent border-orangePro border text-orangePro rounded-[10px]  font-koulen"
+                        class="mt-4 px-4 py-1 bg-transparent border-orangePro border text-orangePro rounded-md  font-koulen"
                       >
                         BUY
                       </button>
+                      
                     </div>
                   </div>
                 </div>
@@ -211,6 +212,37 @@
 
               <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
             </section>
+            <section>
+            <div *ngIf="showPopupSelectItem" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
+              <div class="bg-white rounded-3xl flex justify-between p-6 space-x-3 ">
+                <img [src]="selectedItem.photo" class=" h-[349px] rounded-3xl">
+                <div class="flex flex-col relative w-72">
+                  <label class="text-3xl font-koulen">{{ selectedItem.name}}</label>
+                  <label class="h-52 ml-5">{{ selectedItem.description}}</label>
+                  <label class="font-koulen">Price: {{ selectedItem.price}} BAHT</label>
+                  <div class="flex space-x-5 items-end justify-start">
+                    <div class="">  
+                      <button type="button" (click)="decreaseQuantity()" class="px-2 py-1 bg-gray-300 rounded mr-2">-</button>
+                      <span>{{ cartForm.get('quantity')?.value }}</span>
+                      <button type="button" (click)="increaseQuantity()" class="px-2 py-1 bg-gray-300 rounded ml-2">+</button>
+                    </div>
+                    <small class="text-slate-600">คงเหลือในคลัง: {{selectedItem.quantity}}</small>
+                    <div class="absolute right-0 bottom-0 flex justify-between w-full ">
+                      <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
+                      <div class="space-x-3">
+                        <button class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
+                        <button (click)="togglePopup(245)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
+                        <app-payment *ngIf="showPopup" [price]="selectedPrice" (close)="togglePopup(0)"></app-payment>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
+          </section>
+        
           
     </section>
   </div>

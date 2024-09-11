@@ -15,7 +15,7 @@ router.get('/inactive', async (req, res, next) => {
     next(err);  // Pass any errors to the error handler
   }
 });
-//get all games
+//get 3 games
 router.get('/boardgame3', async (req, res, next) => {
   try {
     const { asc, limit = 3 } = req.query;  // Get asc and limit from query parameters

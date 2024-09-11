@@ -11,6 +11,11 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AdminorderComponent } from './components/adminorder/adminorder.component';
+import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
+import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,14 @@ import { ProfileComponent } from './components/profile/profile.component';
     LoginComponent,
     HomeComponent,
     BoardgameComponent,
-    ProfileComponent
+    ProfileComponent,
+    CartComponent,
+    AdminorderComponent,
+    NavbaradminComponent,
+    NavadmenuComponent,
+    PaymentComponent,
+    NavadmenuComponent
+
   ],
   imports: [
     BrowserModule,
