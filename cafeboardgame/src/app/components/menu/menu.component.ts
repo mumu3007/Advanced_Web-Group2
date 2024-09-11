@@ -11,6 +11,7 @@ export class MenuComponent implements OnInit {
 
   menuItems: any[] = [];
   displayedItems: any[] = [];
+  recommendedItems: any[] = [];
   currentPage: number = 0;
   itemsPerPage: number = 6;
   showPopup = false;
@@ -24,6 +25,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMenuItems();
+    this.loadRecommendedItems()
     // Subscribe to form changes to update total price
     this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
   }
@@ -40,6 +42,17 @@ export class MenuComponent implements OnInit {
       (data) => {
         this.menuItems = data;
         this.displayedItems = this.menuItems.slice(0, this.itemsPerPage);
+      },
+      (error) => {
+        console.error('Error fetching menu:', error);
+      }
+    );
+  }
+
+  loadRecommendedItems(){
+    this.apiService.getRecommendedItems().subscribe(
+      (data) => {
+        this.recommendedItems = data;
       },
       (error) => {
         console.error('Error fetching menu:', error);
