@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BoardgameserviceService } from '../../services/boardgameservice.service';
+import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({

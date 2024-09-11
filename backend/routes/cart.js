@@ -19,6 +19,59 @@ router.get('/cart/:userId', async (req, res) => {
   }
 });
 
+router.post('/cart/add', async (req, res, next) => {
+  try {
+    const { user_id, ordercoffee_id, cake_id, boardgame_id, total_price } = req.body;
+
+    // Validate the IDs
+    if (!user_id || !Array.isArray(ordercoffee_id) || !Array.isArray(cake_id) || !Array.isArray(boardgame_id)) {
+      return res.status(400).json({ message: "Invalid input data" });
+    }
+
+    const [ordercoffees, cakes, boardgames] = await Promise.all([
+      Ordercoffee.find({ '_id': { $in: ordercoffee_id } }),
+      Cakemenu.find({ '_id': { $in: cake_id } }),
+      Boardgame.find({ '_id': { $in: boardgame_id } })
+    ]);
+
+    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + item.total_price, 0);
+    const cakeTotal = cakes.reduce((sum, item) => sum + item.price, 0);
+    const boardgameTotal = boardgames.reduce((sum, item) => sum + item.price, 0);
+
+    const totalPriceToAdd = ordercoffeeTotal + cakeTotal + boardgameTotal;
+
+    // Find or create a cart for the user
+    let cart = await Cart.findOne({ user_id, status: false });
+    if (!cart) {
+      cart = new Cart({
+        user_id,
+        ordercoffee_id: [],
+        cake_id: [],
+        boardgame_id: [],
+        total_price: 0,
+      });
+    }
+    // Update cart with new items
+    if (ordercoffee_id.length > 0) {
+      cart.ordercoffee_id.push(...ordercoffee_id)
+    }
+    if (cake_id.length > 0) {
+      cart.cake_id.push(...cake_id);
+    }
+    if (boardgame_id.length > 0) {
+      cart.boardgame_id.push(...boardgame_id);
+    }
+
+    cart.total_price += totalPriceToAdd;
+
+    const updatedCart = await cart.save();
+
+    res.status(200).json(updatedCart);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/cart', async (req, res, next) => {
   try {
     const { total_price, user_id, ordercoffee_id, cake_id, boardgame_id } = req.body;
