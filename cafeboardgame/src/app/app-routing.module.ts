@@ -7,6 +7,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './guards/auth-guard.guard';
+import { CartComponent } from './components/cart/cart.component';
 
 
 
@@ -15,8 +16,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'boardgame', component: BoardgameComponent },
-  { path: 'menu', component: MenuComponent,canActivate: [authGuard] },
-  { path: 'profile', component: ProfileComponent,canActivate: [authGuard] },
+  { path: 'menu', component: MenuComponent },
+  { path: 'profile', component: ProfileComponent},
+  { path: 'cart', component: CartComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   { path: '**', redirectTo: '/home' }  
  
