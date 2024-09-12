@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { MenuComponent } from './components/menu/menu.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -16,7 +16,8 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 import { PaymentComponent } from './components/payment/payment.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for animations
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,10 +41,20 @@ import { PaymentComponent } from './components/payment/payment.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-center-top', // Use custom class for center-top position
+      preventDuplicates: true,
+      closeButton: true,
+      progressBar: true,
+      newestOnTop: true
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     provideClientHydration(),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })
