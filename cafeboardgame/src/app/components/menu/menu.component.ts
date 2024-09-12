@@ -20,9 +20,20 @@ export class MenuComponent implements OnInit {
   showPopup = false;
   selectedItem: any;
   totalPrice = 0;
+  selectedMenuId?: string;
 
   // ฟอร์มควบคุม
   // Add FormGroup
+
+  openPopup(menuId: string) {
+    this.selectedMenuId = menuId;
+    this.showPopup = true;
+    console.log(menuId);
+  }
+
+  closePopup() {
+    this.showPopup = false;
+  }
 
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
@@ -84,17 +95,7 @@ export class MenuComponent implements OnInit {
   }
 
   // ฟังก์ชันเปิด popup
-  openPopup(item: any) {
-    this.selectedItem = item;
-    this.showPopup = true;
-    this.calculateTotalPrice(); // อัปเดตราคารวมเมื่อเปิดป็อปอัป
-  }
 
-  // ฟังก์ชันปิด popup
-  closePopup() {
-    this.showPopup = false;
-    this.resetForm();
-  }
 
   updateDisplayedMenuItems() {
     const start = this.currentPage * this.itemsPerPage;
