@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-card-carousel',
@@ -25,8 +26,9 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   selectedItem: any;
   showPopup: boolean = false;
   selectedPrice: number = 0;
+  userId: string | null =null;
   
-  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartsService: CartsService) { }
+  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartsService: CartsService,private authService :AuthService) { }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
@@ -42,11 +44,11 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
 
 
   addToCart(): void {
-    const userId = '66da8788376323eb83a883d3'; // Replace with the actual user ID
+    // Replace with the actual user ID
 
     // Use CartsService to add the selected boardgames to the cart
     this.cartsService.addCartItem({
-      user_id: userId,
+      user_id: this.userId ?? undefined,
       ordercoffee_id: [], 
       cake_id: [],       
       boardgame_id: this.selectedBoardgameIds // Add selected boardgames
@@ -69,6 +71,17 @@ togglePopup(price: number) {
     this.Get3BoardgameItems();
     this.GetinactiveBoardgameItems();
     console.log("boardgame => "+this.boardgameinactiveItem)
+
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.loadUserData(this.userId); // ใช้ userId ในการโหลดข้อมูลอื่น ๆ
+      }
+    });
+    
+  }
+  loadUserData(id: string) {
+    console.log('User ID:', id);
   }
 
 
