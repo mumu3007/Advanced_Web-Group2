@@ -23,6 +23,8 @@ export class AdminorderComponent {
     hot: new FormControl(false),
     iced: new FormControl(false),
     frappe: new FormControl(false),
+    upload: new FormControl(null),
+    status: new FormControl('status'),
 
   });
   
@@ -30,35 +32,35 @@ export class AdminorderComponent {
     {
       image: 'assets/images/iced-espresso-coffee.jpg',
       name: 'ICED ESPRESSO COFFEE',
-      description: 'SWEET: 25% \nSIZE: TALL',
+      description: 'SWEET: 25% \nSIZE: TALL \nUsername: myde',
       quantity: 'X2',
       price: 138
     },
     {
       image: 'assets/images/classic-chocolate-cake.jpg',
       name: 'CLASSIC CHOCOLATE CAKE',
-      description: 'เค้กช็อกโกแลตสดสลับพร้อมไอศครีมช็อกโกแลต',
+      description: 'เค้กช็อกโกแลตสดสลับพร้อมไอศครีมช็อกโกแลต \nUsername: myde',
       quantity: 'X1',
       price: 99
     },
     {
       image: 'assets/images/iced-matcha-milk.jpg',
       name: 'ICED MATCHA MILK',
-      description: 'SWEET: 75% \nSIZE: TRENTA',
+      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
       quantity: 'X2',
       price: 176
     },
     {
       image: 'assets/images/iced-matcha-milk.jpg',
       name: 'ICED MATCHA MILK',
-      description: 'SWEET: 75% \nSIZE: TRENTA',
+      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
       quantity: 'X2',
       price: 176
     },
     {
       image: 'assets/images/iced-matcha-milk.jpg',
       name: 'ICED MATCHA MILK',
-      description: 'SWEET: 75% \nSIZE: TRENTA',
+      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
       quantity: 'X2',
       price: 176
     }
