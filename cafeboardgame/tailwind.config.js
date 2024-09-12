@@ -10,7 +10,9 @@ module.exports = {
       },
       colors: {
         'redProject': '#D2091C',
-        'orangePro' : '#FF4A00'
+        'orangePro' : '#FF4A00',
+        'bgPro' : '#F4F1EC',
+        'formfPro' : 'rgba(210, 9, 28, 0.7)',
       },
     },
   },
