@@ -19,7 +19,9 @@ router.get('/inactive', async (req, res, next) => {
 router.get('/boardgame3', async (req, res, next) => {
   try {
     const { asc, limit = 3 } = req.query;  // Get asc and limit from query parameters
-    const query = asc ? { asc: { $regex: asc, $options: 'i' } } : {};  // Use regex to match description (case-insensitive)
+
+    // Create query object based on 'asc' parameter
+    const query = asc ? { description: { $regex: asc, $options: 'i' } } : {};  // Use regex to match description (case-insensitive)
 
     // Query with sort and limit
     const boardgames = await Boardgame.find(query)
@@ -31,6 +33,7 @@ router.get('/boardgame3', async (req, res, next) => {
     next(err);
   }
 });
+
 
 
 router.get('/all', async (req, res, next) => {

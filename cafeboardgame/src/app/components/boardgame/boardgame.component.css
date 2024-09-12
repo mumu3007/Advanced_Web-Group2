@@ -1,0 +1,12 @@
+.toast-center-top {
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999; /* Ensure that the toast is on top of all other elements */
+  }
+  
+  .toast-container {
+    z-index: 9999; /* Ensure that the toast container has a high z-index */
+  }
+  
