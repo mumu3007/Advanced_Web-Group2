@@ -16,6 +16,9 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { PaymentComponent } from './components/payment/payment.component';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule ,
+    BrowserAnimationsModule, 
   ],
   providers: [
     provideClientHydration(),
