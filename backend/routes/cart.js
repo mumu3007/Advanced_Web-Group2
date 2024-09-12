@@ -7,7 +7,7 @@ const Cart = require('../models/Cart');
 const Boardgame = require('../models/Boardgame')
 const router = express.Router();
 
-router.get('/cart/:userId', async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
     const cart = await Cart.findOne({ user_id: req.params.userId })
       .populate('ordercoffee_id')
@@ -19,7 +19,7 @@ router.get('/cart/:userId', async (req, res) => {
   }
 });
 
-router.post('/cart/add', async (req, res, next) => {
+router.post('/add', async (req, res, next) => {
   try {
     const { user_id, ordercoffee_id, cake_id, boardgame_id, total_price } = req.body;
 
