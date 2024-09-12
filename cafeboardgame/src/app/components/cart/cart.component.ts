@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
 import { CartsService } from '../../services/carts/carts.service';
+interface CartItem {
+  id: number;
+  name: string;
+  description: string;
+  quantity: number;
+  price: number;
+  image: string;
+}
 
 @Component({
   selector: 'app-cart',
@@ -11,6 +19,41 @@ export class CartComponent {
 
   constructor(private cartsService: CartsService) {}
 
+  cartItems: CartItem[] = [
+    {
+      id: 1,
+      name: 'POWER HUNGRY PETS (TH)',
+      description: 'CATEGORY : FAMILY GAME, PARTY GAME',
+      quantity: 2,
+      price: 162,
+      image: 'assets/power-hungry-pets.jpg',
+    },
+    {
+      id: 2,
+      name: 'BERRY CHANTILLY CAKE',
+      description: 'ครัวซองต์เพรชเบอร์รีครีมโฮลิค',
+      quantity: 2,
+      price: 99,
+      image: 'assets/berry-chantilly-cake.jpg',
+    },
+    {
+      id: 3,
+      name: 'ICED LATTE COFFEE',
+      description: 'SWEET : 75%, SIZE : TRENTA',
+      quantity: 2,
+      price: 89,
+      image: 'assets/iced-latte-coffee.jpg',
+    },
+  ];
+
+  get totalPrice(): number {
+    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  removeItem(item: CartItem): void {
+    this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
+  }
+  
   ngOnInit(): void {
     this.loadCart('userId123'); // Replace with actual user ID
   }

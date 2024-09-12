@@ -3,7 +3,7 @@ import { BoardgameserviceService } from '../../services/boardgame/boardgameservi
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
@@ -28,7 +28,11 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   selectedPrice: number = 0;
   userId: string | null =null;
   
-  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartsService: CartsService,private authService :AuthService) { }
+  constructor(private boardgameservice :BoardgameserviceService ,
+     private fb: FormBuilder,
+     private cartsService: CartsService,
+     private authService :AuthService,
+     private toastr: ToastrService) { }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
@@ -36,6 +40,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
       this.addToCart()
+      this.toastr.success('Item has been added to the cart!');
       console.log("เช็ค addtocart"+ this.addToCart)
     } else {
       this.selectedBoardgameIds.splice(index, 1);
@@ -70,7 +75,7 @@ togglePopup(price: number) {
     this.loadMenuItems();
     this.Get3BoardgameItems();
     this.GetinactiveBoardgameItems();
-    console.log("boardgame => "+this.boardgameinactiveItem)
+
 
     this.authService.getUserId().subscribe((id) => {
       this.userId = id;
@@ -123,7 +128,7 @@ GetinactiveBoardgameItems() {
 }
 
   get displayedCards() {
-    return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 3);
+    return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 2);
   }
 
   moveRight() {
