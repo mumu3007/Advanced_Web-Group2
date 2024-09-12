@@ -36,6 +36,18 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
   }
 });
 
+router.get('/menupopup/:id', async (req, res, next) => {
+  try {
+    const coffeemenu = await Coffeemenu.findById(req.params.id);
+    if (!coffeemenu) {
+      return res.status(404).json({ message: 'Coffee menu not found' });
+    }
+    res.json(coffeemenu);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
