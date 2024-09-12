@@ -6,7 +6,6 @@ const coffeeMenuSchema = new mongoose.Schema({
   s_price: Number,
   m_price: Number,
   l_price: Number,
-  description: String,
   photo: String,
   type_coffee: [String],
   status: String

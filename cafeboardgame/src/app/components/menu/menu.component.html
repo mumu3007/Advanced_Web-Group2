@@ -62,9 +62,9 @@
                   <p>__________</p>
                 </div>
                 <div class="text-end font-normal font-koulen pt-1">
-                  <p>{{item.price}} BAHT</p>
-                  <p>{{item.price+10}} BAHT</p>
-                  <p>{{item.price+20}} BAHT</p>
+                  <p>{{item.price}} ฿</p>
+                  <p>{{item.price+10}} ฿</p>
+                  <p>{{item.price+20}} ฿</p>
                 </div>
               </div>
 
@@ -89,7 +89,7 @@
       </button>
 
       <div class="grid grid-cols-3 gap-8 p-5 mx-12">
-        <div *ngFor="let item of displayedItems"
+        <div *ngFor="let item of displayedMenuItems"
           class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4">
@@ -230,12 +230,12 @@
     <div class="text-center text-4xl font-normal text-[#D2091C] font-koulen">CAKE AND BAKERY MENU</div>
     <div class="flex justify-center items-center">
 
-      <button (click)="prevPage()" [disabled]="currentPage === 0"
+      <button (click)="prevCakePage()" [disabled]="currentCakePage === 0"
         class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&lt;
       </button>
 
       <div class="grid grid-cols-3 gap-8 p-5">
-        <div *ngFor="let item of displayedItems"
+        <div *ngFor="let item of displayedCakeItems"
           class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4">
@@ -266,7 +266,7 @@
           </div>
         </div>
       </div>
-      <button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= menuItems.length"
+      <button (click)="nextCakePage()" [disabled]="(currentCakePage + 1) * itemsPerPage >= cakeItems.length"
         class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&gt;
       </button>
     </div>
