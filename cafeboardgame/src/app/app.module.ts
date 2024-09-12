@@ -16,8 +16,14 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 import { PaymentComponent } from './components/payment/payment.component';
+
+import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
+
+
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for animations
 import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +48,10 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+
+    ToastModule ,
+  
+
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-center-top', // Use custom class for center-top position
@@ -51,6 +61,7 @@ import { ToastrModule } from 'ngx-toastr';
       newestOnTop: true
     }),
     BrowserAnimationsModule
+
   ],
   providers: [
     provideClientHydration(),
