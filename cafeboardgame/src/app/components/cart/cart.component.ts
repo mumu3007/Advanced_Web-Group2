@@ -1,81 +1,73 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartsService } from '../../services/carts/carts.service';
-interface CartItem {
-  id: number;
-  name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  image: string;
-}
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
-  cart: any;
+export class CartComponent implements OnInit {
+  cartItems: any[] = [];
+  totalPrice: number = 0;
+  userId?: string | null | undefined;
 
-  constructor(private cartsService: CartsService) {}
+  constructor(private cartsService: CartsService, private authService: AuthService) {}
 
-  cartItems: CartItem[] = [
-    {
-      id: 1,
-      name: 'POWER HUNGRY PETS (TH)',
-      description: 'CATEGORY : FAMILY GAME, PARTY GAME',
-      quantity: 2,
-      price: 162,
-      image: 'assets/power-hungry-pets.jpg',
-    },
-    {
-      id: 2,
-      name: 'BERRY CHANTILLY CAKE',
-      description: 'ครัวซองต์เพรชเบอร์รีครีมโฮลิค',
-      quantity: 2,
-      price: 99,
-      image: 'assets/berry-chantilly-cake.jpg',
-    },
-    {
-      id: 3,
-      name: 'ICED LATTE COFFEE',
-      description: 'SWEET : 75%, SIZE : TRENTA',
-      quantity: 2,
-      price: 89,
-      image: 'assets/iced-latte-coffee.jpg',
-    },
-  ];
-
-  get totalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  }
-
-  removeItem(item: CartItem): void {
-    this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
-  }
-  
   ngOnInit(): void {
-    this.loadCart('userId123'); // Replace with actual user ID
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.loadUserData(this.userId); // ใช้ userId ในการโหลดข้อมูลอื่น ๆ
+        this.loadCart(this.userId)
+      }
+    });
+  }
+  loadUserData(id: string) {
+    console.log('User ID:', id);
   }
 
   loadCart(userId: string): void {
     this.cartsService.getCart(userId).subscribe(
-      (cart) => this.cart = cart,
+      (cart) => {
+        // รวมสินค้าที่ซ้ำกัน
+        const combinedItems: { [key: string]: any } = {};
+
+        // ดึงข้อมูลของแต่ละประเภทสินค้า
+        const allItems = [
+          ...cart.cart.ordercoffee_id,
+          ...cart.cart.cake_id,
+          ...cart.cart.boardgame_id
+        ];
+
+        allItems.forEach((item: any) => {
+          const id = item._id.toString();
+          
+          if (!combinedItems[id]) {
+            combinedItems[id] = {
+              ...item,
+              quantity: 1, // เริ่มต้นด้วยจำนวน 1
+              type: item.type ? item.type.name : 'Unknown' // เพิ่มประเภทสินค้า (ถ้ามี)
+            };
+          } else {
+            combinedItems[id].quantity++; // ถ้ามีสินค้าซ้ำ ให้เพิ่มจำนวน
+          }
+        });
+
+        this.cartItems = Object.values(combinedItems); // แปลง object ให้เป็น array
+
+        // คำนวณราคาทั้งหมด
+        this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      },
       (error) => console.error('Error loading cart:', error)
     );
   }
 
-  addItemsToCart(ordercoffeeIds: string[], cakeIds: string[], boardgameIds: string[]): void {
-    const cartData = {
-      user_id: '66da8788376323eb83a883d3', // Replace with actual user ID
-      ordercoffee_id: ordercoffeeIds,
-      cake_id: cakeIds,
-      boardgame_id: boardgameIds
-    };
-
-    this.cartsService.addCartItem(cartData).subscribe(
-      (response) => console.log('Item added to cart:', response),
-      (error) => console.error('Error adding item:', error)
-    );
+  removeItem(item: any): void {
+    // ลบสินค้าออกจาก cartItems
+    this.cartItems = this.cartItems.filter(i => i !== item);
+    
+    // อัพเดทราคาหลังจากลบ
+    this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 }
