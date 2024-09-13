@@ -16,6 +16,7 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { AdminboardgameComponent } from './components/adminboardgame/adminboardgame.component';
 import { MenupopupComponent } from './components/menupopup/menupopup.component';
 
 import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
@@ -41,6 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
     NavadmenuComponent,
     PaymentComponent,
     NavadmenuComponent,
+    AdminboardgameComponent,
     MenupopupComponent
 
   ],

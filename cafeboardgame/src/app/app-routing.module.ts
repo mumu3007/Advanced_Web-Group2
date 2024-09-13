@@ -10,6 +10,7 @@ import { authGuard } from './guards/auth-guard.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
+import { AdminboardgameComponent } from './components/adminboardgame/adminboardgame.component';
 
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent},
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminorderComponent },
+  { path: 'adminboardgame', component: AdminboardgameComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   { path: '**', redirectTo: '/home' }  
  
