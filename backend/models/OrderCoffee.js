@@ -4,8 +4,9 @@ const orderCoffeeSchema = new mongoose.Schema({
     size: String,
     description: String,
     price: Number,
-    sweetness_Level: String,
+    sweetness_level: String,
     type_order: String,
+    quantity: Number,
     coffee_id: { type: mongoose.Schema.Types.ObjectId, ref: "Coffeemenu" },
 });  // Explicitly set collection name
 
