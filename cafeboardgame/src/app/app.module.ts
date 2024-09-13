@@ -16,6 +16,7 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { NavadmenuComponent } from './components/navadmenu/navadmenu.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { AdminboardgameComponent } from './components/adminboardgame/adminboardgame.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { PaymentComponent } from './components/payment/payment.component';
     NavbaradminComponent,
     NavadmenuComponent,
     PaymentComponent,
-    NavadmenuComponent
+    NavadmenuComponent,
+    AdminboardgameComponent
 
   ],
   imports: [
