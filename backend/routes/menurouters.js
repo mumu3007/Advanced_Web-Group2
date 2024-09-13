@@ -16,7 +16,7 @@ router.get('/coffeemenu', async (req, res, next) => {
 
 router.get('/recommended_coffee', async (req, res, next) => {
   try {
-    const coffeemenus = await Coffeemenu.find( {status: "recommended"});
+    const coffeemenus = await Coffeemenu.find({ status: "recommended" });
     res.json(coffeemenus);
   } catch (err) {
     next(err);
@@ -36,26 +36,37 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
   }
 });
 
+router.get('/menupopup/:id', async (req, res, next) => {
+  try {
+    const coffeemenu = await Coffeemenu.findById(req.params.id);
+    if (!coffeemenu) {
+      return res.status(404).json({ message: 'Coffee menu not found' });
+    }
+    res.json(coffeemenu);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
-    const { name, s_price, m_price, l_price, description, photo, type_coffee, status } = req.body;
-    
+    const { name, s_price, m_price, l_price, photo, type_coffee, status } = req.body;
+
     // Create a new CoffeeMenu document
     const newCoffeeMenu = new Coffeemenu({
       name,
       s_price,
       m_price,
       l_price,
-      description,
       photo,
       type_coffee,
       status
     });
-    
+
     // Save the new menu to the database
     const savedCoffeeMenu = await newCoffeeMenu.save();
-    
+
     // Respond with the newly created menu
     res.status(201).json(savedCoffeeMenu);
   } catch (err) {
@@ -67,24 +78,24 @@ router.post('/coffeemenu', async (req, res, next) => {
 //ยังทำงานไม่ได้ ติดหาด้วยไอดีเพราะว่า ใน database เป็น objecId แต่รับมาเป็นตัวเลขธรรม
 router.put('/coffeemenu/:id', async (req, res, next) => {
   try {
-    const { name, s_price, m_price, l_price, description, photo, type_coffee, status } = req.body;
-   
+    const { name, s_price, m_price, l_price, photo, type_coffee, status } = req.body;
+
 
     // Convert the ID to ObjectId
     const objectId = new mongoose.ObjectId(req.params.id);
-    
+
     // Find the menu by ID and update it with the provided data
     const updatedCoffeeMenu = await Coffeemenu.findByIdAndUpdate(
       objectId,
-      { name, s_price, m_price, l_price, description, photo,type_coffee, status },
+      { name, s_price, m_price, l_price, photo, type_coffee, status },
       { new: true, runValidators: true } // Ensure it returns the updated document and applies validation
     );
-    
+
     // Check if the coffee menu exists
     if (!updatedCoffeeMenu) {
       return res.status(404).json({ message: 'Coffee menu not found' });
     }
-    
+
     // Respond with the updated menu
     res.json(updatedCoffeeMenu);
   } catch (err) {
@@ -103,6 +114,15 @@ router.delete('/coffeemenu/:id', async (req, res, next) => {
       return res.status(404).json({ message: 'Coffee menu not found' });
     }
     res.json({ message: 'Coffee menu deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/cakemenu', async (req, res, next) => {
+  try {
+    const cakemenus = await CakeMenu.find();
+    res.json(cakemenus);
   } catch (err) {
     next(err);
   }

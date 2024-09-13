@@ -14,7 +14,7 @@ const { authMiddleware } = require('./middleware');
 const router = express.Router();
 
 
-router.use('/register', registerRoutes); 
+router.use('/register',registerRoutes); 
 router.use('/auth', authRoutes);
 
 router.use('/user',userRoutes); 

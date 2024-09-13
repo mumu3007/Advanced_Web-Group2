@@ -10,21 +10,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Import F
 export class MenuComponent implements OnInit {
 
   menuItems: any[] = [];
-  displayedItems: any[] = [];
+  cakeItems: any[] = [];
+  displayedMenuItems: any[] = [];
+  displayedCakeItems: any[] = [];
   recommendedItems: any[] = [];
   currentPage: number = 0;
+  currentCakePage: number = 0;
   itemsPerPage: number = 6;
   showPopup = false;
   selectedItem: any;
-  totalPrice=0;
+  totalPrice = 0;
+  selectedMenuId?: string;
 
   // ฟอร์มควบคุม
-   // Add FormGroup
+  // Add FormGroup
+
+  openPopup(menuId: string) {
+    this.selectedMenuId = menuId;
+    this.showPopup = true;
+    console.log(menuId);
+  }
+
+  closePopup() {
+    this.showPopup = false;
+  }
 
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.loadMenuItems();
+    this.loadCakeItems();
     this.loadRecommendedItems()
     // Subscribe to form changes to update total price
     this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
@@ -41,7 +56,7 @@ export class MenuComponent implements OnInit {
     this.apiService.getMenuItems().subscribe(
       (data) => {
         this.menuItems = data;
-        this.displayedItems = this.menuItems.slice(0, this.itemsPerPage);
+        this.displayedMenuItems = this.menuItems.slice(0, this.itemsPerPage);
       },
       (error) => {
         console.error('Error fetching menu:', error);
@@ -49,7 +64,19 @@ export class MenuComponent implements OnInit {
     );
   }
 
-  loadRecommendedItems(){
+  loadCakeItems() {
+    this.apiService.getCakeItems().subscribe(
+      (data) => {
+        this.cakeItems = data;
+        this.displayedCakeItems = this.cakeItems.slice(0, this.itemsPerPage);
+      },
+      (error) => {
+        console.error('Error fetching menu:', error);
+      }
+    );
+  }
+
+  loadRecommendedItems() {
     this.apiService.getRecommendedItems().subscribe(
       (data) => {
         this.recommendedItems = data;
@@ -68,36 +95,46 @@ export class MenuComponent implements OnInit {
   }
 
   // ฟังก์ชันเปิด popup
-  openPopup(item: any) {
-    this.selectedItem = item;
-    this.showPopup = true;
-    this.calculateTotalPrice(); // อัปเดตราคารวมเมื่อเปิดป็อปอัป
-  }
 
-  // ฟังก์ชันปิด popup
-  closePopup() {
-    this.showPopup = false;
-    this.resetForm();
-  }
 
-  updateDisplayedItems() {
+  updateDisplayedMenuItems() {
     const start = this.currentPage * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.displayedItems = this.menuItems.slice(start, end);
+    this.displayedMenuItems = this.menuItems.slice(start, end);
+    console.log("refresh complete")
+  }
+
+  updateDisplayedCakeItems() {
+    const start = this.currentCakePage * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.displayedCakeItems = this.cakeItems.slice(start, end);
     console.log("refresh complete")
   }
 
   nextPage() {
     if ((this.currentPage + 1) * this.itemsPerPage < this.menuItems.length) {
       this.currentPage++;
-      this.updateDisplayedItems();
+      this.updateDisplayedMenuItems();
     }
   }
 
   prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
-      this.updateDisplayedItems();
+      this.updateDisplayedMenuItems();
+    }
+  }
+  nextCakePage() {
+    if ((this.currentCakePage + 1) * this.itemsPerPage < this.cakeItems.length) {
+      this.currentCakePage++;
+      this.updateDisplayedCakeItems();
+    }
+  }
+
+  prevCakePage() {
+    if (this.currentCakePage > 0) {
+      this.currentCakePage--;
+      this.updateDisplayedCakeItems();
     }
   }
 

@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/:userId', async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user_id: req.params.userId ,status: false})
+    const cart = await Cart.findOne({ user_id: req.params.userId })
       .populate('ordercoffee_id')
       .populate('cake_id')
       .populate('boardgame_id');
@@ -27,16 +27,31 @@ router.post('/add', async (req, res, next) => {
     if (!user_id || !Array.isArray(ordercoffee_id) || !Array.isArray(cake_id) || !Array.isArray(boardgame_id)) {
       return res.status(400).json({ message: "Invalid input data" });
     }
+    const countDuplicateIds = (idArray) => {
+      return idArray.reduce((acc, id) => {
+        if (id) {  // ตรวจสอบว่า id ไม่เป็นค่าว่าง
+          acc[id] = (acc[id] || 0) + 1;
+        }
+        return acc;
+      }, {});
+    };
+    const ordercoffeeCount = countDuplicateIds(ordercoffee_id);
+    const cakeCount = countDuplicateIds(cake_id);
+    const boardgameCount = countDuplicateIds(boardgame_id);
+
+    console.log("Ordercoffee Count:", ordercoffeeCount);
+    console.log("Cake Count:", cakeCount);
+    console.log("Boardgame Count:", boardgameCount);
 
     const [ordercoffees, cakes, boardgames] = await Promise.all([
-      Ordercoffee.find({ '_id': { $in: ordercoffee_id } }),
-      Cakemenu.find({ '_id': { $in: cake_id } }),
-      Boardgame.find({ '_id': { $in: boardgame_id } })
+      Ordercoffee.find({ '_id': { $in: Object.keys(ordercoffeeCount) } }),
+      Cakemenu.find({ '_id': { $in: Object.keys(cakeCount) } }),
+      Boardgame.find({ '_id': { $in: Object.keys(boardgameCount) } })
     ]);
 
-    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + item.total_price, 0);
-    const cakeTotal = cakes.reduce((sum, item) => sum + item.price, 0);
-    const boardgameTotal = boardgames.reduce((sum, item) => sum + item.price, 0);
+    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.price * ordercoffeeCount[item._id]), 0);
+    const cakeTotal = cakes.reduce((sum, item) => sum + (item.price * cakeCount[item._id]), 0);
+    const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
 
     const totalPriceToAdd = ordercoffeeTotal + cakeTotal + boardgameTotal;
 
@@ -48,7 +63,7 @@ router.post('/add', async (req, res, next) => {
         ordercoffee_id: [],
         cake_id: [],
         boardgame_id: [],
-        total_price: 0,
+        total_price: total_price,
       });
     }
     // Update cart with new items
@@ -61,12 +76,25 @@ router.post('/add', async (req, res, next) => {
     if (boardgame_id.length > 0) {
       cart.boardgame_id.push(...boardgame_id);
     }
+    const finalOrdercoffeeCount = countDuplicateIds(cart.ordercoffee_id);
+    const finalCakeCount = countDuplicateIds(cart.cake_id);
+    const finalBoardgameCount = countDuplicateIds(cart.boardgame_id);
+
+    console.log("Final Ordercoffee Count:", finalOrdercoffeeCount);
+    console.log("Final Cake Count:", finalCakeCount);
+    console.log("Final Boardgame Count:", finalBoardgameCount);
 
     cart.total_price += totalPriceToAdd;
 
     const updatedCart = await cart.save();
 
-    res.status(200).json(updatedCart);
+    res.status(200).json({
+      cart: updatedCart,
+      counts: {
+        ordercoffee: finalOrdercoffeeCount,
+        cake: finalCakeCount,
+        boardgame: finalBoardgameCount
+    }});
   } catch (err) {
     next(err);
   }

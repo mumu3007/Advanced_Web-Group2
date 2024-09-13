@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
-
+import { AuthService } from '../../services/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
@@ -25,8 +26,13 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   selectedItem: any;
   showPopup: boolean = false;
   selectedPrice: number = 0;
+  userId: string | null =null;
   
-  constructor(private boardgameservice :BoardgameserviceService , private fb: FormBuilder,private cartsService: CartsService) { }
+  constructor(private boardgameservice :BoardgameserviceService ,
+     private fb: FormBuilder,
+     private cartsService: CartsService,
+     private authService :AuthService,
+     private toastr: ToastrService) { }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
@@ -34,6 +40,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
       this.addToCart()
+      this.toastr.success('Item has been added to the cart!');
       console.log("เช็ค addtocart"+ this.addToCart)
     } else {
       this.selectedBoardgameIds.splice(index, 1);
@@ -42,11 +49,11 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
 
 
   addToCart(): void {
-    const userId = '66da8788376323eb83a883d3'; // Replace with the actual user ID
+    // Replace with the actual user ID
 
     // Use CartsService to add the selected boardgames to the cart
     this.cartsService.addCartItem({
-      user_id: userId,
+      user_id: this.userId ?? undefined,
       ordercoffee_id: [], 
       cake_id: [],       
       boardgame_id: this.selectedBoardgameIds // Add selected boardgames
@@ -68,7 +75,18 @@ togglePopup(price: number) {
     this.loadMenuItems();
     this.Get3BoardgameItems();
     this.GetinactiveBoardgameItems();
-    console.log("boardgame => "+this.boardgameinactiveItem)
+
+
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.loadUserData(this.userId); // ใช้ userId ในการโหลดข้อมูลอื่น ๆ
+      }
+    });
+    
+  }
+  loadUserData(id: string) {
+    console.log('User ID:', id);
   }
 
 
@@ -110,7 +128,7 @@ GetinactiveBoardgameItems() {
 }
 
   get displayedCards() {
-    return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 3);
+    return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 2);
   }
 
   moveRight() {

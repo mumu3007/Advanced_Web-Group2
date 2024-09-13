@@ -13,7 +13,11 @@ export class ApiService {
 
   // ฟังก์ชันเพื่อเรียก GET API
   getMenuItems(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/coffeemenu`,{withCredentials: true});
+    return this.http.get(`${this.apiUrl}/menu/coffeemenu`, { withCredentials: true });
+  }
+
+  getCakeItems(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/menu/cakemenu`, { withCredentials: true });
   }
 
   getRecommendedItems(): Observable<any> {
@@ -22,6 +26,6 @@ export class ApiService {
 
   // ฟังก์ชันเพื่อเรียก POST API
   addMenuItem(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data, {withCredentials: true});
+    return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data, { withCredentials: true });
   }
 }
