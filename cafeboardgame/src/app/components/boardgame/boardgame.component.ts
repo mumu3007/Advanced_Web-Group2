@@ -39,7 +39,6 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     const index = this.selectedBoardgameIds.indexOf(boardgameId);
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
-      this.addToCart()
       this.toastr.success('Item has been added to the cart!');
       console.log("เช็ค addtocart"+ this.addToCart)
     } else {
@@ -132,11 +131,11 @@ GetinactiveBoardgameItems() {
   }
 
   moveRight() {
-    this.currentIndex = (this.currentIndex + 1) % this.boardgameinactiveItem.length;
+    this.currentIndex = (this.currentIndex + 2) % this.boardgameinactiveItem.length;
   }
 
   moveLeft() {
-    this.currentIndex = (this.currentIndex - 1 + this.boardgameinactiveItem.length) % this.boardgameinactiveItem.length;
+    this.currentIndex = (this.currentIndex - 2 + this.boardgameinactiveItem.length) % this.boardgameinactiveItem.length;
   }
 
   updateDisplayedItems() {
@@ -154,7 +153,7 @@ GetinactiveBoardgameItems() {
   }
 
   cartForm = this.fb.group({
-    price: [{ value: 0, disabled: true }] ,
+    price: [{ value: 0, disabled: true }], 
     quantity: [1, [Validators.required, Validators.min(1)]]
   });
 
