@@ -1,60 +1,79 @@
 <!-- product-popup.component.html -->
 <div class="fixed inset-0 flex items-center justify-center z-50">
-    <div class="bg-white rounded-3xl py-12 px-8 w-96">
+    <div class="bg-white rounded-3xl py-8 px-12 w-[26rem]">
         <h2 class="text-center font-koulen text-2xl">{{ menuDetails?.name }}</h2>
 
         <!-- Radio Button ร้อน เย็น -->
-        <div class="mt-8 flex justify-center gap-8 font-koulen">
-            <div *ngFor="let type of menuDetails?.type_coffee" class="flex items-center" >
+        <div class="mt-7 flex justify-center gap-8 font-koulen">
+            <div *ngFor="let type of menuDetails?.type_coffee" class="flex items-center">
                 <label for="type-{{type}}" class="mr-2 text-2xl">{{ type }}</label>
-                <input type="radio" [value]="type" name="type" id="type-{{type}}" class="appearance-none  h-6 w-6  border-2 border-black checked:bg-[#D2091C]/50 
-                checked:border-black focus:outline-none rounded-md">
+                <input type="radio" [value]="type" name="type" id="type-{{type}}" class="appearance-none  h-6 w-6  border border-black checked:bg-redProject 
+                checked:border-black focus:outline-none rounded-md checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center">
             </div>
         </div>
 
         <!-- Dropdown เลือกระดับความหวาน -->
         <div class="mt-4 font-koulen">
             <label class="text-[18px]">Sweet</label>
-            <select class="border-2 border-black rounded p-2 w-full ">
+            <select class="border border-black rounded-lg p-2 w-full ">
                 <option *ngFor="let sweetness of [0, 25, 50, 75, 100]">{{ sweetness }}%</option>
             </select>
         </div>
 
         <!-- Radio Button เลือกขนาดแก้ว -->
-        <div class="mt-4 font-koulen">
-            <label class="text-[18px]">Size</label>
-            <div *ngFor="let size of menuDetails?.size">
-                <input type="radio" [value]="size.name" name="size" id="size-{{size.name}}">
-                <label for="size-{{size.name}}">{{ size.name }} - ฿{{ size.price }}</label>
+        <div class="flex mt-4 font-koulen justify-center gap-8 ">
+            <div *ngFor="let size of sizes let i = index" class="">
+
+                <div class="flex h-24 justify-center items-end ">
+                    <img [src]="getImageSource(i)" class="mt-2">
+                </div>
+
+                <div class="flex justify-center pt-2">
+                    <div class="text-center">
+                        <div class="flex items-end">
+                            <label for="size-{{size}}" class="block text-base leading-tight ">{{ size }}</label>
+                            <small class="text-xs lowercase pb-[1px]">{{getOz(size)}}</small>
+                        </div>
+                        <small class="-top-1 mt-[-4px] block">{{getPrice(size)}} BAHT</small>
+                        <input type="radio" [value]="size" name="size" id="size-{{size}}" (change)="onSizeChange(size)" class="appearance-none  h-6 w-6  border border-black checked:bg-redProject
+                checked:border-black focus:outline-none rounded-md checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center">
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <!-- Input กรอกรายละเอียดเพิ่มเติม -->
         <div class="mt-4 font-koulen">
-            <label class="text-[18px]">Detail:</label>
-            <input type="text" class="border-2 border-black rounded p-2 w-full" placeholder="Enter any notes">
+            <label class="text-[18px]">Details</label>
+            <textarea type="textarea" class="border border-black rounded-lg p-2 w-full min-h-16 max-h-16"
+                placeholder="Enter any notes"></textarea>
         </div>
 
         <!-- ปุ่ม เพิ่ม ลด จำนวน -->
-        <div class="mt-4 flex items-center font-koulen">
-            <button class="py-1 px-2 border-2 text-xl border-black rounded" (click)="decreaseQuantity()">-</button>
-            <span class="mx-4 text-xl">{{ quantity }}</span>
-            <button class="py-1 px-2 border-2 text-xl border-black rounded" (click)="increaseQuantity()">+</button>
+
+        <div class="mt-4 flex items-center font-koulen text-3xl justify-between">
+            <div class="">
+                <button class="px-2 border text-3xl border-black rounded" (click)="decreaseQuantity()">-</button>
+                <span class="mx-4 text-xl">{{ quantity }}</span>
+                <button class="px-2 border text-3xl border-black rounded" (click)="increaseQuantity()">+</button>
+            </div>
+                <span class="text-xl text-end pt-[17px]">Total Price: {{ totalPrice }} BAHT</span>
         </div>
 
         <!-- แสดงราคารวม -->
-        <div class="mt-4">
-            <span class="font-semibold">Total Price:</span> ฿{{ totalPrice }}
-        </div>
+
 
         <!-- ปุ่ม Close -->
         <div class="mt-6 flex justify-between font-koulen">
-            <button class=" text-redProject px-2 rounded uppercase  border-2 border-redProject" (click)="closePopup()">cancel</button>
+            <button class=" text-redProject px-2 rounded uppercase  border-2 border-redProject"
+                (click)="closePopup()">cancel</button>
             <div class="flex gap-2">
-                <button class="text-redProject px-2  rounded uppercase border-2 border-redProject" (click)="closePopup()">Add to Cart</button>
+                <button class="text-redProject px-2  rounded uppercase border-2 border-redProject"
+                    (click)="closePopup()">Add to Cart</button>
                 <button class="bg-redProject text-white px-2  rounded uppercase" (click)="closePopup()">buy now</button>
             </div>
-            
+
         </div>
     </div>
 </div>
