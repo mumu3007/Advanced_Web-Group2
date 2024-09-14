@@ -36,7 +36,7 @@ export class MenupopupComponent implements OnInit {
   ) {
     this.orderForm = this.fb.group({
       type_order: ['', Validators.required],
-      sweetness_Level: [0, Validators.required],
+      sweetness_level: [0, Validators.required],
       size: ['', Validators.required],
       description: [''],
       coffee_id: [''],
@@ -142,15 +142,28 @@ export class MenupopupComponent implements OnInit {
   onSubmit() {
     if (this.orderForm.valid) {
       const orderData = this.orderForm.value;
-      this.ordersService.addOrdersItem(
-        orderData
-      ).subscribe(
+      this.ordersService.addOrdersItem(orderData).subscribe(
         (order) => {
-          console.log('Order added to cart:', order);
+          console.log('Order added to order:', order);
           console.log(orderData)
+
+          this.cartsService.addCartItem({
+            user_id: this.userId ?? undefined,
+            ordercoffee_id: [order._id],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
+            cake_id: [],
+            boardgame_id: [],
+          }).subscribe(
+            (cart) => {
+              console.log('Order added to cart:', cart);
+              this.closePopup()
+            },
+            (error) => {
+              console.error('Error adding order to cart:', error);
+            }
+          );
         },
         (error) => {
-          console.error('Error adding order to cart:', error);
+          console.error('Error adding order to order:', error);
           console.log(orderData)
         }
       );
