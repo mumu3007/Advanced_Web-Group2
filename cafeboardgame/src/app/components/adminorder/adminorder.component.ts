@@ -41,6 +41,14 @@ export class AdminorderComponent {
 
   });
 
+  CakemenuForm = new FormGroup({
+    name: new FormControl(''),
+    cakedescription: new FormControl(''),
+    cakeprice: new FormControl(),
+    upload: new FormControl(null),
+    
+  });
+
   AddMenuItem() {
     if (this.BeveragemenuForm.valid) {
         // รับค่าจากฟอร์ม
