@@ -1,5 +1,6 @@
 <app-navbaradmin></app-navbaradmin>
 <div class="bg-bgPro h-screen">
+  <p-toast></p-toast>
   <div class="pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative ">
       <span class="grow h-[2px] bg-redProject"></span>
           <div class="flex justify-center space-x-32 mx-12">
@@ -34,6 +35,7 @@
         <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 top-[-18px] absolute" style="font-size: 24px; display: inline-block; padding: 0 10px;">ADD ITEMS TO THE MENU</h3>
        
         <!-- เพิ่มเมนู -->
+        
         <form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()">
           <div class="form-group">
             <input type="text" placeholder="Name" class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400" formControlName='name'>
@@ -79,13 +81,13 @@
             bg-bgPro outline-none border-2 border-redProject rounded-xl">
               <option value="status" selected>Status</option>
               <option value="regular">Regular Menu</option>
-              <option value="recom">Recommended Menu</option>         
+              <option value="recommended">Recommended Menu</option>         
             </select>
           </div>
 
           <div class="flex justify-between">
-            <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
-            hover:bg-redProject hover:text-white transition-all duration-500">DELETE</button>
+            <button (click)="ClearBeveragemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
+            hover:bg-redProject hover:text-white transition-all duration-500">CLEAR</button>
             <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
             hover:bg-[#B70A1A] transition-all duration-500">ADD ITEM</button>
           </div>
@@ -117,7 +119,7 @@
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 top-[-18px] absolute" style="font-size: 24px; display: inline-block; padding: 0 10px;">ADD ITEMS TO THE MENU</h3>
      
       <!-- เพิ่มเมนูเค้ก -->
-      <form [formGroup]="CakemenuForm">
+      <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()">
         <div class="form-group">
           <input type="text" placeholder="Name" class="form-control font-koulen text-[18px] w-[560px] h-14 p-2 mb-6 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400" formControlName='name'>
           <textarea  placeholder="Description" rows="5" class="form-control font-koulen text-[18px] w-[560px] h-60 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400" formControlName='cakedescription'></textarea>
@@ -134,8 +136,8 @@
         </div>
 
         <div class="flex justify-between">
-          <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
-          hover:bg-redProject hover:text-white transition-all duration-500">DELETE</button>
+          <button (click)="ClearCakemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
+          hover:bg-redProject hover:text-white transition-all duration-500">CLEAR</button>
           <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
           hover:bg-[#B70A1A] transition-all duration-500">ADD ITEM</button>
         </div>

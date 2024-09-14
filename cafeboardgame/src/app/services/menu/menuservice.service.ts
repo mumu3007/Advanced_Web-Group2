@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CakeMenu } from '../../models/cakemenu.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,12 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/menu/recommended_coffee`, { withCredentials: true });
   }
 
-  // ฟังก์ชันเพื่อเรียก POST API
+
   addMenuItem(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data, { withCredentials: true });
+  }
+
+  addCakeItem(data: CakeMenu): Observable<any> {
+    return this.http.post(`${this.apiUrl}/menu/cakemenu`, data, { withCredentials: true });
   }
 }
