@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit {
   displayedMenuItems: any[] = [];
   displayedCakeItems: any[] = [];
   recommendedItems: any[] = [];
+  sizes = ['tall', 'grande', 'venti'];
   currentPage: number = 0;
   currentCakePage: number = 0;
   itemsPerPage: number = 6;
@@ -85,6 +86,19 @@ export class MenuComponent implements OnInit {
         console.error('Error fetching menu:', error);
       }
     );
+  }
+
+  getPriceBySize(item: any, index: number): number {
+    switch (index) {
+      case 0:
+        return item.s_price;  // TALL
+      case 1:
+        return item.m_price;  // GRANDE
+      case 2:
+        return item.l_price;  // VENTI
+      default:
+        return 0;
+    }
   }
 
   scrollToSection(sectionId: string): void {
