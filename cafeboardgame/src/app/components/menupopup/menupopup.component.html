@@ -10,7 +10,8 @@
                     <label for="type-{{ type }}" class="mr-2 text-2xl">{{ type }}</label>
                     <input type="radio" [value]="type" formControlName="type_order" name="type_order"
                         id="type-{{ type }}"
-                        class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md" />
+                        class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md
+                        checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center" />
                 </div>
             </div>
 
@@ -38,7 +39,8 @@
                             <small class="-top-1 mt-[-4px] block">{{ getPrice(size) }} BAHT</small>
                             <input type="radio" [value]="size" formControlName="size" name="size" id="size-{{ size }}"
                                 (change)="onSizeChange(size)"
-                                class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md" />
+                                class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md
+                                checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center" />
                         </div>
                     </div>
                 </div>
