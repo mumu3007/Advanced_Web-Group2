@@ -1,48 +1,49 @@
 <nav [ngClass]="{'bg-white/40 text-black shadow-md saturate-[130%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled}" 
      class="fixed top-0 left-0 right-0 transition-all duration-300 z-50 p-3">
-  <div class="container mx-auto">
-    <div class="flex justify-between items-center">
-      <div>
-        <a routerLink="/">
-          <img src="../../../assets/CafeBOARDgame.png" alt="Logo" />
-        </a>
-      </div>
-      <ul class="flex space-x-10 font-semibold text-base font-sans">
-        <li class="hover:border-b-2 transition-all ease-in-out">
-          <a routerLink="/">Home</a>
-        </li>
-        <li class="hover:border-b-2 transition-all ease-in-out">
-          <a routerLink="/menu">Menu</a>
-        </li>
-        <li class="hover:border-b-2 transition-all ease-in-out">
-          <a routerLink="/boardgame">Boardgame</a>
-        </li>
-        <li class="hover:border-b-2 transition-all ease-in-out hover:scale-125 relative">
-          <!-- ป้ายจำนวนสินค้า -->
-          <div *ngIf="totalItemCount > 0" class="absolute rounded-full bg-redProject text-white -right-2 -top-1 text-xs w-5 h-5 flex items-center justify-center">
-            {{ totalItemCount }}
-          </div>
-          
-          <!-- ไอคอนถุงช้อปปิ้ง -->
-          <a routerLink="/cart">
-            <i class="fa-solid fa-basket-shopping text-2xl"></i>
+     <div class="container mx-auto">
+      <div class="flex justify-between items-center">
+        <div>
+          <a routerLink="/">
+            <img src="../../../assets/CafeBOARDgame.png" alt="Logo" />
           </a>
-        </li>
-        
-        
-        <!-- แสดงถ้าผู้ใช้ล็อกอินแล้ว -->
-        <ng-container *ngIf="isLoggedIn; else notLoggedIn">
-          <div class="relative" (mouseenter)="showDropdown = true" (mouseleave)="showDropdown = false">
-            <!-- ชื่อผู้ใช้ -->
-            <p class="cursor-pointer text-2xl"><i class="fa-solid fa-user"></i></p>
-        
-            <!-- เมนู Dropdown -->
-            <ul *ngIf="showDropdown" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
-
-              <li class="py-2 px-4 hover:bg-gray-200 cursor-pointer" >nǐ hǎo <span class="text-amber-400 text-xl">{{userData.name}}</span></li>
-              <li class="py-2 px-4 hover:bg-gray-200 cursor-pointer" (click)="logout()">Sign out</li>
-            </ul>
-          </div>
+        </div>
+        <ul class="flex space-x-10 font-semibold text-base font-sans">
+          <li class="hover:border-b-2 transition-all ease-in-out">
+            <a routerLink="/">Home</a>
+          </li>
+          <li class="hover:border-b-2 transition-all ease-in-out">
+            <a routerLink="/menu">Menu</a>
+          </li>
+          <li class="hover:border-b-2 transition-all ease-in-out">
+            <a routerLink="/boardgame">Boardgame</a>
+          </li>
+          <li class="group-hover:border-b-2 transition-all ease-in-out hover:scale-125 relative">
+            <!-- ป้ายจำนวนสินค้า -->
+            <div *ngIf="totalItemCount > 0" class="hover:animate-ping absolute rounded-full bg-redProject text-white -right-2 -top-1 text-xs w-5 h-5 flex items-center justify-center">
+              {{ totalItemCount }}
+            </div>
+            
+            <!-- ไอคอนถุงช้อปปิ้ง -->
+            <a routerLink="/cart">
+              <i class="fa-solid fa-basket-shopping text-2xl"></i>
+            </a>
+          </li>
+          
+          <!-- แสดงถ้าผู้ใช้ล็อกอินแล้ว -->
+          <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+            <div class="relative" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()">
+              <!-- ชื่อผู้ใช้ -->
+              <p class="cursor-pointer text-2xl"><i class="fa-solid fa-user"></i></p>
+          
+              <!-- เมนู Dropdown -->
+              <ul *ngIf="showDropdown"
+              class="absolute right-0 mt-2 w-48 bg-white border shadow-lg origin-top-right rounded-lg transition-transform duration-300 ease-in-out"
+              [ngClass]="{'scale-100 opacity-100': showDropdown, 'animate-closedrop': !showDropdown}">
+              
+                <li class="py-2 px-4 hover:bg-red-500 cursor-pointer text-center text-xl hover:text-white">nǐ hǎo <span class="text-amber-400 text-xl">{{userData.name}}</span></li>
+                <li class="py-2 px-4 hover:bg-red-500 cursor-pointer text-center text-xl hover:text-white" (click)="logout()">Sign out</li>
+              </ul>
+            </div>
         </ng-container>
         
 

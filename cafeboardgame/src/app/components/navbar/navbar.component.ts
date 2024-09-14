@@ -13,15 +13,38 @@ import { CartsService } from '../../services/carts/carts.service';
 })
 export class NavbarComponent implements OnInit {
   scrolled = false;
+ 
+  hideDropdownTimeout: any;
+
 
   isLoggedIn = false; // เช็คสถานะการล็อกอิน
   userData: any = null; // เก็บข้อมูลผู้ใช้
   userId: string | null = null; // เพิ่มตัวแปรเก็บ userId
-showDropdown: boolean = false;
+  showDropdown: boolean = false;
   totalItemCount!: number ;
 
   constructor(private authService: AuthService, private router: Router,private cartsService: CartsService) {}
+  openDropdown(): void {
+    if (this.hideDropdownTimeout) {
+      clearTimeout(this.hideDropdownTimeout);
+    }
+    this.showDropdown = true;
+  }
 
+  // ฟังก์ชันปิด dropdown พร้อมดีเลย์
+  closeDropdown(): void {
+    if (this.hideDropdownTimeout) {
+      clearTimeout(this.hideDropdownTimeout);
+    }
+    // เพิ่มคลาสแอนิเมชัน
+    this.showDropdown = false;
+  
+    // ตั้งเวลาในการปิด dropdown
+    this.hideDropdownTimeout = setTimeout(() => {
+      this.showDropdown = false;
+    }, 2000); // หน่วงเวลา 300 มิลลิวินาที
+  }
+  
   ngOnInit() {
     this.checkLoginStatus(); // เช็คสถานะล็อกอินเมื่อโหลดคอมโพเนนต์
     this.authService.getUserId().subscribe((id) => {
