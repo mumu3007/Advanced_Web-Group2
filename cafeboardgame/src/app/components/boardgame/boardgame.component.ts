@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
@@ -30,6 +30,11 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   showPopup: boolean = false;
   selectedPrice: number = 0;
   userId: string | null =null;
+  scrollPosition: number = 0;
+  sectionlefttoright: string | undefined;
+  sectionrigthtoleft: string | undefined;
+  sectionopcity1: string | undefined;
+  sectionopcity2: string | undefined;
   
   constructor(private boardgameservice :BoardgameserviceService ,
      private fb: FormBuilder,
@@ -49,7 +54,33 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       this.selectedBoardgameIds.splice(index, 1);
     }
   }
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event): void {
+    this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
+    if (this.scrollPosition > 30){
+      this.sectionopcity1 = 'animate-opacityfade'
+    }
+    else{
+      this.sectionopcity1 = 'hidden'
+    }
+    // เปลี่ยนสีพื้นหลังเมื่อเลื่อนถึง 2000px
+    if (this.scrollPosition > 800) {
+      this.sectionlefttoright = 'animate-lefttoright';
+      this.sectionrigthtoleft = 'animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
+    } else {
+      this.sectionlefttoright = 'hidden'; // สีพื้นหลังเริ่มต้น
+      this.sectionrigthtoleft = 'hidden'; // สีพื้
+    }
+    if (this.scrollPosition > 1300){
+      this.sectionopcity2 = 'animate-opacityfade'
+    }
+    else{
+      this.sectionopcity2 = 'hidden'
+    }
+    console.log("scoll => "+this.scrollPosition)
+  }
+    
 
   addToCart(): void {
     // Replace with the actual user ID
