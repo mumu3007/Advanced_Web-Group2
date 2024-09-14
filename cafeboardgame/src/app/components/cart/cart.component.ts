@@ -12,6 +12,10 @@ export class CartComponent implements OnInit {
   totalPrice: number = 0;
   userId?: string | null | undefined;
 
+  showPopup: boolean = false;
+  selectedPrice: number = 0;
+  selectedCartId: string | null | undefined
+
   constructor(private cartsService: CartsService, private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -30,6 +34,9 @@ export class CartComponent implements OnInit {
   loadCart(userId: string): void {
     this.cartsService.getCart(userId).subscribe(
       (cart) => {
+
+        this.selectedCartId = cart.cart._id;
+       
         // รวมสินค้าที่ซ้ำกัน
         const combinedItems: { [key: string]: any } = {};
 
@@ -69,5 +76,11 @@ export class CartComponent implements OnInit {
     
     // อัพเดทราคาหลังจากลบ
     this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  }
+
+  togglePopup() {
+   
+    
+    this.showPopup = !this.showPopup; // Toggle modal visibility
   }
 }
