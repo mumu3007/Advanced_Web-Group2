@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 import { jwtDecode } from 'jwt-decode';
+import { CartsService } from '../../services/carts/carts.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +17,10 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false; // เช็คสถานะการล็อกอิน
   userData: any = null; // เก็บข้อมูลผู้ใช้
   userId: string | null = null; // เพิ่มตัวแปรเก็บ userId
+showDropdown: boolean = false;
+  totalItemCount!: number ;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,private cartsService: CartsService) {}
 
   ngOnInit() {
     this.checkLoginStatus(); // เช็คสถานะล็อกอินเมื่อโหลดคอมโพเนนต์
@@ -25,7 +28,8 @@ export class NavbarComponent implements OnInit {
       this.userId = id; // ดึง userId และเก็บไว้ในตัวแปร
 
       if (this.userId) {
-        this.loadUserData(this.userId); // เรียกใช้ getUserById เพื่อดึงข้อมูลผู้ใช้
+        this.loadUserData(this.userId);
+        this.loadCart(this.userId) // เรียกใช้ getUserById เพื่อดึงข้อมูลผู้ใช้
       }
     });
   }
@@ -46,6 +50,47 @@ export class NavbarComponent implements OnInit {
       }
     );
   }
+  
+  loadCart(userId: string): void {
+    this.cartsService.getCart(userId).subscribe(
+      (cart) => {
+        // รวมสินค้าที่ซ้ำกัน
+        const combinedItems: { [key: string]: any } = {};
+        let countItem: number = 0; // ประกาศตัวแปรเก็บจำนวนทั้งหมด
+        
+        // ดึงข้อมูลของแต่ละประเภทสินค้า
+        const allItems = [
+          ...cart.cart.ordercoffee_id,
+          ...cart.cart.cake_id,
+          ...cart.cart.boardgame_id
+        ];
+  
+        allItems.forEach((item: any) => {
+          const id = item._id.toString();
+          
+          if (!combinedItems[id]) {
+            combinedItems[id] = {
+              ...item,
+              quantity: 1, // เริ่มต้นด้วยจำนวน 1
+              type: item.type ? item.type.name : 'Unknown' // เพิ่มประเภทสินค้า (ถ้ามี)
+            };
+          } else {
+            combinedItems[id].quantity++; // ถ้ามีสินค้าซ้ำ ให้เพิ่มจำนวน
+          }
+          countItem++; // เพิ่มจำนวนให้ countItem ตามจำนวนสินค้าใน allItems
+        });
+  
+        // หลังจากรวมสินค้าซ้ำแล้ว สามารถนำ countItem ไปแสดงหรือใช้ในฟังก์ชันอื่น ๆ ได้
+        console.log('Total items in cart:', countItem);
+  
+        // คุณอาจต้องการอัพเดตจำนวนทั้งหมดในตัวแปรใน component เช่น:
+        this.totalItemCount = countItem;
+  
+      },
+      (error) => console.error('Error loading cart:', error)
+    );
+  }
+  
 
   logout() {
     this.authService.logout().subscribe(() => {

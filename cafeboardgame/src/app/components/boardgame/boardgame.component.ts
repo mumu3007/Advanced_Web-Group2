@@ -4,10 +4,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
-  styleUrls: ['./boardgame.component.css']
+  styleUrls: ['./boardgame.component.css'],
+
 })
 export class BoardgameComponent implements OnInit {
 totalPrice: any;
@@ -32,14 +35,15 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
      private fb: FormBuilder,
      private cartsService: CartsService,
      private authService :AuthService,
-     private toastr: ToastrService) { }
+     private messageService: MessageService 
+     ) { }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
     const index = this.selectedBoardgameIds.indexOf(boardgameId);
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
-      this.toastr.success('Item has been added to the cart!');
+      
       console.log("เช็ค addtocart"+ this.addToCart)
     } else {
       this.selectedBoardgameIds.splice(index, 1);
@@ -58,10 +62,19 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       boardgame_id: this.selectedBoardgameIds // Add selected boardgames
     }).subscribe(
       (cart) => {
-        console.log('Boardgames added to cart:', cart);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Boardgames added to cart',
+        });
+        
       },
       (error) => {
-        console.error('Error adding boardgames to cart:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Add to cart failed. Please try again.',
+        });
       }
     );
   }

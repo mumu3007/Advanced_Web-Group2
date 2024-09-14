@@ -1,6 +1,7 @@
 <div class="bg-orange-100/50">
   <app-navbar></app-navbar>
   <div class="container mx-auto">
+    <p-toast></p-toast>
     <section class="flex justify-between h-screen items-center px-10">
       <!-- ตัวละครทางซ้าย -->
       <div class="relative flex items-center">
@@ -143,7 +144,7 @@
           
       </div>
     </section>
-    <section class="bg-[#F4F1EC] h-screen">
+    <section class="bg-orange-100/50 h-screen">
       
             <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
             <section id="beverage" class="pt-24">
@@ -224,9 +225,10 @@
                     <div class="absolute right-0 bottom-0 flex justify-between w-full ">
                       <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
                       <div class="space-x-3">
-                        <button (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
-                        <button (click)="togglePopup(245)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
-                        <app-payment *ngIf="showPopup" [price]="totalPrice" (close)="togglePopup(totalPrice)"></app-payment> <!-- Update price here -->
+                        <button type="submit" (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
+                       <a routerLink="/cart">
+                         <button (click)="selectBoardgame(selectedItem._id)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
+                       </a> 
                       </div>
                     </div>
                   </div>
