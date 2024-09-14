@@ -37,7 +37,8 @@
               <span>{{ totalPrice }} BAHT</span>
             </div>
           </div>
-          <button class="w-full bg-red-600 text-white py-2 rounded mt-4">PROCEED TO CHECKOUT</button>
+          <button (click)="togglePopup()" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">PROCESS TO CHECKOUT</button>
+          <app-payment *ngIf="showPopup" [price]="totalPrice" [cart_id]="selectedCartId" (close)="togglePopup()"></app-payment> <!-- Update price here -->
         </div>
       </div>
     </div>
