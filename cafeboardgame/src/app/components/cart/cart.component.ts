@@ -45,6 +45,7 @@ export class CartComponent implements OnInit {
           ...cart.cart.ordercoffee_id,
           ...cart.cart.ordercake_id,
           ...cart.cart.boardgame_id
+          
         ];
 
         allItems.forEach((item: any) => {

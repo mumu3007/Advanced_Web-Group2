@@ -1,7 +1,7 @@
 import { environment } from '../../../environments/enviroment'; // Fix typo here (environment)
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CartItem } from '../../models/cart.model'; 
+import { CartItem } from '../../models/cart.model';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -25,5 +25,6 @@ export class OrdersService {
 
 
 }
+
 
 

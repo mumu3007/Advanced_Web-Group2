@@ -58,12 +58,17 @@ router.get('/:userId', async (req, res) => {
 
 router.post('/add', async (req, res, next) => {
   try {
-    const { user_id, ordercoffee_id, ordercake_id, boardgame_id } = req.body;
+    const { user_id, ordercoffee_id, ordercake_id, boardgame_id ,boardgame_quantity} = req.body;
     const total_price = 0
     // Validate the IDs
     if (!user_id || !Array.isArray(ordercoffee_id) || !Array.isArray(ordercake_id) || !Array.isArray(boardgame_id)) {
       return res.status(400).json({ message: "Invalid input data" });
     }
+
+    if (boardgame_id.length !== boardgame_quantity.length) {
+      return res.status(400).json({ message: "Boardgame ID and quantity arrays must have the same length" });
+    }
+
     const countDuplicateIds = (idArray) => {
       return idArray.reduce((acc, id) => {
         if (id) {  // ตรวจสอบว่า id ไม่เป็นค่าว่าง
@@ -73,8 +78,16 @@ router.post('/add', async (req, res, next) => {
       }, {});
     };
     const ordercoffeeCount = countDuplicateIds(ordercoffee_id);
-    const ordercakeCount = countDuplicateIds(ordercake_id);
-    const boardgameCount = countDuplicateIds(boardgame_id);
+const ordercakeCount = countDuplicateIds(ordercake_id);
+
+     // Calculate the total quantities for boardgames
+     const boardgameCount = boardgame_id.reduce((acc, id, index) => {
+      const quantity = boardgame_quantity[index];
+      if (id && quantity > 0) {
+        acc[id] = (acc[id] || 0) + quantity;
+      }
+      return acc;
+    }, {});
 
     console.log("Ordercoffee Count:", ordercoffeeCount);
     console.log("OrderCake Count:", ordercakeCount);
@@ -86,9 +99,9 @@ router.post('/add', async (req, res, next) => {
       Boardgame.find({ '_id': { $in: Object.keys(boardgameCount) } })
     ]);
 
-    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.total_price * ordercoffeeCount[item._id]), 0);
+    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.price * ordercoffeeCount[item._id]), 0);
     const ordercakeTotal = ordercakes.reduce((sum, item) => sum + (item.total_price * ordercakeCount[item._id]), 0);
-    const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
+  const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
 
     const totalPriceToAdd = ordercoffeeTotal + ordercakeTotal + boardgameTotal;
 
@@ -111,7 +124,12 @@ router.post('/add', async (req, res, next) => {
       cart.ordercake_id.push(...ordercake_id);
     }
     if (boardgame_id.length > 0) {
-      cart.boardgame_id.push(...boardgame_id);
+      boardgame_id.forEach((id, index) => {
+        const quantity = boardgame_quantity[index];
+        for (let i = 0; i < quantity; i++) {
+          cart.boardgame_id.push(id);
+        }
+      });
     }
     const finalOrdercoffeeCount = countDuplicateIds(cart.ordercoffee_id);
     const finalOrdercakeCount = countDuplicateIds(cart.ordercake_id);

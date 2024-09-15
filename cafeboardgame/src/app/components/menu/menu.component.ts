@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
     this.showPopup = true;
     console.log(menuId);
   }
-  
+
 
   closePopup() {
     this.showPopup = false;
@@ -172,14 +172,5 @@ export class MenuComponent implements OnInit {
 
   
 
-  // // รีเซ็ตฟอร์ม
-  // resetForm() {
-  //   this.cartForm.reset({
-  //     selectedOption: 'hot',
-  //     selectedSweetness: '50%',
-  //     additionalDetails: '',
-  //     quantity: 1,
-  //   });
-  //   this.calculateTotalPrice();
-  // }
 }
+

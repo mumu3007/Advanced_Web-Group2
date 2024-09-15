@@ -80,25 +80,25 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     }
     console.log("scoll => "+this.scrollPosition)
   }
-    
-
   addToCart(): void {
-    // Replace with the actual user ID
-
-    // Use CartsService to add the selected boardgames to the cart
-    this.cartsService.addCartItem({
+    const quantity = this.cartForm.get('quantity')?.value ?? 1;
+    // Assuming `this.selectedBoardgameIds` and `this.boardgameQuantity` are properly populated
+    const payload = {
       user_id: this.userId ?? undefined,
       ordercoffee_id: [], 
-      ordercake_id: [],       
-      boardgame_id: this.selectedBoardgameIds // Add selected boardgames
-    }).subscribe(
+      ordercake_id: [],    
+      boardgame_id: this.selectedBoardgameIds,
+      boardgame_quantity: Array(this.selectedBoardgameIds.length).fill(quantity) // Fill quantity for all selected boardgames
+    };
+  
+    this.cartsService.addCartItem(payload).subscribe(
       (cart) => {
+        console.log(payload)
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Boardgames added to cart',
         });
-        
       },
       (error) => {
         this.messageService.add({
@@ -109,6 +109,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       }
     );
   }
+  
 togglePopup(price: number) {
   this.selectedPrice = price;
   this.showPopup = !this.showPopup; // Toggle modal visibility

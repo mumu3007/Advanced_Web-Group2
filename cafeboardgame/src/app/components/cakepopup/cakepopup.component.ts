@@ -49,6 +49,7 @@ export class CakepopupComponent {
     console.log('User ID:', id);
   }
 
+  
   loadCakeDetails() {
     this.menupopupService.getCakeDetails(this.cakeId!).subscribe((data) => {
       this.cakeDetails = data;
@@ -56,7 +57,7 @@ export class CakepopupComponent {
       this.totalPrice = this.cakeDetails.price
     });
   }
-  
+
 
   getPrice(): number {
         return this.cakeDetails?.price || 0;

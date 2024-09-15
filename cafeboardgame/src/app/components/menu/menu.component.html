@@ -17,6 +17,7 @@
   <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
   <div *ngIf="showCakePopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
 
+  
   <!-- ตัว Popup -->
   <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
   <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (close)="closePopup()"></app-cake-popup>
@@ -157,7 +158,7 @@
             </div>
 
 
-            
+
 
           </div>
           <div class="flex justify-center mt-auto">
