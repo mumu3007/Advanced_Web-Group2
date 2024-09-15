@@ -218,7 +218,7 @@
                   <div class="flex space-x-5 items-end justify-start">
                     <div class="">  
                       <button type="button" (click)="decreaseQuantity()" class="px-2 py-1 bg-gray-300 rounded mr-2">-</button>
-                      <span>{{ cartForm.get('quantity')?.value }}</span>
+                      <input type="number" formControlName="quantity" min="1" />
                       <button type="button" (click)="increaseQuantity()" class="px-2 py-1 bg-gray-300 rounded ml-2">+</button>
                     </div>
                     <small class="text-slate-600">คงเหลือในคลัง: {{selectedItem.quantity}}</small>
