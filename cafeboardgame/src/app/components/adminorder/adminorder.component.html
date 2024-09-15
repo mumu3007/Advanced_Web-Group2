@@ -105,7 +105,8 @@
                 <div class="text-sm text-gray-500 whitespace-pre-line">{{ order.description }}</div>
               </div>
             </div>
-            <button type="button" class="text-lg text-formfPro font-koulen w-40 text-end hover:text-redProject">Update</button>
+            <button (click)="openPopup()" type="button" class="text-lg text-formfPro font-koulen w-40 text-end hover:text-redProject">Update</button>
+            <app-itemlistpopup *ngIf="showPopup" (close)="closePopup()"></app-itemlistpopup>
             <button type="button" class="text-lg text-formfPro font-koulen w-40 text-end hover:text-redProject">Delete</button>
           </div>
         </div>
