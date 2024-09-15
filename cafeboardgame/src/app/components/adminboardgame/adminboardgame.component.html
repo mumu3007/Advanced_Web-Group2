@@ -1,60 +1,117 @@
 <app-navbaradmin></app-navbaradmin>
 
-<div class="bg-orange-100/50 h-screen">
+<div class="bg-bgPro h-screen">
     <div class=" pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-8">
         <span class="grow h-[2px] bg-redProject"></span>
         <div class="flex justify-center space-x-32 mx-12">
-            <a class="cursor-pointer hover:text-red-600">ALL ORDERS</a>
-            <a class="cursor-pointer hover:text-red-600">Time reservation</a>
-            <a class="cursor-pointer hover:text-red-600">boardgame</a>
+            <a (click)="showSection('all-boardgame')" class="cursor-pointer hover:text-red-600">ALL boardgame</a>
+            <a (click)="showSection('boardgame')" class="cursor-pointer hover:text-red-600">boardgame</a>
         </div>
         <span class="grow h-[2px] bg-redProject"></span>
-     </div>
-    <!--<div class="flex h-[60%] justify-center gap-7 ">
-        <div class="w-[40%] ">
-            <div class="h-full  border-redProject border-[3px] rounded-3xl" >
-                
-            </div>
-        
-        </div>
-        <div class="w-[50%] flex flex-col">
-            <div class="h-[25%]">
-                <div class=" h-full border-redProject  border-b-2" >  </div>
-            </div>
-            <div class="h-[25%]">
-                <div class="h-full  border-redProject  border-b-2" >  </div>
-            </div>
-           
-        </div>
-    </div> -->
+    </div>
 
-    <!-- Reserve -->
-    <!-- <div class="flex justify-center h-24 mt-9">
-        <div class="w-[75%] ">
-            <div class="h-full border-redProject border-b-2">
-                <div class="flex justify-between h-full ">
-                    <div class="w-[15%] ">
-                        <img class="h-full" src="../../../assets/clock.png" alt="">
+    <div *ngIf="currentSection === 'boardgame'" id="boardgame" class="flex justify-center gap-10">
+        <form [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame()">
+            <div class="">
+                <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
+                    style="font-size: 24px; display: inline-block; padding: 0 10px;">Add board game to the list</h3>
+                <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
+                    <div class="form-control flex flex-row gap-4">
+                        <input type="text" placeholder="Name"
+                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                            formControlName='name'>
+                        <input type="number" placeholder="price"
+                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                            formControlName='price' min="0" step="any">
                     </div>
-                    <div class="h-full w-80 border-redProject ">
-                        <h2 class="text-[20px] font-koulen">Rinnee</h2>
-                        <p class="text-[14px] text-black/80 font-koulen ">Number of players : x5</p>
-                        <p class="text-[14px] text-black/80 font-koulen ">date : 12/12/24</p>
+                    <textarea type="text" placeholder="Details.."
+                        class="font-koulen text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
+                        formControlName='description'></textarea>
+
+                    <div class="flex flex-row gap-4">
+                        <select
+                            class=" font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400"
+                            formControlName="type">
+                            <option value="" disabled selected>Category</option>
+                            <option *ngFor="let i of typeItems" [value]="i._id">{{i.name}}</option>
+
+                        </select>
+                        <input type="number" placeholder="Quantity"
+                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                            formControlName='quantity' min="0" step="any">
                     </div>
-                    <div class="h-full w-28 border-redProject ml-40">
-                        <h2 class="text-[20px] font-koulen">10 Hour</h2>
+                    <div class="flex flex-row gap-4 pb-9">
+                       
+                        <select
+                            class=" form-control font-koulen text-[18px] text-redProject w-[40%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
+                            formControlName="status">
+                            <option value="status" disabled selected>Status</option>
+                            <option [value]="true">Available</option>
+                            <option [value]="false">Unavailable</option>
+                        </select>
+                        <input type="file" class="form-control text-[16px] text-redProject font-koulen w-80 
+                        file:mr-4 file:py-2 file:px-4
+                        file:w-44 file:h-12
+                        file:text-[18px] file:font-koulen
+                        file:rounded-xl file:border-2 file:border-redProject
+                        file:bg-transparent file:text-redProject" />
+
+                        <!-- <span class="sr-only">Choose file</span> -->
+                        
                     </div>
-                    <div class="h-full w-28 border-redProject ml-40">
-                        <h2 class="text-[20px] font-koulen">625 BAHT</h2>
+
+                    <div class="flex justify-between ">
+                        <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
+                             hover:bg-redProject hover:text-white transition-all duration-500">DELETE</button>
+                        <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
+                            hover:bg-[#B70A1A] transition-all duration-500">ADD ITEM</button>
                     </div>
                 </div>
             </div>
+        </form>
+
+        <div class="w-[50%] flex flex-col gap-4">
+            <div class="h-[24%] ">
+                <div class=" h-full border-redProject  border-b-2">
+                    <div class="flex justify-between h-full">
+                        <div class="w-[15%]  flex justify-center ">
+                            <img class="w-[96%] h-[90%] rounded-2xl" src="../../../assets/7WondersDuel.webp" alt="">
+                        </div>
+                        <div class="">
+                            <div>
+                                <h2 class="text-[20px] font-koulen">Berry Chantilly Cake</h2>
+                                <p class="text-[14px] text-black/80 font-koulen ">category : Family Game, Party Game</p>
+                                <p class="text-[14px] text-black/80 font-koulen ">price : 625 BAHT</p>
+                            </div>
+                        </div>
+                        <div class="ml-40">
+                            <div>
+                                <h2 class="text-[20px] font-koulen">X2</h2>
+                            </div>
+
+                        </div>
+                        <div class="ml-40">
+                            <button type="button"
+                                class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500">update</button>
+                        </div>
+                        <div class="">
+                            <button type="button"
+                                class="font-koulen text-[20px]  text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500">DELETE</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </div> -->
-    <!-- Reserve -->
+    </div>
+
+
+
+
+
     <!-- boardgame -->
-    
-    <div class="flex justify-center h-28 ">
+
+    <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-28 ">
         <div class="w-[75%] ">
             <div class="h-full border-redProject border-b-2">
                 <div class="flex justify-between h-full ">
@@ -64,14 +121,14 @@
                     <div class="content-center">
                         <div>
                             <h2 class="text-[20px] font-koulen">Berry Chantilly Cake</h2>
-                            <p class="text-[14px] text-black/80 font-koulen ">category : Family Game, Party Game</p>    
+                            <p class="text-[14px] text-black/80 font-koulen ">category : Family Game, Party Game</p>
                         </div>
                     </div>
                     <div class="ml-52 content-center">
                         <div>
                             <h2 class="text-[20px] font-koulen">X2</h2>
                         </div>
-                        
+
                     </div>
                     <div class="w-28 ml-40 content-center">
                         <div>
@@ -84,8 +141,6 @@
     </div>
 
     <!-- boardgame -->
-
-
 
 
 

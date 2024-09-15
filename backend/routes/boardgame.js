@@ -76,7 +76,7 @@ router.get('/:id', async (req, res, next) => {
 //create boardgame มี boardGameType._id มาด้วย
 router.post('/boardgame', async (req, res, next) => {
   try {
-    const { name, price, description, quantity, photo, type } = req.body;
+    const { name, price, description, quantity, photo,create_at, status, type } = req.body;
 
     const boardGameType = await Boardgametype.findById(type);
 
@@ -92,12 +92,13 @@ router.post('/boardgame', async (req, res, next) => {
       quantity,
       price,
       photo,
+      create_at,
+      status,
       type: boardGameType._id // เชื่อมโยง Boardgametype
     });
 
     // Save the new boardgame to the database
     const savedBoardgame = await newBoardgame.save();
-
     res.status(201).json(savedBoardgame);
   } catch (err) {
     next(err);

@@ -26,4 +26,9 @@ export class BoardgameserviceService {
   addBoardgame(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/boardgame/boardgame`, data,{withCredentials: true});
   }
+
+  getBoardgameType(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/boardgametype/all`,{withCredentials: true}) ;
+  }
+
 }
