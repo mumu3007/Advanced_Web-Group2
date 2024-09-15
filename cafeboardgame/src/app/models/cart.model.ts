@@ -4,7 +4,7 @@ export interface CartItem {
     total_price?: number;
     user_id?: string; // User ID as a string
     ordercoffee_id?: string[]; // Array of Object IDs as strings
-    cake_id?: string[]; // Array of Object IDs as strings
+    ordercake_id?: string[]; // Array of Object IDs as strings
     boardgame_id?: string[]; // Array of Object IDs as strings
   }
   

@@ -89,7 +89,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     this.cartsService.addCartItem({
       user_id: this.userId ?? undefined,
       ordercoffee_id: [], 
-      cake_id: [],       
+      ordercake_id: [],       
       boardgame_id: this.selectedBoardgameIds // Add selected boardgames
     }).subscribe(
       (cart) => {

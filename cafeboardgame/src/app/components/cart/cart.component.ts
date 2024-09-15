@@ -43,7 +43,7 @@ export class CartComponent implements OnInit {
         // ดึงข้อมูลของแต่ละประเภทสินค้า
         const allItems = [
           ...cart.cart.ordercoffee_id,
-          ...cart.cart.cake_id,
+          ...cart.cart.ordercake_id,
           ...cart.cart.boardgame_id
         ];
 

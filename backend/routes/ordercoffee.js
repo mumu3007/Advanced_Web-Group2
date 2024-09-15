@@ -35,7 +35,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/order', async (req, res, next) => {
   try {
-    const { size, description, price, sweetness_level, type_order, quantity, coffee_id } = req.body;
+    const { size, description, total_price, sweetness_level, type_order, quantity, coffee_id } = req.body;
 
     const coffeeMenu = await Coffeemenu.findById(coffee_id);
 
@@ -47,7 +47,7 @@ router.post('/order', async (req, res, next) => {
     const newOrdercoffee = new Ordercoffee({
       size,
       description,
-      price,
+      total_price,
       sweetness_level,
       type_order,
       quantity,
