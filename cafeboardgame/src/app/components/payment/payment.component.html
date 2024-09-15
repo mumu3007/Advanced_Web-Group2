@@ -7,7 +7,7 @@
     <!-- Close Button (Optional) -->
     <button
       (click)="closePopup()"
-      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 w-5"
     >
       &times;
     </button>
@@ -26,14 +26,14 @@
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
       <!-- Upload Input -->
       <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="upload"
+        <label class="text-base text-gray-500 font-semibold mb-2 block" for="upload"
           >Upload</label
         >
         <input
           id="upload"
           type="file"
           (change)="onFileSelected($event)"
-          class="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-blue-500"
+          class="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded"
         />
       </div>
 
@@ -47,6 +47,7 @@
       <!-- Buttons -->
       <div class="flex justify-between">
         <button
+        (click)="closePopup()"
           class="bg-orange-500 text-white py-2 px-6 rounded-lg hover:bg-orange-600"
         >
           BACK

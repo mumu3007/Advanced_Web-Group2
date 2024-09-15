@@ -1,7 +1,8 @@
-
-
-
 <p>Hello</p>
-<p>{{userData.name}}</p>
-<p>{{userData.email}}</p>
-<p>{{userData.phone}}</p>
+
+
+<div *ngFor="let payment of payments" class="payment-item">
+  <img class="w-[200px]" [src]="payment.imageUrl" alt="Payment Image" />
+  <p>Cart ID: {{ payment.cart_id }}</p>
+  <p>Status: {{ payment.status }}</p>
+</div>

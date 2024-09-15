@@ -14,6 +14,8 @@ const { authMiddleware } = require('./middleware');
 
 const router = express.Router();
 
+router.use('/uploads', express.static('uploads'));
+
 
 router.use('/register',registerRoutes); 
 router.use('/auth', authRoutes);
