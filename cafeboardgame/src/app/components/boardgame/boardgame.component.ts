@@ -86,7 +86,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     const payload = {
       user_id: this.userId ?? undefined,
       ordercoffee_id: [], 
-      cake_id: [],       
+      ordercake_id: [],    
       boardgame_id: this.selectedBoardgameIds,
       boardgame_quantity: Array(this.selectedBoardgameIds.length).fill(quantity) // Fill quantity for all selected boardgames
     };
