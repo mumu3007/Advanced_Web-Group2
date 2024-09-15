@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MenupopupService } from '../../services/menupopup.service';
+import { MenupopupService } from '../../services/menupopup/menupopup.service';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { OrdersService } from '../../services/order/order.service';
@@ -41,7 +41,7 @@ export class MenupopupComponent implements OnInit {
       description: [''],
       coffee_id: [''],
       quantity: [1, Validators.required],
-      price: [0],
+      total_price: [0],
     });
   }
 
@@ -54,6 +54,8 @@ export class MenupopupComponent implements OnInit {
       }
     });
   }
+
+
 
   loadUserData(id: string) {
     console.log('User ID:', id);
@@ -98,7 +100,7 @@ export class MenupopupComponent implements OnInit {
 
   updateTotalPrice() {
     this.totalPrice = this.getPrice(this.selectedSize!) * this.quantity;
-    this.orderForm.patchValue({ price: this.totalPrice, quantity: this.quantity });
+    this.orderForm.patchValue({ total_price: this.totalPrice, quantity: this.quantity });
   }
 
   onSizeChange(size: string) {
@@ -117,27 +119,7 @@ export class MenupopupComponent implements OnInit {
       this.updateTotalPrice();
     }
   }
-
   // onSubmit() {
-  //   if (this.orderForm.valid) {
-  //     const orderData = this.orderForm.value;
-  //     this.cartsService.addCartItem({
-  //       user_id: this.userId ?? undefined,
-  //       ordercoffee_id: [orderData],
-  //       cake_id: [],
-  //       boardgame_id: [],
-  //     }).subscribe(
-  //       (cart) => {
-  //         console.log('Order added to cart:', cart);
-  //         console.log(orderData)
-  //       },
-  //       (error) => {
-  //         console.error('Error adding order to cart:', error);
-  //         console.log(orderData)
-  //       }
-  //     );
-  //   }
-  // }
 
   onSubmit() {
     if (this.orderForm.valid) {
@@ -150,7 +132,7 @@ export class MenupopupComponent implements OnInit {
           this.cartsService.addCartItem({
             user_id: this.userId ?? undefined,
             ordercoffee_id: [order._id],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
-            cake_id: [],
+            ordercake_id: [],
             boardgame_id: [],
           }).subscribe(
             (cart) => {

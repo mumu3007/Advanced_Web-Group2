@@ -4,6 +4,7 @@ const boardgameRoutes = require('./boardgame');
 const boardgameTypeRoutes = require('./boardgametype');
 const menuRoutes = require('./menurouters');
 const orderRoutes = require('./ordercoffee');
+const orderCakeRoutes = require('./ordercake');
 const authRoutes = require('./auth')
 const userRoutes = require('./user')
 const cartRoutes = require('./cart')
@@ -25,8 +26,12 @@ router.use('/boardgame', boardgameRoutes);
 router.use('/menu', menuRoutes); 
 router.use('/boardgametype', boardgameTypeRoutes); 
 router.use('/ordercoffee', orderRoutes); 
+router.use('/ordercake', orderCakeRoutes);
 router.use('/cart', cartRoutes); 
 router.use('/payment', paymentRoutes); 
+
+
+
 
 
 

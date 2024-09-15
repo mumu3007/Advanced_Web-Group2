@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const orderCoffeeSchema = new mongoose.Schema({
     size: String,
     description: String,
-    price: Number,
+    total_price: Number,
     sweetness_level: String,
     type_order: String,
     quantity: Number,
@@ -11,3 +11,5 @@ const orderCoffeeSchema = new mongoose.Schema({
 });  // Explicitly set collection name
 
 module.exports = mongoose.model('Ordercoffee', orderCoffeeSchema);
+
+
