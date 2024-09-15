@@ -19,6 +19,7 @@ export class AdminorderComponent {
   currentSection: string = 'all-orders'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
   menuSection: string = 'all-menu';
   message: string = '';
+  showPopup: boolean = false;
 
   constructor(
     private menuService: ApiService,
@@ -52,6 +53,16 @@ export class AdminorderComponent {
     upload: new FormControl(null),
     
   });
+
+  openPopup() {
+    this.showPopup = true;
+  }
+
+  closePopup() {
+    this.showPopup = false;
+  }
+
+
 
   AddMenuItem() {
     if (this.BeveragemenuForm.valid) {

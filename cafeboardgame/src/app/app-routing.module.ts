@@ -11,6 +11,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { AdminboardgameComponent } from './components/adminboardgame/adminboardgame.component';
+import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup.component';
 
 
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent},
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminorderComponent },
+  { path: 'itempop', component: ItemlistpopupComponent },
   { path: 'adminboardgame', component: AdminboardgameComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   { path: '**', redirectTo: '/home' }  
