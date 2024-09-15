@@ -38,7 +38,8 @@ router.get('/boardgame3', async (req, res, next) => {
 
 router.get('/all', async (req, res, next) => {
   try {
-    const Boardgames = await Boardgame.find({ status: true});
+    const Boardgames = await Boardgame.find({ status: true})
+    .populate('type', 'name');
     res.json(Boardgames);
   } catch (err) {
     next(err);

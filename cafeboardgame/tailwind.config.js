@@ -14,6 +14,51 @@ module.exports = {
         'bgPro' : '#F4F1EC',
         'formfPro' : 'rgba(210, 9, 28, 0.7)',
       },
+      animation: {
+        lefttoright: 'lefttoright 2s ease-in-out 1',
+        righttoleft: 'righttoleft 2s ease-in-out 1',
+        spining: 'spining 1s ease-in 1',
+        opacityfade: 'opacityfade 1s ease-in 1',
+      },
+      keyframes: {
+        opacityfade:{
+          '0%':{
+            opacity:'0'
+          },
+          '100%':{
+            opacity:'1'
+          }
+        },
+        spining:{
+          '0%': { 
+            transform: 'translateX(-500px) rotate(-360deg)'
+          },
+          '100%': { 
+            transform: 'translateX(0px) rotate(0deg)'
+          },
+        },
+        lefttoright: {
+          '0%': { 
+            transform: 'translateX(-500px)',
+            opacity: '0'
+          },
+          '100%': { 
+            transform: 'translateX(0px)',
+            opacity: '1'
+          },
+        },
+        righttoleft: {
+          '0%': { 
+            transform: 'translateX(500px)',
+            opacity: '0'
+          },
+          '100%': { 
+            transform: 'translateX(0px)',
+            opacity: '1'
+          },
+        },      
+       
+      }
     },
   },
   plugins: [],

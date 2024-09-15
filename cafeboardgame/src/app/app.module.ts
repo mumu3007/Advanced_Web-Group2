@@ -25,6 +25,7 @@ import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for animations
 import { ToastrModule } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch()),
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

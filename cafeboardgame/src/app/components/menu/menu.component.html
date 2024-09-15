@@ -67,9 +67,9 @@
                   <p>__________</p>
                 </div>
                 <div class="text-end font-normal font-koulen pt-1">
-                  <p>{{item.price}} ฿</p>
-                  <p>{{item.price+10}} ฿</p>
-                  <p>{{item.price+20}} ฿</p>
+                  <p>{{item.s_price}} ฿</p>
+                  <p>{{item.m_price}} ฿</p>
+                  <p>{{item.l_price}} ฿</p>
                 </div>
               </div>
 
@@ -101,27 +101,20 @@
             <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="item.photo" alt=""></div>
             <div class="text-center">
               <div class="text-lg font-normal font-koulen ">{{ item.name }}</div>
-              <div class="flex">
-                <div class="text-start font-normal font-koulen pt-1">
-                  <p>TALL</p>
-                  <p>GRANDE</p>
-                  <p>VENTI</p>
-                </div>
-                <div class="px-2">
-                  <p>_______________</p>
-                  <p>_______________</p>
-                  <p>_______________</p>
-                </div>
-                <div class="text-end font-normal font-koulen pt-1">
-                  <p>{{item.price}} BAHT</p>
-                  <p>{{item.price+10}} BAHT</p>
-                  <p>{{item.price+20}} BAHT</p>
+              <div class="flex flex-col pt-1">
+                <div>
+                  <div *ngFor="let size of sizes; let i = index" class="flex text-start font-normal font-koulen pt-1">
+                    <p class="w-[25%]">{{ size }}</p>
+                    <span class="flex w-full border-b-2 border-black mb-2"></span>
+                    <p class="w-[40%] text-end">{{ getPriceBySize(item, i) }} BAHT</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex justify-center font-koulen pt-2">
-            <button class="bg-redProject text-white px-4 py-1 rounded-lg" (click)="openPopup(item._id)">Add to Cart</button>
+          <div class="flex justify-center font-koulen mt-auto">
+            <button class="bg-redProject text-white px-4 py-1 rounded-lg" (click)="openPopup(item._id)">Add to
+              Cart</button>
             <!-- <div *ngIf="showPopup">
                 <app-menu-popup [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
               </div> -->
@@ -134,23 +127,6 @@
         class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&gt;
       </button>
     </div>
-
-
-
-
-    <!-- <div class="flex justify-center items-center mt-4 space-x-4">
-      <button (click)="prevPage()" [disabled]="currentPage === 0"
-        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
-        ← Previous
-      </button>
-      <span>Page {{ currentPage + 1 }}</span>
-      <button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= menuItems.length"
-        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50">
-        Next →
-      </button>
-    </div> -->
-
-    <!-- ป็อปอัป -->
 
     <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
   </section>
@@ -165,32 +141,23 @@
 
       <div class="grid grid-cols-3 gap-8 p-5">
         <div *ngFor="let item of displayedCakeItems"
-          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-64">
+          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
-          <div class="px-4">
-            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="item.photo" alt=""></div>
-            <div class="text-center">
-              <div class="text-lg font-normal font-koulen ">{{ item.name }}</div>
-              <div class="flex justify-between">
-                <p>S</p>
-                __________________
-                <div class="font-normal font-koulen ">${{item.price}}</div>
-              </div>
-              <div class="flex justify-between">
-                <p>M</p>
-                __________________
-                <div class="font-normal font-koulen ">${{item.price+10}}</div>
-              </div>
-              <div class="flex justify-between">
-                <p>L</p>
-                __________________
-                <div class="font-normal font-koulen ">${{item.price+20}}</div>
-              </div>
+          <div class="px-4 font-koulen">
+            <div class="mb-2 flex justify-center"><img class="max-h-32 w-40" [src]="item.photo" alt=""></div>
+            <div class="flex justify-center">
+              <div class="w-full text-center text-lg">{{ item.name }}</div>
             </div>
+
+            <div>
+              <p class="flex justify-center w-full pt-1">{{ item.price }} BAHT</p>
+            </div>
+
+
           </div>
-          <div class="flex justify-center">
+          <div class="flex justify-center mt-auto">
             <button (click)="openPopup(item)"
-              class="mt-4 px-4 py-1 bg-[#D2091C] text-white rounded-[10px] w-[50%]  font-koulen">
+              class="mt-4 px-4 py-1 bg-[#D2091C] text-white rounded-[10px] w-[50%]  font-koulen ">
               ADD TO CART</button>
           </div>
         </div>

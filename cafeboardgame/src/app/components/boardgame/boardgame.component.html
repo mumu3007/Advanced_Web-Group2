@@ -1,6 +1,7 @@
 <div class="bg-orange-100/50">
   <app-navbar></app-navbar>
   <div class="container mx-auto">
+    <p-toast></p-toast>
     <section class="flex justify-between h-screen items-center px-10">
       <!-- ตัวละครทางซ้าย -->
       <div class="relative flex items-center">
@@ -17,7 +18,7 @@
       </div>
 
       <!-- ตัวละครตรงกลางและข้อความ -->
-      <div class="relative flex items-center">
+      <div class="relative flex items-center ">
         <div
           class="rounded-3xl border-4 border-orange-400 p-5 w-[500px] text-right relative shadow-xl"
         >
@@ -34,7 +35,7 @@
         <img
           src="../../../assets/fisherman.png"
           alt="Fisherman character"
-          class="absolute left-[-30%] w-[400px] drop-shadow-2xl"
+          class="absolute left-[-30%] w-[400px] drop-shadow-2xl animate-spining"
         />
       </div>
 
@@ -52,7 +53,7 @@
         />
       </div>
     </section>
-    <section class="px-10 py-5">
+    <section  class="px-10 py-5" [ngClass]="sectionopcity1">
       <!-- Header Section -->
       <div class="flex w-full justify-center items-center mb-10">
         <div
@@ -81,11 +82,11 @@
       </div>
 
       <!-- Carousel Section -->
-      <div class="flex justify-between items-center">
+      <div class="flex flex-row justify-between items-center">
         <!-- Cards Container -->
-        <div class="flex space-x-5 overflow-hidden">
-          <div *ngFor="let card of displayedCards">
-            <div class="border-4 border-orange-400 p-5 rounded-3xl flex space-x-6 h-3/4">
+        <div class="flex space-x-5 overflow-hidden ">
+          <div *ngFor="let card of displayedCards" class="basis-1/2 ">
+            <div class="border-4 border-orange-400 p-5 rounded-3xl flex space-x-6 h-3/4 ">
               <img
                 [src]="card.photo"
                 [alt]="card.name"
@@ -107,27 +108,28 @@
 
         <!-- Right Arrow Button -->
       </div>
-    </section>
-    <section class="grid grid-cols-4 grid-rows-3 gap-5">
-      <div class="text-[40px] border border-orange-400 p-5 rounded-3xl col-span-2">
+    </section >
+    <section  class="grid grid-cols-4 grid-rows-3 gap-5 font-koulen">
+      <div class="text-[40px] border border-orange-400 p-5 rounded-3xl col-span-2 "[ngClass]="sectionlefttoright">
         <label
           >Get ready for excitement with <br />
           our brand-new game!</label
         >
       </div>
-      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro rounded-3xl p-5">
+      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro rounded-3xl p-5" [ngClass]="sectionrigthtoleft">
         <div class="flex">
           <img [src]="boardgameItemsdesc[2].photo" class="w-44" />
-          <h2 class="text-[48px] font-koulen text-white text-wrap">
+          <h2 class="text-[48px] font-koulen text-white text-wrap ml-5">
             {{boardgameItemsdesc[2].name}}
           </h2>
         </div>
-        <p class="text-[24px]">
+        <p class="text-[24px] text-white indent-8 mt-4">
           {{boardgameItemsdesc[2].description}}
         </p>
       </div>
       <div
         class="col-span-1 row-start-2 row-span-2 flex flex-col justify-center items-center rounded-3xl bg-orangePro"
+        [ngClass]="sectionlefttoright" 
       >
         <img [src]="boardgameItemsdesc[1].photo" class="w-32" />
         <div class="flex flex-col justify-center items-center">
@@ -137,13 +139,14 @@
       </div>
       <div
         class="row-start-2 row-span-2 col-span-1 border border-orangePro rounded-3xl flex flex-col justify-center items-center text-orangePro"
+        [ngClass]="sectionlefttoright"  
       >
         <img [src]="boardgameItemsdesc[0].photo" class="w-32" />
           <h3 class="text-[32px] font-koulen mt-4">{{boardgameItemsdesc[0].name}}</h3>
           
       </div>
     </section>
-    <section class="bg-[#F4F1EC] h-screen">
+    <section class="bg-inherit" [ngClass]="sectionopcity2">
       
             <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
             <section id="beverage" class="pt-24">
@@ -176,16 +179,14 @@
                         <div class="text-2xl font-normal font-koulen">
                           {{ item.name }}
                         </div>  
-                        <div class="font-koulen text-2xl ">{{ item.price}} BAHT</div>
+                        <div class="font-koulen text-">{{ item.price}} BAHT</div>
                       </div>
                     </div>
-                    <div class="flex justify-between items-center max-h-20 overflow-hidden">
-                      <div>
-                        {{item.description}}
-                      </div>
+                    <div class="flex justify-center items-end">
+            
                       <button
                         (click)="openPopup(item)"
-                        class="mt-4 px-4 py-1 bg-transparent border-orangePro border text-orangePro rounded-md  font-koulen"
+                        class="mt-4 px-4 py-1 bg-orangePro border-orangePro border text-white rounded-md font-koulen"
                       >
                         BUY
                       </button>
@@ -207,12 +208,12 @@
               <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
             </section>
             <section>
-            <div *ngIf="showPopupSelectItem" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
+            <form [formGroup]="cartForm" (ngSubmit)="addToCart()" *ngIf="showPopupSelectItem" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
               <div class="bg-white rounded-3xl flex justify-between p-6 space-x-3 ">
                 <img [src]="selectedItem.photo" class=" h-[349px] rounded-3xl">
-                <div class="flex flex-col relative w-72">
-                  <label class="text-3xl font-koulen">{{ selectedItem.name}}</label>
-                  <label class="h-52 ml-5">{{ selectedItem.description}}</label>
+                <div class="flex flex-col relative ">
+                  <label class="text-xl font-koulen">{{ selectedItem.name}}</label>
+                  <label class="h-52 ml-5 indent-8">{{ selectedItem.description}}</label>
                   <label class="font-koulen">Price: {{ selectedItem.price}} BAHT</label>
                   <div class="flex space-x-5 items-end justify-start">
                     <div class="">  
@@ -224,16 +225,16 @@
                     <div class="absolute right-0 bottom-0 flex justify-between w-full ">
                       <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
                       <div class="space-x-3">
-                        <button (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
-                        <button (click)="togglePopup(245)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
-                        <app-payment *ngIf="showPopup" [price]="totalPrice" (close)="togglePopup(totalPrice)"></app-payment> <!-- Update price here -->
-
+                        <button type="submit" (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
+                       <a routerLink="/cart">
+                         <button (click)="selectBoardgame(selectedItem._id)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
+                       </a> 
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
             <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
           </section>
         

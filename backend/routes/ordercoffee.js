@@ -35,7 +35,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/order', async (req, res, next) => {
   try {
-    const { size, description, price, sweetness_Level, type_order, coffee_id } = req.body;
+    const { size, description, price, sweetness_level, type_order, quantity, coffee_id } = req.body;
 
     const coffeeMenu = await Coffeemenu.findById(coffee_id);
 
@@ -48,8 +48,9 @@ router.post('/order', async (req, res, next) => {
       size,
       description,
       price,
-      sweetness_Level,
+      sweetness_level,
       type_order,
+      quantity,
       coffee_id: coffeeMenu._id // เชื่อมโยง coffeeMenu
     });
 

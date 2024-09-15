@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-card-carousel',
   templateUrl: './boardgame.component.html',
-  styleUrls: ['./boardgame.component.css']
+  styleUrls: ['./boardgame.component.css'],
+
 })
 export class BoardgameComponent implements OnInit {
 totalPrice: any;
@@ -27,26 +30,57 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   showPopup: boolean = false;
   selectedPrice: number = 0;
   userId: string | null =null;
+  scrollPosition: number = 0;
+  sectionlefttoright: string | undefined;
+  sectionrigthtoleft: string | undefined;
+  sectionopcity1: string | undefined;
+  sectionopcity2: string | undefined;
   
   constructor(private boardgameservice :BoardgameserviceService ,
      private fb: FormBuilder,
      private cartsService: CartsService,
      private authService :AuthService,
-     private toastr: ToastrService) { }
+     private messageService: MessageService 
+     ) { }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
     const index = this.selectedBoardgameIds.indexOf(boardgameId);
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
-      this.addToCart()
-      this.toastr.success('Item has been added to the cart!');
+      
       console.log("เช็ค addtocart"+ this.addToCart)
     } else {
       this.selectedBoardgameIds.splice(index, 1);
     }
   }
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event): void {
+    this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
+    if (this.scrollPosition > 30){
+      this.sectionopcity1 = 'animate-opacityfade'
+    }
+    else{
+      this.sectionopcity1 = 'hidden'
+    }
+    // เปลี่ยนสีพื้นหลังเมื่อเลื่อนถึง 2000px
+    if (this.scrollPosition > 800) {
+      this.sectionlefttoright = 'animate-lefttoright';
+      this.sectionrigthtoleft = 'animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
+    } else {
+      this.sectionlefttoright = 'hidden'; // สีพื้นหลังเริ่มต้น
+      this.sectionrigthtoleft = 'hidden'; // สีพื้
+    }
+    if (this.scrollPosition > 1300){
+      this.sectionopcity2 = 'animate-opacityfade'
+    }
+    else{
+      this.sectionopcity2 = 'hidden'
+    }
+    console.log("scoll => "+this.scrollPosition)
+  }
+    
 
   addToCart(): void {
     // Replace with the actual user ID
@@ -59,10 +93,19 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       boardgame_id: this.selectedBoardgameIds // Add selected boardgames
     }).subscribe(
       (cart) => {
-        console.log('Boardgames added to cart:', cart);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Boardgames added to cart',
+        });
+        
       },
       (error) => {
-        console.error('Error adding boardgames to cart:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Add to cart failed. Please try again.',
+        });
       }
     );
   }
@@ -132,11 +175,11 @@ GetinactiveBoardgameItems() {
   }
 
   moveRight() {
-    this.currentIndex = (this.currentIndex + 1) % this.boardgameinactiveItem.length;
+    this.currentIndex = (this.currentIndex + 2) % this.boardgameinactiveItem.length;
   }
 
   moveLeft() {
-    this.currentIndex = (this.currentIndex - 1 + this.boardgameinactiveItem.length) % this.boardgameinactiveItem.length;
+    this.currentIndex = (this.currentIndex - 2 + this.boardgameinactiveItem.length) % this.boardgameinactiveItem.length;
   }
 
   updateDisplayedItems() {
@@ -154,7 +197,7 @@ GetinactiveBoardgameItems() {
   }
 
   cartForm = this.fb.group({
-    price: [{ value: 0, disabled: true }] ,
+    price: [{ value: 0, disabled: true }], 
     quantity: [1, [Validators.required, Validators.min(1)]]
   });
 

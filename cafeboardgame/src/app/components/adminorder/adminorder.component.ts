@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Menu } from '../../models/menu.model';
 import { ApiService } from '../../services/menu/menuservice.service';
 import {Router } from '@angular/router';
+import { MessageService } from 'primeng/api'; // Import MessageService
+import { CakeMenu } from '../../models/cakemenu.model';
+import { Menu } from '../../models/menu.model';
 
 @Component({
   selector: 'app-adminorder',
@@ -12,6 +14,7 @@ import {Router } from '@angular/router';
 export class AdminorderComponent {
 
   menu: Menu = {name:'', s_price: 0, m_price: 0, l_price: 0, photo:'', type_coffee:[], status:'',}
+  cakemenu: CakeMenu = {name:'', description: '', price: 0, photo:'',}
 
   currentSection: string = 'all-orders'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
   menuSection: string = 'all-menu';
@@ -20,6 +23,7 @@ export class AdminorderComponent {
   constructor(
     private menuService: ApiService,
     private router: Router,
+    private messageService: MessageService // Inject MessageService
     
   ) {}
 
@@ -39,6 +43,14 @@ export class AdminorderComponent {
     upload: new FormControl(null),
     status: new FormControl('status'),
 
+  });
+
+  CakemenuForm = new FormGroup({
+    name: new FormControl(''),
+    cakedescription: new FormControl(''),
+    cakeprice: new FormControl(),
+    upload: new FormControl(null),
+    
   });
 
   AddMenuItem() {
@@ -64,14 +76,77 @@ export class AdminorderComponent {
             (response) => {
                 this.message = "success";
                 console.log(response, this.message);
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Success',
+                  detail: 'Login successful!',
+                });
+                setTimeout(() => {
+                  this.BeveragemenuForm.reset();
+                }, 1000); // หน่วงเวลา 2 วินาที ก่อน redirect
+                
             },
             (error) => {
                 this.message = "fail";
                 console.log(error, this.message);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Login failed. Please try again.',
+                });
             }
         );
     }
-}
+ } 
+
+ ClearBeveragemenuForm() {
+  
+  this.BeveragemenuForm.reset();
+  this.BeveragemenuForm.get('status')?.setValue('status');
+ }
+ ClearCakemenuForm() {
+  this.CakemenuForm.reset();
+ }
+
+ AddCakeMenuItem() {
+  if (this.CakemenuForm.valid) {
+      // รับค่าจากฟอร์ม
+      const formData = this.CakemenuForm.value;
+
+      // กำหนดค่าให้กับ this.menu จากฟอร์ม
+      this.cakemenu.name = formData.name || '';
+      this.cakemenu.description = formData.cakedescription || '';
+      this.cakemenu.price = formData.cakeprice || 0;
+      this.cakemenu.photo = formData.upload || '';
+
+      // ส่งข้อมูลไปยังเมธอดของ ApiService
+      this.menuService.addCakeItem(this.cakemenu).subscribe(
+          (response) => {
+              this.message = "success";
+              console.log(response, this.message);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Add Item successful!',
+              });
+              setTimeout(() => {
+                this.CakemenuForm.reset();
+              }, 1000); // หน่วงเวลา 2 วินาที ก่อน redirect
+              
+          },
+          (error) => {
+              this.message = "fail";
+              console.log(error, this.message);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Add Item failed. Please try again.',
+              });
+          }
+      );
+  }
+} 
+
 
   
   orders = [
