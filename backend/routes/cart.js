@@ -25,6 +25,7 @@ router.get('/:userId', async (req, res) => {
       return res.status(404).json({ message: "Cart not found" });
     }
 
+    
     // ฟังก์ชันนับ ID ที่ซ้ำ
     const countDuplicateIds = (idArray) => {
       return idArray.reduce((acc, id) => {

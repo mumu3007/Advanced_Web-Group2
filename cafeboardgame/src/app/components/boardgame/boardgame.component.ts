@@ -170,6 +170,7 @@ GetinactiveBoardgameItems() {
   );
 }
 
+
   get displayedCards() {
     return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 2);
   }

@@ -56,6 +56,7 @@ export class CakepopupComponent {
       this.totalPrice = this.cakeDetails.price
     });
   }
+  
 
   getPrice(): number {
         return this.cakeDetails?.price || 0;

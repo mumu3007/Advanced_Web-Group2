@@ -48,6 +48,8 @@ import { CakepopupComponent } from './components/cakepopup/cakepopup.component';
     MenupopupComponent,
     CakepopupComponent
 
+    
+
   ],
   imports: [
     BrowserModule,
