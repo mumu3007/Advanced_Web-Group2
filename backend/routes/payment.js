@@ -78,4 +78,29 @@ router.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    // ดึงข้อมูล payment ทั้งหมด
+    const payments = await Payment.find();
+
+    if (!payments.length) {
+      return res.status(404).json({ message: "No payments found" });
+    }
+
+    // เพิ่ม URL ของรูปภาพให้แต่ละ payment
+    const paymentsWithImageUrl = payments.map(payment => {
+      const imageUrl = `${req.protocol}://${req.get('host')}/${payment.image.filePath}`;
+      return {
+        ...payment._doc,
+        imageUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+      };
+    });
+
+    res.status(200).json(paymentsWithImageUrl);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch payments", error: error.message });
+  }
+});
+
+
 module.exports = router;
