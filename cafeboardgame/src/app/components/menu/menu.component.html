@@ -15,9 +15,11 @@
 
 <div class="bg-orange-100/50 -z-10">
   <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
+  <div *ngIf="showCakePopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
 
   <!-- ตัว Popup -->
   <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
+  <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (close)="closePopup()"></app-cake-popup>
   <div class="flex justify-between mb-12">
     <img src="../../../assets/menu_left.png" alt="">
     <div class="flex items-center">
@@ -94,26 +96,26 @@
       </button>
 
       <div class="grid grid-cols-3 gap-8 p-5 mx-12">
-        <div *ngFor="let item of displayedMenuItems"
+        <div *ngFor="let beverage of displayedMenuItems"
           class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4">
-            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="item.photo" alt=""></div>
+            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="beverage.photo" alt=""></div>
             <div class="text-center">
-              <div class="text-lg font-normal font-koulen ">{{ item.name }}</div>
+              <div class="text-lg font-normal font-koulen ">{{ beverage.name }}</div>
               <div class="flex flex-col pt-1">
                 <div>
                   <div *ngFor="let size of sizes; let i = index" class="flex text-start font-normal font-koulen pt-1">
                     <p class="w-[25%]">{{ size }}</p>
                     <span class="flex w-full border-b-2 border-black mb-2"></span>
-                    <p class="w-[40%] text-end">{{ getPriceBySize(item, i) }} BAHT</p>
+                    <p class="w-[40%] text-end">{{ getPriceBySize(beverage, i) }} BAHT</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="flex justify-center font-koulen mt-auto">
-            <button class="bg-redProject text-white px-4 py-1 rounded-lg" (click)="openPopup(item._id)">Add to
+            <button class="bg-redProject text-white px-4 py-1 rounded-lg" (click)="openPopup(beverage._id)">Add to
               Cart</button>
             <!-- <div *ngIf="showPopup">
                 <app-menu-popup [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
@@ -140,23 +142,24 @@
       </button>
 
       <div class="grid grid-cols-3 gap-8 p-5">
-        <div *ngFor="let item of displayedCakeItems"
+        <div *ngFor="let cake of displayedCakeItems"
           class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4 font-koulen">
-            <div class="mb-2 flex justify-center"><img class="max-h-32 w-40" [src]="item.photo" alt=""></div>
-            <div class="flex justify-center">
-              <div class="w-full text-center text-lg">{{ item.name }}</div>
+            <div class="mb-2 flex justify-center">
+              <img class="max-h-36 w-44" [src]="cake.photo" alt="">
             </div>
-
-            <div>
-              <p class="flex justify-center w-full pt-1">{{ item.price }} BAHT</p>
+            <div class="w-full text-start text-xl">{{ cake.name }}</div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="grow h-full border-b-2 border-redProject items-self-end"></span>
+              <p class=" pt-1 px-3 text-xl">{{ cake.price }} BAHT</p>
+              <span class="grow h-full border-b-2 border-redProject items-self-end"></span>
             </div>
 
 
           </div>
           <div class="flex justify-center mt-auto">
-            <button (click)="openPopup(item)"
+            <button (click)="openCakePopup(cake._id)"
               class="mt-4 px-4 py-1 bg-[#D2091C] text-white rounded-[10px] w-[50%]  font-koulen ">
               ADD TO CART</button>
           </div>

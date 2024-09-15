@@ -26,6 +26,7 @@ import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for animations
 import { ToastrModule } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
+import { CakepopupComponent } from './components/cakepopup/cakepopup.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MessageService } from 'primeng/api';
     PaymentComponent,
     NavadmenuComponent,
     AdminboardgameComponent,
-    MenupopupComponent
+    MenupopupComponent,
+    CakepopupComponent
 
   ],
   imports: [

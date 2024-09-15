@@ -14,14 +14,16 @@ export class MenuComponent implements OnInit {
   displayedMenuItems: any[] = [];
   displayedCakeItems: any[] = [];
   recommendedItems: any[] = [];
+  selectedItem: any;
   sizes = ['tall', 'grande', 'venti'];
   currentPage: number = 0;
   currentCakePage: number = 0;
   itemsPerPage: number = 6;
-  showPopup = false;
-  selectedItem: any;
   totalPrice = 0;
+  showPopup = false;
+  showCakePopup = false;
   selectedMenuId?: string;
+  selectedCakeId?: string;
 
   // ฟอร์มควบคุม
   // Add FormGroup
@@ -31,9 +33,17 @@ export class MenuComponent implements OnInit {
     this.showPopup = true;
     console.log(menuId);
   }
+  
 
   closePopup() {
     this.showPopup = false;
+    this.showCakePopup = false;
+  }
+
+  openCakePopup(cakeId: string) {
+    this.selectedCakeId = cakeId;
+    this.showCakePopup = true;
+    console.log(cakeId);
   }
 
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
@@ -43,7 +53,7 @@ export class MenuComponent implements OnInit {
     this.loadCakeItems();
     this.loadRecommendedItems()
     // Subscribe to form changes to update total price
-    this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
+    // this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
   }
 
   cartForm = this.fb.group({
@@ -152,32 +162,6 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  // เพิ่มจำนวน
-  increaseQuantity() {
-    const currentQuantity = this.cartForm.get('quantity')?.value;
-    this.cartForm.patchValue({ quantity: currentQuantity! + 1 });
-  }
-
-  // ลดจำนวน
-  decreaseQuantity() {
-    const currentQuantity = this.cartForm.get('quantity')?.value;
-    if (currentQuantity! > 1) {
-      this.cartForm.patchValue({ quantity: currentQuantity! - 1 });
-    }
-  }
-
-  // คำนวณราคารวม
-  calculateTotalPrice() {
-    const { selectedOption, quantity } = this.cartForm.value;
-    let basePrice = this.selectedItem.price;
-    if (selectedOption === 'cold') {
-      basePrice += 10;
-    } else if (selectedOption === 'frappe') {
-      basePrice += 20;
-    }
-    this.totalPrice = basePrice * quantity!;
-  }
-
   // ฟังก์ชันเพิ่มไปยังตะกร้า
   addToCart() {
     if (this.cartForm.valid) {
@@ -186,14 +170,14 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  // รีเซ็ตฟอร์ม
-  resetForm() {
-    this.cartForm.reset({
-      selectedOption: 'hot',
-      selectedSweetness: '50%',
-      additionalDetails: '',
-      quantity: 1,
-    });
-    this.calculateTotalPrice();
-  }
+  // // รีเซ็ตฟอร์ม
+  // resetForm() {
+  //   this.cartForm.reset({
+  //     selectedOption: 'hot',
+  //     selectedSweetness: '50%',
+  //     additionalDetails: '',
+  //     quantity: 1,
+  //   });
+  //   this.calculateTotalPrice();
+  // }
 }

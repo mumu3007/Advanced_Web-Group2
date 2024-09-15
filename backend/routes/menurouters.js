@@ -36,18 +36,6 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
   }
 });
 
-router.get('/menupopup/:id', async (req, res, next) => {
-  try {
-    const coffeemenu = await Coffeemenu.findById(req.params.id);
-    if (!coffeemenu) {
-      return res.status(404).json({ message: 'Coffee menu not found' });
-    }
-    res.json(coffeemenu);
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Create a new coffee menu (POST)
 router.post('/coffeemenu', async (req, res, next) => {
   try {
@@ -123,6 +111,18 @@ router.get('/cakemenu', async (req, res, next) => {
   try {
     const cakemenus = await CakeMenu.find();
     res.json(cakemenus);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get('/cakemenu/:id', async (req, res, next) => {
+  try {
+    const cakemenu = await CakeMenu.findById(req.params.id);
+    if (!cakemenu) {
+      return res.status(404).json({ message: 'cakemenu not found' });
+    }
+    res.json(cakemenu);
   } catch (err) {
     next(err);
   }

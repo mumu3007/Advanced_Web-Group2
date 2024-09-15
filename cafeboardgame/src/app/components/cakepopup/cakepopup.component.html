@@ -1,0 +1,41 @@
+<!-- product-popup.component.html -->
+<form [formGroup]="cakeForm" (ngSubmit)="onSubmit()">
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl py-4 pl-5 pr-7 w-[28rem] ">
+            <div class="flex justify-center">
+                <img [src]="cakeDetails?.photo" class="w-40 h-32">
+            </div>
+
+            <div class="flex justify-between font-koulen">
+                <h2 class="w-2/3 text-xl">{{ cakeDetails?.name }}</h2>
+                <span class="text-xl">{{ totalPrice }} BAHT</span>
+            </div>
+
+            <div class="font-koulen font-thin w-full h-auto pt-2">
+                <p>{{cakeDetails.description}}</p>
+            </div>
+
+            <!-- ปุ่ม เพิ่ม ลด จำนวน -->
+            <div class="mt-4 flex items-center font-koulen text-3xl justify-center">
+                <button type="button" class="px-2 border text-3xl border-black rounded"
+                    (click)="decreaseQuantity()">-</button>
+                <span class="mx-4 text-xl">{{ quantity }}</span>
+                <button type="button" class="px-2 border text-3xl border-black rounded"
+                    (click)="increaseQuantity()">+</button>
+
+            </div>
+
+            <!-- ปุ่ม Close -->
+            <div class="mt-6 flex justify-between font-koulen">
+                <button type="button" class="text-redProject px-2 rounded uppercase border-2 border-redProject"
+                    (click)="closePopup()">cancel</button>
+                <div class="flex gap-2">
+                    <button type="submit" class="text-redProject px-2 rounded uppercase border-2 border-redProject">Add
+                        to Cart</button>
+                    <button type="button" class="bg-redProject text-white px-2 rounded uppercase" (click)="buyNow()">buy
+                        now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
