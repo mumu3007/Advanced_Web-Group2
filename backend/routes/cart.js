@@ -65,9 +65,9 @@ router.post('/add', async (req, res, next) => {
       return res.status(400).json({ message: "Invalid input data" });
     }
 
-    if (boardgame_id.length !== boardgame_quantity.length) {
-      return res.status(400).json({ message: "Boardgame ID and quantity arrays must have the same length" });
-    }
+    // if (boardgame_id.length !== boardgame_quantity.length) {
+    //   return res.status(400).json({ message: "Boardgame ID and quantity arrays must have the same length" });
+    // }
 
     const countDuplicateIds = (idArray) => {
       return idArray.reduce((acc, id) => {
@@ -99,7 +99,7 @@ const ordercakeCount = countDuplicateIds(ordercake_id);
       Boardgame.find({ '_id': { $in: Object.keys(boardgameCount) } })
     ]);
 
-    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.price * ordercoffeeCount[item._id]), 0);
+    const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.total_price * ordercoffeeCount[item._id]), 0);
     const ordercakeTotal = ordercakes.reduce((sum, item) => sum + (item.total_price * ordercakeCount[item._id]), 0);
   const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
 
