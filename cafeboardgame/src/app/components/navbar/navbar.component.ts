@@ -12,6 +12,10 @@ import { CartsService } from '../../services/carts/carts.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  showMobileMenu: boolean = false;
+toggleMenu() {
+  this.showMobileMenu = !this.showMobileMenu;
+}
   scrolled = false;
  
   hideDropdownTimeout: any;
