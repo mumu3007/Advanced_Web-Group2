@@ -36,13 +36,11 @@ export class NavbarComponent implements OnInit {
     if (this.hideDropdownTimeout) {
       clearTimeout(this.hideDropdownTimeout);
     }
-    // เพิ่มคลาสแอนิเมชัน
-    this.showDropdown = false;
-  
+
     // ตั้งเวลาในการปิด dropdown
     this.hideDropdownTimeout = setTimeout(() => {
       this.showDropdown = false;
-    }, 2000); // หน่วงเวลา 300 มิลลิวินาที
+    },500); // หน่วงเวลา 300 มิลลิวินาที
   }
   
   ngOnInit() {
