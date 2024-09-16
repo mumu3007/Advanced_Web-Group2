@@ -12,6 +12,10 @@ import { CartsService } from '../../services/carts/carts.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  showMobileMenu: boolean = false;
+toggleMenu() {
+  this.showMobileMenu = !this.showMobileMenu;
+}
   scrolled = false;
  
   hideDropdownTimeout: any;
@@ -36,13 +40,11 @@ export class NavbarComponent implements OnInit {
     if (this.hideDropdownTimeout) {
       clearTimeout(this.hideDropdownTimeout);
     }
-    // เพิ่มคลาสแอนิเมชัน
-    this.showDropdown = false;
-  
+
     // ตั้งเวลาในการปิด dropdown
     this.hideDropdownTimeout = setTimeout(() => {
       this.showDropdown = false;
-    }, 2000); // หน่วงเวลา 300 มิลลิวินาที
+    },500); // หน่วงเวลา 300 มิลลิวินาที
   }
   
   ngOnInit() {

@@ -1,0 +1,64 @@
+<form  [formGroup]="updateorderForm" >
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl py-6 px-10 w-[36rem]">
+            <h2 class="text-redProject text-center font-koulen text-2xl">Update Item</h2>
+
+            <!--ชื่อและราคาเมนู-->
+            <div class="mt-4 font-koulen">
+                <input formControlName="name" type="text" placeholder="Name" class=" p-2 w-full min-h-12 resize-none
+                border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
+                <input formControlName="tallcupprice" type="text" placeholder="TALL CUP PRICE" class=" p-2 w-full min-h-12 resize-none 
+                border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
+                <input formControlName="grandecupprice" type="text" placeholder="GRANDE CUP PRICE" class=" p-2 w-full min-h-12 resize-none
+                border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
+                <input formControlName="venticupprice" type="text" placeholder="VENTI CUP PRICE" class=" p-2 w-full min-h-12 resize-none
+                border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
+            </div>
+
+            <!--เลือก ร้อน เย็น ปั่น-->
+            <div class="flex justify-between mb-5 font-koulen">
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" formControlName="hot" class="appearance-none h-6 w-6 border border-redProject checked:bg-redProject checked:border-redProject 
+                    focus:outline-none rounded-md checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center">
+                    <span class="text-redProject font-koulen">HOT</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" formControlName="iced" class="appearance-none h-6 w-6 border border-redProject checked:bg-redProject checked:border-redProject 
+                    focus:outline-none rounded-md checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center">
+                    <span class="text-redProject font-koulen">ICED</span>
+                </label>
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" formControlName="frappe" class="appearance-none h-6 w-6 border border-redProject checked:bg-redProject checked:border-redProject 
+                    focus:outline-none rounded-md checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center">
+                    <span class="text-redProject font-koulen">FRAPPE</span>
+                </label>
+            </div>
+
+            <!--อัพรูปและเลือกสถานะ-->
+            <div class="flex justify-between mb-8">
+                <span class="sr-only">Choose file</span>
+                <input type="file" formControlName="upload" class="form-control text-[16px] text-redProject font-koulen w-[16rem]
+                file:mr-4 file:py-2 file:px-4
+                file:w-36 file:h-12
+                file:text-[18px] file:font-koulen
+                file:rounded-xl file:border-2 file:border-redProject
+                file:bg-transparent file:text-redProject" />
+            
+                <select formControlName="status" class="form-control font-koulen text-[18px] text-redProject w-56 h-12 
+                outline-none border-2 border-redProject rounded-xl">
+                  <option value="status" selected>Status</option>
+                  <option value="regular">Regular Menu</option>
+                  <option value="recommended">Recommended Menu</option>         
+                </select>
+            </div>
+
+            <!--ปุ่ม-->
+            <div class="flex justify-between">
+                <button (click)="closePopup()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
+                hover:bg-redProject hover:text-white transition-all duration-500">CANCEL</button>
+                <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
+                hover:bg-[#B70A1A] transition-all duration-500">UPDATE ITEM</button>
+            </div>
+        </div>
+    </div>
+</form>

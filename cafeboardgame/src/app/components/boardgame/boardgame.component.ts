@@ -59,24 +59,24 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
     if (this.scrollPosition > 30){
-      this.sectionopcity1 = 'animate-opacityfade'
+      this.sectionopcity1 = 'lg:animate-opacityfade'
     }
     else{
-      this.sectionopcity1 = 'hidden'
+      this.sectionopcity1 = 'lg:hidden'
     }
     // เปลี่ยนสีพื้นหลังเมื่อเลื่อนถึง 2000px
-    if (this.scrollPosition > 800) {
-      this.sectionlefttoright = 'animate-lefttoright';
-      this.sectionrigthtoleft = 'animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
+    if (this.scrollPosition > 600) {
+      this.sectionlefttoright = 'lg:animate-lefttoright';
+      this.sectionrigthtoleft = 'lg:animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
     } else {
-      this.sectionlefttoright = 'hidden'; // สีพื้นหลังเริ่มต้น
-      this.sectionrigthtoleft = 'hidden'; // สีพื้
+      this.sectionlefttoright = 'lg:hidden'; // สีพื้นหลังเริ่มต้น
+      this.sectionrigthtoleft = 'lg:hidden'; // สีพื้
     }
     if (this.scrollPosition > 1300){
-      this.sectionopcity2 = 'animate-opacityfade'
+      this.sectionopcity2 = 'lg:animate-opacityfade'
     }
     else{
-      this.sectionopcity2 = 'hidden'
+      this.sectionopcity2 = 'lg:hidden'
     }
     console.log("scoll => "+this.scrollPosition)
   }

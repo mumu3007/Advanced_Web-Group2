@@ -2,243 +2,195 @@
   <app-navbar></app-navbar>
   <div class="container mx-auto">
     <p-toast></p-toast>
-    <section class="flex justify-between h-screen items-center px-10">
+    <section class="lg:flex lg:justify-between lg:items-center lg:h-screen lg:px-10">
       <!-- ตัวละครทางซ้าย -->
-      <div class="relative flex items-center">
-        <div
-          class="rounded-3xl border-4 border-orange-400 p-5 w-[250px] relative text-right"
-        >
-          <p class="font-koulen text-orange-500 text-xl">Let’s Goooo!</p>
+      <div class="relative flex items-center sm:hidden lg:inline-flex">
+        <div class=" w-[250px] p-5 text-right border-4 border-orange-400 rounded-3xl">
+          <p class="text-xl font-koulen text-orange-500">Let’s Goooo!</p>
         </div>
         <img
           src="../../../assets/left_character.png"
           alt="Left character"
-          class="absolute left-[-35%] w-[250px]"
+          class="absolute w-[250px] left-[-35%]"
         />
       </div>
 
       <!-- ตัวละครตรงกลางและข้อความ -->
-      <div class="relative flex items-center ">
-        <div
-          class="rounded-3xl border-4 border-orange-400 p-5 w-[500px] text-right relative shadow-xl"
-        >
-          <label class="text-[40px] font-koulen text-orange-500"
-            >RESERVE YOUR TIME <br />
-            AND LET THE FUN BEGIN!</label
-          >
-          <button
-            class="bg-orange-500 text-white text-xl font-bold mt-5 px-6 py-2 rounded-full"
-          >
+      <div class="relative flex items-center self-center">
+        <div class="relative w-[500px] p-5 text-right border-4 border-orange-400 rounded-3xl shadow-xl">
+          <label class="text-[40px] font-koulen text-orange-500">
+            RESERVE YOUR TIME <br />
+            AND LET THE FUN BEGIN!
+          </label>
+          <button class="px-6 py-2 mt-5 text-xl font-bold text-white bg-orange-500 rounded-full">
             RESERVE
           </button>
         </div>
         <img
           src="../../../assets/fisherman.png"
           alt="Fisherman character"
-          class="absolute left-[-30%] w-[400px] drop-shadow-2xl animate-spining"
+          class="absolute w-[400px] left-[-30%] drop-shadow-2xl animate-spining"
         />
       </div>
 
       <!-- ตัวละครทางขวา -->
-      <div class="relative flex items-center">
-        <div
-          class="rounded-3xl border-4 border-orange-400 p-5 w-[300px] relative"
-        >
-          <p class="font-koulen text-orange-500 text-xl">Let’s fun together!</p>
+      <div class="relative flex items-center sm:hidden lg:inline-flex">
+        <div class="w-[300px] p-5 border-4 border-orange-400 rounded-3xl">
+          <p class="text-xl font-koulen text-orange-500">Let’s fun together!</p>
         </div>
         <img
           src="../../../assets/right_character.png"
           alt="Right character"
-          class="absolute right-[-30%] w-[300px]"
+          class="absolute w-[300px] right-[-30%]"
         />
       </div>
     </section>
-    <section  class="px-10 py-5" [ngClass]="sectionopcity1">
+
+    <section class="px-10 py-5" [ngClass]="sectionopcity1">
       <!-- Header Section -->
-      <div class="flex w-full justify-center items-center mb-10">
-        <div
-          class="text-orange-500 text-[50px] font-koulen basis-[20%] flex justify-center items-center"
-        >
+      <div class="flex items-center justify-center w-full mb-10">
+        <div class="flex items-center justify-center basis-[20%] text-[50px] font-koulen text-orange-500">
           <h1>COMING SOON</h1>
         </div>
-        <div class="basis-auto flex-1">
-          <hr class="border-orange-500 w-full border-b-2 mt-2" />
+        <div class="flex-1 basis-auto">
+          <hr class="w-full mt-2 border-b-2 border-orange-500" />
         </div>
-        <div class="basis-1/5 w-full flex justify-center">
+        <div class="flex justify-center w-full basis-1/5">
           <!-- Left Arrow Button -->
-          <button
-            class="text-orange-500 text-4xl font-bold"
-            (click)="moveLeft()"
-          >
+          <button class="text-4xl font-bold text-orange-500" (click)="moveLeft()">
             <span>&#8592;</span>
           </button>
-          <button
-            class="text-orange-500 text-4xl font-bold"
-            (click)="moveRight()"
-          >
+          <button class="text-4xl font-bold text-orange-500" (click)="moveRight()">
             <span>&#8594;</span>
           </button>
         </div>
       </div>
 
       <!-- Carousel Section -->
-      <div class="flex flex-row justify-between items-center">
+      <div class="flex items-center justify-between">
         <!-- Cards Container -->
-        <div class="flex space-x-5 overflow-hidden ">
-          <div *ngFor="let card of displayedCards" class="basis-1/2 ">
-            <div class="border-4 border-orange-400 p-5 rounded-3xl flex space-x-6 h-3/4 ">
+        <div class="flex overflow-hidden space-x-5">
+          <div *ngFor="let card of displayedCards" class="basis-1/2">
+            <div class="flex space-x-6 p-5 h-3/4 border-4 border-orange-400 rounded-3xl">
               <img
                 [src]="card.photo"
                 [alt]="card.name"
-                class="w-[300px] h-[300px] rounded-xl object-cover"  
+                class="object-cover w-[300px] h-[300px] rounded-xl"
               />
               <div class="mt-4">
-                <h2 class="text-orange-500 text-2xl font-koulen">
-                  {{ card.name }}
-                </h2> 
-                <p class="text-lg mt-2 h-1/2 overflow-auto">{{ card.description }}</p>
-                
-                <p class="text-orange-500 text-xl font-bold mt-4">
-                  {{ card.price }}
-                </p>
+                <h2 class="text-2xl font-koulen text-orange-500">{{ card.name }}</h2>
+                <p class="mt-2 text-lg h-1/2 overflow-auto custom-scrollbar">{{ card.description }}</p>
+                <p class="mt-4 text-xl font-bold text-orange-500 lowercase">COMING SOON</p>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Right Arrow Button -->
-      </div>
-    </section >
-    <section  class="grid grid-cols-4 grid-rows-3 gap-5 font-koulen">
-      <div class="text-[40px] border border-orange-400 p-5 rounded-3xl col-span-2 "[ngClass]="sectionlefttoright">
-        <label
-          >Get ready for excitement with <br />
-          our brand-new game!</label
-        >
-      </div>
-      <div class="col-start-3 row-span-3 col-span-2 bg-orangePro rounded-3xl p-5" [ngClass]="sectionrigthtoleft">
-        <div class="flex">
-          <img [src]="boardgameItemsdesc[2].photo" class="w-44" />
-          <h2 class="text-[48px] font-koulen text-white text-wrap ml-5">
-            {{boardgameItemsdesc[2].name}}
-          </h2>
-        </div>
-        <p class="text-[24px] text-white indent-8 mt-4">
-          {{boardgameItemsdesc[2].description}}
-        </p>
-      </div>
-      <div
-        class="col-span-1 row-start-2 row-span-2 flex flex-col justify-center items-center rounded-3xl bg-orangePro"
-        [ngClass]="sectionlefttoright" 
-      >
-        <img [src]="boardgameItemsdesc[1].photo" class="w-32" />
-        <div class="flex flex-col justify-center items-center">
-          <h3 class="text-[32px] text-white font-koulen mt-4">{{boardgameItemsdesc[1].name}}</h3>
-        
-        </div>
-      </div>
-      <div
-        class="row-start-2 row-span-2 col-span-1 border border-orangePro rounded-3xl flex flex-col justify-center items-center text-orangePro"
-        [ngClass]="sectionlefttoright"  
-      >
-        <img [src]="boardgameItemsdesc[0].photo" class="w-32" />
-          <h3 class="text-[32px] font-koulen mt-4">{{boardgameItemsdesc[0].name}}</h3>
-          
       </div>
     </section>
+
+    <section class="grid grid-cols-4 grid-rows-3 gap-5 font-koulen">
+      <div class="col-span-2 p-5 text-[40px] border border-orange-400 rounded-3xl" [ngClass]="sectionlefttoright">
+        <label>
+          Get ready for excitement with <br />
+          our brand-new game!
+        </label>
+      </div>
+      <div class="col-span-2 row-span-3 p-5 bg-orangePro rounded-3xl" [ngClass]="sectionrigthtoleft">
+        <div class="flex">
+          <img [src]="boardgameItemsdesc[2].photo" class="w-44" />
+          <h2 class="ml-5 text-[48px] text-white font-koulen">{{boardgameItemsdesc[2].name}}</h2>
+        </div>
+        <p class="mt-4 text-[24px] text-white indent-8">{{boardgameItemsdesc[2].description}}</p>
+      </div>
+      <div class="flex flex-col items-center justify-center row-start-2 col-span-1 row-span-2 bg-orangePro rounded-3xl" [ngClass]="sectionlefttoright">
+        <img [src]="boardgameItemsdesc[1].photo" class="w-32" />
+        <div class="flex flex-col items-center justify-center">
+          <h3 class="mt-4 text-[32px] text-white font-koulen">{{boardgameItemsdesc[1].name}}</h3>
+        </div>
+      </div>
+      <div class="flex flex-col items-center justify-center row-start-2 col-span-1 row-span-2 border border-orangePro rounded-3xl text-orangePro" [ngClass]="sectionlefttoright">
+        <img [src]="boardgameItemsdesc[0].photo" class="w-32" />
+        <h3 class="mt-4 text-[32px] font-koulen">{{boardgameItemsdesc[0].name}}</h3>
+      </div>
+    </section>
+
     <section class="bg-inherit" [ngClass]="sectionopcity2">
-      
-            <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
-            <section id="beverage" class="pt-24">
-              <div
-                class="text-center text-4xl font-normal text-orangePro font-koulen mb-8"
-              >
-              All the games in our store
-              </div>
-              <div class="flex justify-center items-center">
-                <button
-                  (click)="prevPage()"
-                  [disabled]="currentPage === 0"
-                  class="h-12 text-4xl text-orangePro disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
-                >
-                  &lt;
-                </button>
-
-                <div class="grid grid-cols-3 gap-8 p-5 mx-12">
-                  <div
-                    *ngFor="let item of displayedItems"
-                    class="p-4 flex flex-col border-[3px] border-orangePro outline-3 outline-red-50 rounded-[30px] w-64"
-                  >
-                    <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
-                    <div class="px-4">
-                      <div class="mb-4 flex justify-center">
-                        <img class="max-h-56" [src]="item.photo" alt="" />
-                        
-                      </div>
-                      <div class="text-center flex justify-between">
-                        <div class="text-2xl font-normal font-koulen">
-                          {{ item.name }}
-                        </div>  
-                        <div class="font-koulen text-">{{ item.price}} BAHT</div>
-                      </div>
-                    </div>
-                    <div class="flex justify-center items-end">
-            
-                      <button
-                        (click)="openPopup(item)"
-                        class="mt-4 px-4 py-1 bg-orangePro border-orangePro border text-white rounded-md font-koulen"
-                      >
-                        BUY
-                      </button>
-                      
-                    </div>
-                  </div>
+      <!-- COFFEE GRID -->
+      <section id="beverage" class="pt-24">
+        <div class="mb-8 text-4xl font-normal text-center font-koulen text-orangePro">
+          All the games in our store
+        </div>
+        <div class="flex items-center justify-center">
+          <button
+            (click)="prevPage()"
+            [disabled]="currentPage === 0"
+            class="h-12 text-4xl transition-transform duration-200 transform text-orangePro disabled:opacity-50 hover:scale-150"
+          >
+            &lt;
+          </button>
+          <div class="grid grid-cols-3 gap-8 p-5 mx-12">
+            <div *ngFor="let item of displayedItems" class="p-4 flex flex-col border-[3px] border-orangePro rounded-[30px] w-72">
+              <div class="px-4 font-koulen">
+                <div class="flex justify-center mb-2">
+                  <img class="w-44 max-h-36" [src]="item.photo" alt="">
                 </div>
-                <button
-                  (click)="nextPage()"
-                  [disabled]="
-                    (currentPage + 1) * itemsPerPage >= boardgameItems.length
-                  "
-                  class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150"
-                >
-                  &gt;
-                </button>
+                <div class="w-full text-start text-xl">{{ item.name }}</div>
               </div>
-
-              <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
-            </section>
-            <section>
-            <form [formGroup]="cartForm" (ngSubmit)="addToCart()" *ngIf="showPopupSelectItem" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
-              <div class="bg-white rounded-3xl flex justify-between p-6 space-x-3 ">
-                <img [src]="selectedItem.photo" class=" h-[349px] rounded-3xl">
-                <div class="flex flex-col relative ">
-                  <label class="text-xl font-koulen">{{ selectedItem.name}}</label>
-                  <label class="h-52 ml-5 indent-8">{{ selectedItem.description}}</label>
-                  <label class="font-koulen">Price: {{ selectedItem.price}} BAHT</label>
-                  <div class="flex space-x-5 items-end justify-start">
-                    <div class="">  
-                      <button type="button" (click)="decreaseQuantity()" class="px-2 py-1 bg-gray-300 rounded mr-2">-</button>
-                      <input type="number" formControlName="quantity" min="1" />
-                      <button type="button" (click)="increaseQuantity()" class="px-2 py-1 bg-gray-300 rounded ml-2">+</button>
-                    </div>
-                    <small class="text-slate-600">คงเหลือในคลัง: {{selectedItem.quantity}}</small>
-                    <div class="absolute right-0 bottom-0 flex justify-between w-full ">
-                      <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
-                      <div class="space-x-3">
-                        <button type="submit" (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
-                       <a routerLink="/cart">
-                         <button (click)="selectBoardgame(selectedItem._id)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
-                       </a> 
-                      </div>
-                    </div>
-                  </div>
+              <div class="flex flex-col justify-center mt-auto font-koulen ">
+                <div class="flex items-center justify-between pt-1 ">
+                  <span class="grow border-b-2 border-orangePro"></span>
+                  <p class="px-3 pt-1 text-xl">{{ item.price }} BAHT</p>
+                  <span class="grow border-b-2 border-orangePro"></span>
+                </div>
+                <div class="flex justify-center">
+                  <button (click)="openPopup(item)" class="w-[50%] mt-4 px-4 py-1 bg-orangePro text-white rounded-[10px] font-koulen">
+                    ADD TO CART
+                  </button>
                 </div>
               </div>
-            </form>
-            <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
-          </section>
+            </div>
+          </div>
+          <button
+            (click)="nextPage()"
+            [disabled]="(currentPage + 1) * itemsPerPage >= boardgameItems.length"
+            class="h-12 text-4xl transition-transform duration-200 transform text-redProject disabled:opacity-50 hover:scale-150"
+          >
+            &gt;
+          </button>
+        </div>
+      </section>
+
+      <!-- Popup Form -->
+      <section>
         
-          
+      </section>
+      <form [formGroup]="cartForm" (ngSubmit)="addToCart()" *ngIf="showPopupSelectItem" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center ">
+        <div class="bg-white rounded-3xl flex justify-between p-6 space-x-3 ">
+          <img [src]="selectedItem.photo" class=" h-[349px] rounded-3xl">
+          <div class="flex flex-col relative ">
+            <label class="text-xl font-koulen">{{ selectedItem.name}}</label>
+            <label class="h-52 ml-5 indent-8">{{ selectedItem.description}}</label>
+            <label class="font-koulen">Price: {{ selectedItem.price}} BAHT</label>
+            <div class="flex space-x-5 items-end justify-start">
+              <div class="">  
+                <button type="button" (click)="decreaseQuantity()" class="px-2 py-1 bg-gray-300 rounded mr-2">-</button>
+                <input type="number" formControlName="quantity" min="1" />
+                <button type="button" (click)="increaseQuantity()" class="px-2 py-1 bg-gray-300 rounded ml-2">+</button>
+              </div>
+              <small class="text-slate-600">คงเหลือในคลัง: {{selectedItem.quantity}}</small>
+              <div class="absolute right-0 bottom-0 flex justify-between w-full ">
+                <button (click)="closePopup()" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Close</button>
+                <div class="space-x-3">
+                  <button type="submit" (click)="selectBoardgame(selectedItem._id)" class="border-orangePro border rounded-lg px-3 py-1 text-orangePro font-koulen">Add to cart</button>
+                 <a routerLink="/cart">
+                   <button (click)="selectBoardgame(selectedItem._id)" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">Buy</button>
+                 </a> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </section>
   </div>
 </div>
