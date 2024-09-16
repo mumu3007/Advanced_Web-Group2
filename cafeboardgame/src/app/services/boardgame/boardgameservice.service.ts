@@ -23,8 +23,8 @@ export class BoardgameserviceService {
   }
 
   // ฟังก์ชันเพื่อเรียก POST API
-  addBoardgame(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/boardgame/boardgame`, data,{withCredentials: true});
+  addBoardgame(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/boardgame/boardgame`, formData);
   }
 
   getBoardgameType(): Observable<any> {

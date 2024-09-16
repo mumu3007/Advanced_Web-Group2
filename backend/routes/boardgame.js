@@ -1,9 +1,42 @@
 const express = require('express');
+const multer = require("multer");
+
 // Ensure the correct path to the model
 const Boardgame = require('../models/Boardgame');
 const Boardgametype = require('../models/BoardgameType');
 const mongoose = require('mongoose');
 const router = express.Router();
+
+const fileFilter = (req, file, cb) => {
+  // ตรวจสอบประเภทของไฟล์
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);  // อนุญาตไฟล์
+  } else {
+    cb(new Error('Only .jpeg and .png files are allowed!'), false); // ปฏิเสธไฟล์
+  }
+}
+
+// การกำหนดขนาดสูงสุด
+const limits = {
+  fileSize: 5 * 1024 * 1024  // ขนาดไฟล์สูงสุด 5 MB
+};
+
+
+const storage = multer.diskStorage({
+destination: function (req, file, cb) {
+  cb(null, "./uploads/");
+},
+filename: function (req, file, cb) {
+  const fileName = `${Date.now()}-${file.originalname}`;
+  cb(null, fileName);
+},
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: limits
+});
 
 //localhost/boardgame/inactive บอร์ดเกมที่ยังไม่พร้อม
 router.get('/inactive', async (req, res, next) => {
@@ -34,13 +67,30 @@ router.get('/boardgame3', async (req, res, next) => {
   }
 });
 
-
+// router.get('/all', async (req, res, next) => {
+//   try {
+//     const Boardgames = await Boardgame.find({ status: true})
+//     .populate('type', 'name');
+//     res.json(Boardgames);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 router.get('/all', async (req, res, next) => {
   try {
     const Boardgames = await Boardgame.find({ status: true})
     .populate('type', 'name');
-    res.json(Boardgames);
+
+       // เพิ่ม URL ของรูปภาพให้แต่ละ payment
+       const boardgamesWithPhotoUrl = Boardgames.map(boardgame => {
+        const photoUrl = `${req.protocol}://${req.get('host')}/${boardgame.photo.filePath}`;
+        return {
+          ...boardgame._doc,
+          photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+        };
+      });
+    res.json(boardgamesWithPhotoUrl);
   } catch (err) {
     next(err);
   }
@@ -75,9 +125,9 @@ router.get('/:id', async (req, res, next) => {
 });
 
 //create boardgame มี boardGameType._id มาด้วย
-router.post('/boardgame', async (req, res, next) => {
+router.post('/boardgame', upload.single("photo"), async (req, res, next) => {
   try {
-    const { name, price, description, quantity, photo,create_at, status, type } = req.body;
+    const { name, price, description, quantity,create_at, status, type } = req.body;
 
     const boardGameType = await Boardgametype.findById(type);
 
@@ -92,7 +142,12 @@ router.post('/boardgame', async (req, res, next) => {
       description,
       quantity,
       price,
-      photo,
+      photo:{
+        filename: req.file.filename,
+        filePath: req.file.path,
+        fileType: req.file.mimetype,
+        fileSize: req.file.size,
+      },
       create_at,
       status,
       type: boardGameType._id // เชื่อมโยง Boardgametype
