@@ -65,7 +65,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       this.sectionopcity1 = 'hidden'
     }
     // เปลี่ยนสีพื้นหลังเมื่อเลื่อนถึง 2000px
-    if (this.scrollPosition > 800) {
+    if (this.scrollPosition > 600) {
       this.sectionlefttoright = 'animate-lefttoright';
       this.sectionrigthtoleft = 'animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
     } else {

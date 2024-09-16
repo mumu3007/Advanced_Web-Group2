@@ -1,0 +1,21 @@
+/* Webkit Scrollbar (Chrome, Safari) */
+p::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  p::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  p::-webkit-scrollbar-thumb {
+    background-color: #ff6600; /* สีของ thumb */
+    border-radius: 10px;       /* ทำให้เป็นมุมโค้ง */
+    border: 3px solid #f1f1f1; /* ช่องว่างระหว่าง track */
+  }
+  
+  /* Firefox */
+  p {
+    scrollbar-width: thin; /* กำหนดความกว้างของ scrollbar */
+    scrollbar-color: #ff6600 #f1f1f1; /* สีของ thumb และ track */
+  }
+  
