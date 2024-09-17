@@ -1,8 +1,8 @@
-<div class="flex relative min-h-screen min-w-screen bg-[#F4F1EC] p-4">
-  <main class="container flex justify-center ">
-    <div class="z-10 mt-12 px-10  ">
+<div class="flex flex-col md:flex-row relative min-h-screen min-w-screen bg-[#F4F1EC] p-4 justify-center">
+  <main class="container flex flex-col md:flex-row justify-center items-center">
+    <div class="z-10  px-10">
       <p-toast></p-toast>
-      <form (submit)="login()">
+      <form (submit)="login()" class="text-center md:text-left">
         <h2 class="font-seymour text-[#D2091C] text-4xl">Welcome to</h2>
         <h2 class="font-seymour text-[#D2091C] text-4xl">CafeBOARDgame</h2>
         <p class="font-seymour text-[#D2091C] mt-5 text-xl">
@@ -21,7 +21,7 @@
                 name="email"
                 type="email"
                 required
-                class="w-full px-4 py-2 mt-4 text-lg outline-none border-2 border-[#D2091C] rounded-2xl hover:border-[#D2091C] duration-200 focus:border-indigo-60 bg-inherit"
+                class="w-[90%] sm:w-[90%] lg:w-[100%]  px-4 py-2 mt-4 text-lg outline-none border-2 border-[#D2091C] rounded-2xl hover:border-[#D2091C] duration-200 focus: bg-inherit"
               />
             </label>
           </div>
@@ -36,7 +36,7 @@
                 name="password"
                 type="password"
                 required
-                class="w-full px-4 py-2 mt-4 text-lg outline-none border-2 border-[#D2091C] rounded-2xl hover:border-[#D2091C] duration-200 focus:border-indigo-60 bg-inherit"
+                class="w-[90%] sm:w-[90%] lg:w-[100%]  px-4 py-2 mt-4 text-lg outline-none border-2 border-[#D2091C] rounded-2xl hover:border-[#D2091C] duration-200 focus:border-indigo-60 bg-inherit"
               />
             </label>
           </div>
@@ -52,12 +52,12 @@
       </form>
     </div>
 
-    <div class="flex  justify-center items-center  z-10">
-      <img src="../../../assets/loginImage_bg.png" class="w-[89%]" alt="login" />
+    <div class="flex justify-center items-center z-10 mt-8 md:mt-0 hidden lg:block">
+      <img src="../../../assets/loginImage_bg1.png" class="w-full md:w-full" alt="login" />
     </div>
   </main>
 
   <div
-    class="absolute bottom-0 right-0 w-0 h-0 border-r-[1100px] border-r-[#D2091C] border-t-[690px] border-t-transparent"
+    class="absolute bottom-0 right-0 w-0 h-0 border-r-[1100px] border-r-[#D2091C] border-t-[690px] border-t-transparent hidden xl:block"
   ></div>
 </div>
