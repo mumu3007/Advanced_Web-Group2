@@ -44,12 +44,12 @@
                         <select
                             class=" form-control font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
                             formControlName="status">
-                            <option value="" selected>Status</option>
+                            <option value="" disabled selected >Status</option>
                             <option [value]="true">Available</option>
                             <option [value]="false">Unavailable</option>
                         </select>
-                        <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-80 
-                            file:mr-4 file:py-2 file:px-4
+                        <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-72 
+                            file:mr-2 file:py-2 file:px-4
                             file:w-44 file:h-full
                             file:text-[18px] file:font-koulen
                             file:rounded-xl file:border-2 file:border-redProject
@@ -80,9 +80,9 @@
                             <div class="w-56">
                                 <div>
                                     <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                                    <p class="text-[14px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
-                                    <p class="text-[14px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT</p>
-                                    <p class="text-[14px] text-black/80 font-koulen ">status : {{boardgame.status }} </p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT</p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">status : {{boardgame.status }} </p>
                                 </div>
                             </div>
                             <div class="ml-28">
@@ -114,12 +114,12 @@
     <!-- boardgame -->
 
     <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-28 ">
-        <div class="w-[75%] ">
+        <div class="w-[60%] ">
             <div *ngFor="let boardgame of boardgames" >
-            <div class="h-full border-redProject border-b-2">
+            <div class="h-full border-redProject border-b-2 pt-3">
                 <div class="flex justify-between h-full ">
                     <div class="w-[15%] flex justify-center ">
-                        <img class="h-full" src="../../../assets/7WondersDuel.webp" alt="">
+                        <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
                     </div>
                     <div class="content-center">
                         <div>
