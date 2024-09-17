@@ -1,35 +1,88 @@
 <div class="bg-[#F4F1EC] h-screen ">
   <app-navbar></app-navbar>
-  <div class="container mx-auto p-4 pt-20">
-      <h1 class="text-2xl font-bold text-red-600 mb-4">YOUR CART</h1>
-      <div class="flex flex-col md:flex-row gap-8">
-        <div class="w-full md:w-2/3">
-          <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4">
-            <div class="flex justify-between">
-                <div class="flex">
-              <img [src]="item.photo" [alt]="item.name" class="w-16 h-16 object-cover mr-4">
-              <div class="flex-col">
-                  <h2 class="font-semibold">{{ item.name }}</h2>
-                  <p class="text-sm text-gray-600">Type: {{ item.type }}</p>
+  <div class="container ml-28  p-4 pt-20">
+      
+      <div class="flex flex-col md:flex-row gap-8 pt-5">
+        <div class="w-full md:w-3/5 ">
+          <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
+          <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
+            <div *ngFor="let item of cartCoffeeDetails"
+              class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+              <div class="flex w-full pl-8 pr-4">
+                <div class="flex justify-center items-center ">
+                  <img src="../../../assets/grande.png" class="w-18 h-20">
+                </div>
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between  items-start">
+                    <div class="font-koulen">
+                      <p class="text-xl">{{item.name}}</p>
+                      <label for="sizeandsweet" class="text-sm">sweet: {{item.sweetness_level}}%, size: {{item.size}}</label>
+            
+                    </div>
+                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                  </div>
+                  <div class="flex justify-between pt-3 font-koulen text-md ">
+                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.total_price}} BAHT</p>
+                  </div>
+                </div>
               </div>
-              </div>
-              <button class="text-red-600" (click)="removeItem(item)">DELETE</button>
             </div>
-            <div class="flex justify-between">
-              <div class="">
-
-                  <span class="px-4 py-1 bg-gray-100">{{ item.quantity }}</span>
-
+            <div *ngFor="let item of cartCakeDetails"
+              class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+              <div class="flex w-full pl-8  pr-4">
+                <div class="flex justify-center items-center ">
+                  <img src="../../../assets/cupcake.png" class="w-18 h-20">
+                </div>
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between  items-start">
+                    <div class="font-koulen">
+                      <p class="text-xl">{{item.name}}</p>
+                      <label for="sizeandsweet" class=" font-noto">{{item.description}}</label>
+            
+                    </div>
+                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                  </div>
+                  <div class="flex justify-between pt-3 font-koulen text-md ">
+                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.total_price}} BAHT</p>
+                  </div>
+                </div>
               </div>
-              <p class="font-semibold">{{ item.price * item.quantity }} BAHT</p>
+            </div>
+            <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+              <div class="flex w-full pl-4 pr-4">
+                <div class="flex justify-center items-center max-w-16 max-h-20">
+                  <img src="../../../assets/sherock.png" class="max-w-16 max-h-20">
+                </div>
+                <div class="pl-6 w-full pt-2">
+                  <div class="flex justify-between  items-start">
+                    <div class="font-koulen">
+                      <p class="text-xl">{{item.name}}</p>
+                      <label for="category" class="text-sm">Categoty: {{item.type}}</label>
+            
+                    </div>
+                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                  </div>
+                  <div class="flex justify-between pt-3 font-koulen text-md ">
+                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.price}} BAHT</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          
         </div>
-        <div class="relative w-full md:w-1/3  p-4 rounded-lg border-2 border-redProject ">
-          <h2 class="absolute -top-5 bg-[#F4F1EC] p-1  text-redProject text-xl font-bold mb-4">TOTAL PRICE</h2>
-          <div *ngFor="let item of cartItems" class="flex justify-between mb-2">
-            <span>{{ item.name }}</span>
-            <span>{{ item.price * item.quantity }} BAHT</span>
+        <div class="relative w-full md:w-[45%]  px-8 py-14 rounded-3xl border-2 border-redProject mt-4">
+          <h2 class="absolute -top-5 left-16 bg-[#F4F1EC] px-4  text-redProject font-koulen text-4xl mb-4">TOTAL PRICE</h2>
+          <div *ngFor="let item of cartAllName" class="flex justify-between mb-4 font-koulen text-xl">
+            <span class="">{{ item.name }}</span>
+            <span>{{ item.total_price }} BAHT</span>
+          </div>
+          <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
+            <span class="">{{items.name}}</span>
+            <span>{{ items.price }} BAHT</span>
           </div>
           <div class="border-t pt-4 mt-4">
             <div class="flex justify-between font-bold">
