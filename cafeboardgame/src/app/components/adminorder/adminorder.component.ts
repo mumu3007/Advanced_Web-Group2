@@ -21,11 +21,15 @@ export class AdminorderComponent {
   message: string = '';
   showPopup: boolean = false;
   menuItems: any[] = [];
+  cakeItems: any[] = [];
+  displayedMenuItems: any[] = [];
+  displayedCakeItems: any[] = [];
 
 
 
   constructor(
     private menuService: ApiService,
+    private cakeService: ApiService,
     private router: Router,
     private messageService: MessageService, // Inject MessageService
     private cdr: ChangeDetectorRef
@@ -35,6 +39,7 @@ export class AdminorderComponent {
 
   ngOnInit(): void {
     this.DisplayMenuItems();
+    this.DisplayCakeItems();
   }
 
   showSection(sectionId: string): void {
@@ -154,7 +159,7 @@ export class AdminorderComponent {
 
           this.CakemenuForm.reset();
           this.currentSection = 'cake-menu';
-          this.menuItems.push(response);
+          this.cakeItems.unshift(response);
 
 
         },
@@ -176,6 +181,17 @@ export class AdminorderComponent {
       (data) => {
         this.menuItems = data;
         console.log('Menu items:', this.menuItems);
+      },
+      (error) => {
+        console.error('Error fetching menu:', error);
+      }
+    );
+  }
+
+  DisplayCakeItems() {
+    this.cakeService.getCakeItems().subscribe(
+      (data) => {
+        this.cakeItems = data;
       },
       (error) => {
         console.error('Error fetching menu:', error);
