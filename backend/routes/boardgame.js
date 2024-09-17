@@ -41,9 +41,18 @@ const upload = multer({
 //localhost/boardgame/inactive บอร์ดเกมที่ยังไม่พร้อม
 router.get('/inactive', async (req, res, next) => {
   try {
-    // Query the database for games with status = false
-    const inactiveBoardgames = await Boardgame.find({ status: false });
-    res.json(inactiveBoardgames);  // Return the result as JSON
+    const Boardgames = await Boardgame.find({ status: false})
+    .populate('type', 'name');
+
+       // เพิ่ม URL ของรูปภาพให้แต่ละ payment
+       const boardgamesWithPhotoUrl = Boardgames.map(boardgame => {
+        const photoUrl = `${req.protocol}://${req.get('host')}/${boardgame.photo.filePath}`;
+        return {
+          ...boardgame._doc,
+          photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+        };
+      });
+      res.json(boardgamesWithPhotoUrl);
   } catch (err) {
     next(err);  // Pass any errors to the error handler
   }
@@ -51,21 +60,27 @@ router.get('/inactive', async (req, res, next) => {
 //get 3 games
 router.get('/boardgame3', async (req, res, next) => {
   try {
-    const { asc, limit = 3 } = req.query;  // Get asc and limit from query parameters
+    const { limit = 3 } = req.query;  // Get limit from query parameters
+    const Boardgames = await Boardgame.find({ status: true })
+      .sort({ created_at: 1 }) // Sort by 'created_at' in ascending order (1 for ascending, -1 for descending)
+      .limit(Number(limit)) // Limit the number of results based on 'limit' parameter
+      .populate('type', 'name');
 
-    // Create query object based on 'asc' parameter
-    const query = asc ? { description: { $regex: asc, $options: 'i' } } : {};  // Use regex to match description (case-insensitive)
+    // Add URL for each boardgame's photo
+    const boardgamesWithPhotoUrl = Boardgames.map(boardgame => {
+      const photoUrl = `${req.protocol}://${req.get('host')}/${boardgame.photo.filePath}`;
+      return {
+        ...boardgame._doc,
+        photoUrl,  // Add photo URL to the result
+      };
+    });
 
-    // Query with sort and limit
-    const boardgames = await Boardgame.find(query)
-      .sort({ create_at: -1 })  // Sort by create_at field, -1 for descending (latest first)
-      .limit(parseInt(limit));  // Limit the number of results
-
-    res.json(boardgames);
+    res.json(boardgamesWithPhotoUrl);
   } catch (err) {
     next(err);
   }
 });
+
 
 // router.get('/all', async (req, res, next) => {
 //   try {
