@@ -12,8 +12,20 @@ const router = express.Router();
 router.get('/:userId', async (req, res) => {
   try {
     const cart = await Cart.findOne({ user_id: req.params.userId ,status: false})
-      .populate('ordercoffee_id')
-      .populate('ordercake_id')
+      .populate({
+        path: 'ordercoffee_id',
+        populate: {
+          path: 'coffee_id', // Populate coffee_id from ordercoffee_id
+          select: 'name' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
+        }
+      })
+      .populate({
+        path: 'ordercake_id',
+        populate: {
+          path: 'cake_id', // Populate coffee_id from ordercoffee_id
+          select: 'name description' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
+        }
+      })
       .populate({
         path: 'boardgame_id',
         select: 'name description price photo',
