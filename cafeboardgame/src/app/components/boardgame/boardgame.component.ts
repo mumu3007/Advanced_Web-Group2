@@ -41,7 +41,9 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
      private cartsService: CartsService,
      private authService :AuthService,
      private messageService: MessageService 
-     ) { }
+     ) {  this.adjustItemsPerPage(window.innerWidth);
+
+     }
 
   selectBoardgame(boardgameId: string): void {
     // Toggle selection (add or remove from selected array)
@@ -54,25 +56,40 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       this.selectedBoardgameIds.splice(index, 1);
     }
   }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustItemsPerPage(event.target.innerWidth);
+  }
+  adjustItemsPerPage(width: number) {
+    if (width < 640) { // For screens smaller than 640px
+      this.itemsPerPage = 2;
+    } else if (width >= 640 && width < 1024) { // For screens between 640px and 1024px
+      this.itemsPerPage = 4;
+    } else { // For screens larger than 1024px
+      this.itemsPerPage = 6;
+    }
+    this.loadMenuItems();
+    this.updateDisplayedItems()
+  }
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: Event): void {
     this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
-    if (this.scrollPosition > 30){
+    if (this.scrollPosition > 25){
       this.sectionopcity1 = 'lg:animate-opacityfade'
     }
     else{
       this.sectionopcity1 = 'lg:hidden'
     }
-    // เปลี่ยนสีพื้นหลังเมื่อเลื่อนถึง 2000px
-    if (this.scrollPosition > 600) {
+  
+    if (this.scrollPosition > 480) {
       this.sectionlefttoright = 'lg:animate-lefttoright';
       this.sectionrigthtoleft = 'lg:animate-righttoleft' // เปลี่ยนสีพื้นหลังตามที่ต้องการ
     } else {
       this.sectionlefttoright = 'lg:hidden'; // สีพื้นหลังเริ่มต้น
       this.sectionrigthtoleft = 'lg:hidden'; // สีพื้
     }
-    if (this.scrollPosition > 1300){
+    if (this.scrollPosition > 850){
       this.sectionopcity2 = 'lg:animate-opacityfade'
     }
     else{
@@ -173,21 +190,23 @@ GetinactiveBoardgameItems() {
 
 
   get displayedCards() {
-    return this.boardgameinactiveItem.slice(this.currentIndex, this.currentIndex + 2);
+    return this.boardgameinactiveItem
   }
+// scrollNext() {
+//   const container = document.querySelector('.custom-scrollbar');
+//   container.scrollBy({ left: 300, behavior: 'smooth' });
+// }
 
-  moveRight() {
-    this.currentIndex = (this.currentIndex + 2) % this.boardgameinactiveItem.length;
-  }
+// scrollPrev() {
+//   const container = document.querySelector('.custom-scrollbar');
+//   container.scrollBy({ left: -300, behavior: 'smooth' });
+// }
 
-  moveLeft() {
-    this.currentIndex = (this.currentIndex - 2 + this.boardgameinactiveItem.length) % this.boardgameinactiveItem.length;
-  }
 
   updateDisplayedItems() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.displayedItems = this.boardgameItems.slice(start, end);
+    // const start = this.currentPage * this.itemsPerPage;
+    // const end = start + this.itemsPerPage;
+    this.displayedItems = this.boardgameItems
     console.log("refresh complete")
   }
 
