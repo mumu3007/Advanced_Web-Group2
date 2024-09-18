@@ -1,5 +1,5 @@
-<nav [ngClass]="{'bg-white/40 text-black shadow-md saturate-[130%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled}" 
-     class="fixed top-0 left-0 right-0 transition-all duration-300 z-50 p-3 ">
+<nav [ngClass]="{'bg-white/40 text-black shadow-md saturate-[130%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled,'bg-white': showMobileMenu}" 
+     class="sticky top-0 left-0 right-0 transition-all duration-300 z-50 p-3 ">
      <div class="container mx-auto">
       <div class="flex justify-between items-center">
         <div>
@@ -7,7 +7,12 @@
             <img src="../../../assets/CafeBOARDgame.png" alt="Logo" />
           </a>
         </div>
-        <div class="lg:hidden">
+        <div class="lg:hidden space-x-4 ">
+          <a routerLink="/cart" (click)="toggleMenu()" class="relative">
+            <i class="fa-solid fa-basket-shopping text-2xl "></i>
+            <!-- Cart badge -->
+            <span *ngIf="totalItemCount > 0" class="absolute bg-redProject text-white text-xs rounded-full w-5 h-5 flex items-center justify-center -top-3 -right-2">{{ totalItemCount }}</span>
+          </a>
           <button (click)="toggleMenu()" class="text-3xl">
             <i class="fa-solid fa-bars"></i>
           </button>
@@ -63,37 +68,30 @@
         </ng-template>
       </ul>
     </div>
-    <ul *ngIf="showMobileMenu" class="lg:hidden space-y-4 mt-5 font-semibold text-base font-sans text-center sm:bg-white p-5">
-      <li class="hover:border-b-2 transition-all ease-in-out">
+    <ul *ngIf="showMobileMenu" class="lg:hidden space-y-4 mt-5 font-semibold text-base font-sans text-center bg-inherit p-5">
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0s">
         <a routerLink="/" (click)="toggleMenu()">Home</a>
       </li>
-      <li class="hover:border-b-2 transition-all ease-in-out">
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0.1s">
         <a routerLink="/menu" (click)="toggleMenu()">Menu</a>
       </li>
-      <li class="hover:border-b-2 transition-all ease-in-out">
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0.2s">
         <a routerLink="/boardgame" (click)="toggleMenu()">Boardgame</a>
       </li>
-      <li class="group-hover:border-b-2 transition-all ease-in-out">
-        <a routerLink="/cart" (click)="toggleMenu()">
-          <i class="fa-solid fa-basket-shopping text-2xl"></i>
-          <!-- Cart badge -->
-          <span *ngIf="totalItemCount > 0" class="absolute bg-redProject text-white text-xs rounded-full w-5 h-5 flex items-center justify-center -top-1 -right-2">{{ totalItemCount }}</span>
-        </a>
-      </li>
-
-      <!-- Login/Sign Up or User Dropdown -->
+    
       <ng-container *ngIf="isLoggedIn; else mobileNotLoggedIn">
-        <li (click)="logout()" class="text-xl font-bold cursor-pointer hover:underline">Sign out</li>
+        <li (click)="logout()" class="text-xl font-bold cursor-pointer hover:underline fade-in-stagger" style="animation-delay: 0.3s">Sign out</li>
       </ng-container>
-
+    
       <ng-template #mobileNotLoggedIn>
-        <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
+        <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold fade-in-stagger" style="animation-delay: 0.3s">
           <a routerLink="/login" (click)="toggleMenu()">Sign in</a>
         </li>
-        <li class="border-2 border-white rounded-full px-3 bg-redProject text-white text-lg font-semibold">
+        <li class="border-2 border-white rounded-full px-3 bg-redProject text-white text-lg font-semibold fade-in-stagger" style="animation-delay: 0.4s">
           <a routerLink="/register" (click)="toggleMenu()">Sign up</a>
         </li>
       </ng-template>
     </ul>
+    
   </div>
 </nav>

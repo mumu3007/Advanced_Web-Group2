@@ -94,7 +94,7 @@
           <img [src]="boardgameItemsdesc[2].photoUrl" class="w-32 md:w-44" />
           <h2 class="ml-5 text-[32px] md:text-[48px] text-white font-koulen">{{boardgameItemsdesc[2].name}}</h2>
         </div>
-        <p class="mt-4 text-lg md:text-[24px] text-white indent-8">{{boardgameItemsdesc[2].description}}</p>
+        <p class="mt-4 text-lg md:text-[24px] text-white indent-8 select-none overflow-y-auto">{{boardgameItemsdesc[2].description}}</p>
       </div>
       <div class="flex flex-col items-center justify-center row-start-2 col-span-1 row-span-2 bg-orangePro rounded-3xl" [ngClass]="sectionlefttoright">
         <img [src]="boardgameItemsdesc[1].photUrl" class="w-24 md:w-32 mt-2" />
