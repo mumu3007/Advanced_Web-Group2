@@ -31,3 +31,21 @@
     word-wrap: break-word;
     white-space: normal;
   }
+
+  /* Default carousel container */
+.carousel-container {
+  width: 80%;
+}
+
+/* เมื่อหน้าจอมีความกว้างเล็กกว่า 640px (ขนาดมือถือ) */
+@media (max-width: 640px) {
+  .carousel-container {
+    width: 100%; /* ใช้เต็มหน้าจอ */
+    justify-content: center; /* ทำให้ slide อยู่กึ่งกลาง */
+  }
+
+  .carousel-container > div {
+    width: 100% !important; /* ปรับขนาดให้ slide กว้างขึ้นเพื่อแสดงเพียงอันเดียว */
+    margin: 0 auto; /* ทำให้ slide อยู่กึ่งกลาง */
+  }
+}
