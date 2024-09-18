@@ -86,18 +86,21 @@ toggleMenu() {
         // ดึงข้อมูลของแต่ละประเภทสินค้า
         const allItems = [
           ...cart.cart.ordercoffee_id,
-          ...cart.cart.cake_id,
+          ...cart.cart.ordercake_id, // แก้ไขจาก cake_id เป็น ordercake_id
           ...cart.cart.boardgame_id
         ];
   
         allItems.forEach((item: any) => {
           const id = item._id.toString();
-          
+  
           if (!combinedItems[id]) {
             combinedItems[id] = {
               ...item,
               quantity: 1, // เริ่มต้นด้วยจำนวน 1
-              type: item.type ? item.type.name : 'Unknown' // เพิ่มประเภทสินค้า (ถ้ามี)
+              type: item.type ? item.type.name : 'Unknown', // เพิ่มประเภทสินค้า (ถ้ามี)
+              name: item.name || 'Unnamed item', // กำหนดชื่อสินค้า (ถ้ามี)
+              description: item.description || '', // กำหนดคำอธิบาย (ถ้ามี)
+              price: item.price || 0 // กำหนดราคาสินค้า (ถ้ามี)
             };
           } else {
             combinedItems[id].quantity++; // ถ้ามีสินค้าซ้ำ ให้เพิ่มจำนวน
@@ -107,6 +110,7 @@ toggleMenu() {
   
         // หลังจากรวมสินค้าซ้ำแล้ว สามารถนำ countItem ไปแสดงหรือใช้ในฟังก์ชันอื่น ๆ ได้
         console.log('Total items in cart:', countItem);
+        console.log('Combined items:', combinedItems);
   
         // คุณอาจต้องการอัพเดตจำนวนทั้งหมดในตัวแปรใน component เช่น:
         this.totalItemCount = countItem;
@@ -115,6 +119,7 @@ toggleMenu() {
       (error) => console.error('Error loading cart:', error)
     );
   }
+  
   
 
   logout() {
