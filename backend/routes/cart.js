@@ -167,6 +167,158 @@ const ordercakeCount = countDuplicateIds(ordercake_id);
   }
 });
 
+router.delete('/ordercoffee/:orderCoffeeId', async (req, res, next) => {
+  try {
+    const { orderCoffeeId } = req.params;
+
+    const deletedOrders = await Ordercoffee.find({ _id: orderCoffeeId });
+
+    if (!deletedOrders.length) {
+      return res.status(404).json({ message: 'No OrderCakes found' });
+    }
+
+    const totalPriceToDeduct = deletedOrders.reduce((sum, order) => sum + order.total_price, 0);
+
+    await Ordercoffee.deleteOne({ _id: orderCoffeeId });
+
+    const orderCoffeeIds = deletedOrders.map(order => order._id);
+
+    let cart = await Cart.findOneAndUpdate(
+      { ordercoffee_id: { $in: orderCoffeeIds } },
+      { $pull: { ordercoffee_id: { $in: orderCoffeeIds } } },
+      { new: true }  // ให้คืนค่าตะกร้าหลังจากที่อัปเดตเสร็จแล้ว
+    );
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    cart.total_price -= totalPriceToDeduct;
+
+    await cart.save();
+
+    res.status(200).send({ message: 'Order coffee deleted successfully' });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+
+router.delete('/ordercake/:userId/:cakeId/', async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const cakeId = req.params.cakeId;
+
+    const deletedOrders = await Ordercake.find({ user_id: userId, cake_id: cakeId });
+
+    if (!deletedOrders.length) {
+      return res.status(404).json({ message: 'No OrderCakes found' });
+    }
+
+    const totalPriceToDeduct = deletedOrders.reduce((sum, order) => sum + order.total_price, 0);
+
+    await Ordercake.deleteMany({ user_id: userId, cake_id: cakeId });
+
+    const orderCakeIds = deletedOrders.map(order => order._id);
+
+    let cart = await Cart.findOneAndUpdate(
+      { user_id: userId, status: false, ordercake_id: { $in: orderCakeIds } },
+      { $pull: { ordercake_id: { $in: orderCakeIds } } },
+      { new: true }  // ให้คืนค่าตะกร้าหลังจากที่อัปเดตเสร็จแล้ว
+    );
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    cart.total_price -= totalPriceToDeduct;
+
+    await cart.save();
+
+    res.json({
+      message: 'All OrderCakes deleted, total price updated, and Cart updated successfully',
+      cart
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/boardgame/:userId/:boardgameId', async (req, res, next) => {
+  try {
+    const  boardgameId  = req.params.boardgameId;
+    const  userId  = req.params.userId;
+
+    const deletedOrders = await Boardgame.find({ _id: boardgameId });
+    const deletedCart = await Cart.findOne({ user_id: userId, status: false });
+
+    
+    // ถ้าไม่พบ ordercake ที่ตรงกัน
+    if (!deletedOrders.length) {
+      return res.status(404).json({ message: 'No Boardgame found' });
+    }
+
+    if (!deletedCart) {
+      return res.status(404).json({ message: 'No deleteCart found' });
+    }
+
+    const totalPriceToDeduct = deletedOrders.reduce((sum, order) => sum + order.price, 0) ;
+    const boardgameIds = deletedOrders.map(order => order._id);
+
+    let cart = await Cart.findOneAndUpdate(
+      { user_id: userId, status: false, boardgame_id: { $in: boardgameIds } },
+      { $pull: { boardgame_id: { $in: boardgameIds } } },
+      { new: true }  // ให้คืนค่าตะกร้าหลังจากที่อัปเดตเสร็จแล้ว
+    );
+
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+
+    // นับจำนวน boardgame_id[] ที่ตรงกับ boardgameId
+    const matchingBoardgamesCount = deletedCart.boardgame_id.filter(id => id.toString() === boardgameId).length;
+
+    // หักลบราคาที่ถูกลบออกจาก total_price ใน cart
+    // cart.total_price -= totalPriceToDeduct *  matchingBoardgamesCount;
+    cart.total_price -= totalPriceToDeduct * matchingBoardgamesCount;
+
+    // บันทึก cart ที่อัปเดตแล้ว
+    await cart.save();
+
+    res.status(200).send({
+      message: 'BoardgameOrder deleted successfully',
+      cart,   // จำนวน boardgame_id ทั้งหมดใน cart
+      matchingBoardgamesCount,
+      deletedCart // จำนวน boardgame_id ที่ตรงกับ boardgameId
+    });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
+
+// router.delete('/ordercake/:userId/:cakeId/', async (req, res, next) => {
+//   try {
+//     const userId  = req.params.userId;
+//     const cakeName = req.params.cakeName;
+//     const deletedOrder = await Ordercake.deleteMany({ user_id: userId, cake_id: cakeId });
+//     if (!deletedOrder) {
+//       return res.status(404).json({ message: 'orderCakeId not found' });
+//     }
+
+//     await Cart.updateMany(
+//       { 'ordercake_id': orderCakeId },
+//       { $pull: { ordercake_id: orderCakeId } }
+//     );
+    
+//     res.json({ message: 'orderCakeId deleted successfully' });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
 // router.post('/cart', async (req, res, next) => {
 //   try {
 //     const { total_price, user_id, ordercoffee_id, cake_id, boardgame_id } = req.body;
@@ -212,7 +364,99 @@ const ordercakeCount = countDuplicateIds(ordercake_id);
 //   }
 // });
 
+//--------------------------------------- ความหวังสุดท้ายของไกด์-----------------------------------------------
+// router.delete('/:userId/cart/:itemType/:itemId', async (req, res, next) => {
+//   try {
+//     const { userId, itemType, itemId } = req.params;
 
+//     // หา cart ของ user ที่ต้องการ
+//     let cart = await Cart.findOne({ user_id: userId, status: false });
+//     if (!cart) {
+//       return res.status(404).json({ message: 'Cart not found' });
+//     }
 
+//     // ลบรายการในตะกร้าตาม itemType
+//     switch (itemType) {
+//       case 'ordercoffee':
+//         await Cart.updateOne(
+//           { user_id: userId, status: false },
+//           { $pull: { ordercoffee_id: itemId } }
+//         );
+//         await Ordercoffee.deleteOne({ _id: itemId });
+//         break;
+
+//       case 'ordercake':
+//         await Cart.updateOne(
+//           { user_id: userId, status: false },
+//           { $pull: { ordercake_id: itemId } }
+//         );
+//         await Ordercake.deleteOne({ _id: itemId });
+//         break;
+
+//       case 'boardgame':
+//         await Cart.updateOne(
+//           { user_id: userId, status: false },
+//           { $pull: { boardgame_id: itemId } }
+//         );
+//         // Boardgame ไม่ถูกลบออกจาก collection แต่จะถูกลบจากตะกร้าเท่านั้น
+//         break;
+
+//       default:
+//         return res.status(400).json({ message: 'Invalid item type' });
+//     }
+
+//     // ตรวจสอบว่าตะกร้ามีรายการเหลืออยู่หรือไม่
+//     cart = await Cart.findOne({ user_id: userId, status: false });
+//     if (!cart.ordercoffee_id.length && !cart.ordercake_id.length && !cart.boardgame_id.length) {
+//       // ถ้าตะกร้าไม่มีสินค้าเลย ก็ลบตะกร้านี้ออก
+//       await Cart.deleteOne({ user_id: userId, status: false });
+//       return res.status(200).json({ message: 'Cart deleted as it is empty now' });
+//     }
+
+//     res.status(200).json({ message: 'Item removed from cart successfully', cart });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+router.delete('/:userId/cart/ordercake/:cakeId', async (req, res, next) => {
+  try {
+    const { userId, cakeId } = req.params;
+
+    // หา cart ของ user ที่ต้องการ
+    let cart = await Cart.findOne({ user_id: userId, status: false });
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    // ค้นหา ordercakes ทั้งหมดที่มี cake_id ตรงกันใน cart
+    const orderCakesToDelete = await Ordercake.find({ _id: { $in: cart.ordercake_id }, cake_id: cakeId });
+    if (!orderCakesToDelete.length) {
+      return res.status(404).json({ message: 'No matching orderCakes found in the cart' });
+    }
+
+    // ลบ ordercakes ทั้งหมดที่มี cake_id ตรงกัน
+    const orderCakeIdsToDelete = orderCakesToDelete.map(order => order._id);
+    await Ordercake.deleteMany({ _id: { $in: orderCakeIdsToDelete } });
+
+    // ลบ cake_ids จาก cart
+    await Cart.updateOne(
+      { user_id: userId, status: false },
+      { $pull: { ordercake_id: { $in: orderCakeIdsToDelete } } }
+    );
+
+    // ตรวจสอบว่าตะกร้ามีรายการเหลืออยู่หรือไม่
+    cart = await Cart.findOne({ user_id: userId, status: false });
+    if (!cart.ordercoffee_id.length && !cart.ordercake_id.length && !cart.boardgame_id.length) {
+      // ถ้าตะกร้าไม่มีสินค้าเลย ก็ลบตะกร้านี้ออก
+      await Cart.deleteOne({ user_id: userId, status: false });
+      return res.status(200).json({ message: 'Cart deleted as it is empty now' });
+    }
+
+    res.status(200).json({ message: 'All matching cakes removed from cart successfully', cart });
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;
