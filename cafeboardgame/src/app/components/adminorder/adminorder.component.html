@@ -29,10 +29,10 @@
   </div>
 
   <!-- หน้าเครื่องดื่ม(Beverage Menu) -->
-  <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="flex justify-center gap-10 ">
+  <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="flex justify-start gap-6 ">
 
     <!-- เพิ่มเมนูกาแฟ -->
-    <form  form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-[40%]">
+    <form  form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-[40%] ml-8">
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
           style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
@@ -73,7 +73,7 @@
         </div>
 
         <div class="flex flex-row gap-4 pb-8">
-          <input id="photo" type="file" formControlName="upload"
+          <input id="photo" type="file" (change)="onFileSelected($event)"  formControlName="upload"
               class="form-control text-[16px] text-redProject font-koulen w-80 
               file:mr-4 file:py-2 file:px-4
               file:w-44 file:h-14
@@ -99,26 +99,26 @@
     </form>
     
     <!-- แสดงรายการเมนูเครื่องดื่ม -->
-    <div class="w-[50%] flex flex-col mt-2 ">
+    <div class="w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of menuItems">
           <div class=" h-full border-redProject  border-b-2 pt-3">
             <div class="flex justify-start h-full gap-3">
               <div class="w-[7rem] h-[9rem] flex justify-center ml-3 ">
-                <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.image" alt="">
+                <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.photoUrl" alt="">
               </div>
               <div class="w-[16rem]">
                 <h2 class="text-[20px] font-koulen whitespace-normal break-words">{{ item.name }}</h2>
-                <p class="text-[14px] text-black/80 font-koulen ">{{ item.type_coffee }}</p>
+                <p class="text-[18px] text-black/80 font-koulen ">{{ item.type_coffee }}</p>
               </div>
               <div class="">
-                <h2 class="text-[16px] font-koulen">Price of each glass size</h2>
-                <p class="text-[16px] font-koulen whitespace-normal break-words">: {{ item.s_price }}, {{ item.m_price }}, {{ item.l_price }} BAHT</p>
+                <h2 class="text-[20px] font-koulen">Price of each glass size</h2>
+                <p class="text-[18px] font-koulen whitespace-normal break-words">: {{ item.s_price }}, {{ item.m_price }}, {{ item.l_price }} BAHT</p>
               </div>
               <div class="flex justify-between items-start ml-8 gap-3">
-                <button (click)="openPopup()" type="button" class="text-lg text-formfPro font-koulen w-30 text-end hover:text-redProject">Update</button>
+                <button (click)="openPopup()" type="button" class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Update</button>
                 <app-itemlistpopup *ngIf="showPopup" (close)="closePopup()"></app-itemlistpopup>
-                <button type="button" class="text-lg text-formfPro font-koulen w-30 text-end hover:text-redProject">Delete</button>
+                <button type="button" (click)="deleteMenuItem(item._id)" class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Delete</button>
               </div>
             </div>
           </div>           
@@ -129,10 +129,10 @@
 
 
   <!-- หน้าเมนูเค้ก (Cake and Bakery Menu) -->
-  <div *ngIf="currentSection === 'cake-menu'" id="cake-menu" class="flex justify-center gap-8 ">
+  <div *ngIf="currentSection === 'cake-menu'" id="cake-menu" class="flex justify-start gap-6 ">
     
     <!-- เพิ่มเมนูเค้ก -->
-    <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()" class="w-[40%]">
+    <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()" class="w-[40%] ml-8">
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
           style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
@@ -146,7 +146,7 @@
         </div>
         
         <div class="flex flex-row gap-4 pb-8">
-          <input id="photo" type="file" formControlName="upload"
+          <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
             class="form-control text-[16px] text-redProject font-koulen w-80 
             file:mr-4 file:py-2 file:px-4
             file:w-44 file:h-14
@@ -167,26 +167,26 @@
     </form>
 
     <!--แสดงรายการเมนูของเค้ก-->
-    <div class="w-[50%] flex flex-col mt-2 ">
+    <div class="w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of cakeItems">
           <div class=" h-full border-redProject  border-b-2 pt-3">
             <div class="flex justify-start h-full gap-2">
               <div class="w-[8rem] h-[8rem] flex justify-center ml-2 ">
-                <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.image" alt="">
+                <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.photoUrl" alt="">
               </div>
               <div class="w-[16rem]">
                 <h2 class="text-[20px] font-koulen whitespace-normal break-words">{{ item.name }}</h2>
-                <p class="text-[16px] text-black/80 font-koulen ">PRICE : {{ item.price }} BAHT</p>
+                <p class="text-[18px] text-black/80 font-koulen ">PRICE : {{ item.price }} BAHT</p>
               </div>
-              <div class="w-[12rem]">
-                <h2 class="text-[14px] font-koulen whitespace-normal break-words">description :</h2>
-                <h2 class="text-[14px] text-black/80 font-koulen whitespace-normal break-words">{{ item.description }}</h2>
+              <div class="w-[14rem]">
+                <h2 class="text-[20px] font-koulen whitespace-normal break-words">description :</h2>
+                <h2 class="text-[18px] text-black/80 font-koulen whitespace-normal break-words">{{ item.description }}</h2>
               </div>
-              <div class="flex justify-between items-start gap-3">
-                <button (click)="openPopup()" type="button" class="text-lg text-formfPro font-koulen w-30 text-end hover:text-redProject">Update</button>
+              <div class="flex justify-between items-start gap-3 ml-4">
+                <button (click)="openPopup()" type="button" class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Update</button>
                 <app-itemlistpopup *ngIf="showPopup" (close)="closePopup()"></app-itemlistpopup>
-                <button type="button" class="text-lg text-formfPro font-koulen w-30 text-end hover:text-redProject">Delete</button>
+                <button type="button" (click)="deletecakeItem(item._id)"  class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Delete</button>
               </div>
             </div>
           </div>           
