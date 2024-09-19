@@ -19,13 +19,13 @@ export class AdminorderComponent {
   currentSection: string = 'all-orders'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
   menuSection: string = 'all-menu';
   message: string = '';
-  showPopup: boolean = false;
   menuItems: any[] = [];
   cakeItems: any[] = [];
   displayedMenuItems: any[] = [];
   displayedCakeItems: any[] = [];
   selectedFile: File | null = null;
-  
+  selectedCoffeemenuId?: string;
+  showPopup = false;
 
 
   constructor(
@@ -47,6 +47,17 @@ export class AdminorderComponent {
     this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
   }
 
+
+  openPopup(coffeemenuId: string) {
+    this.selectedCoffeemenuId = coffeemenuId;
+    this.showPopup = true;
+    console.log(coffeemenuId);
+  }
+
+  closePopup() {
+    this.showPopup = false;
+  }
+
   BeveragemenuForm = new FormGroup({
     name: new FormControl(''),
     tallcupprice: new FormControl(),
@@ -57,6 +68,7 @@ export class AdminorderComponent {
     frappe: new FormControl(false),
     upload: new FormControl(),
     status: new FormControl('status'),
+    create_at: new FormControl(new Date()),
 
   });
 
@@ -65,16 +77,10 @@ export class AdminorderComponent {
     cakedescription: new FormControl(''),
     cakeprice: new FormControl(),
     upload: new FormControl(),
+    create_at: new FormControl(new Date()),
 
   });
 
-  openPopup() {
-    this.showPopup = true;
-  }
-
-  closePopup() {
-    this.showPopup = false;
-  }
 
   // เมื่อเลือกไฟล์
   onFileSelected(event: any): void {
@@ -107,6 +113,11 @@ export class AdminorderComponent {
       .filter(type => this.BeveragemenuForm.get(type)?.value)
       .map(type => type.toUpperCase());
 
+      const status = this.BeveragemenuForm.get('status')?.value;
+      const statusValue = status === 'true' ? 'regular' : 'recommended';
+
+
+
       // รับค่าจากฟอร์ม
       const formData = new FormData();
       formData.append('name', this.BeveragemenuForm.get('name')?.value || '');
@@ -115,7 +126,8 @@ export class AdminorderComponent {
       formData.append('l_price', this.BeveragemenuForm.get('venticupprice')?.value?.toString() || '0');
       formData.append('type_coffee', JSON.stringify(coffeeTypes));
       formData.append('photo', this.BeveragemenuForm.get('upload')?.value || '');
-      formData.append('status', this.BeveragemenuForm.get('status')?.value ? 'true' : 'false');
+      formData.append('status', statusValue);
+      formData.append('create_at', this.BeveragemenuForm.get('create_at')?.value?.toString() || new Date().toISOString());
 
       console.log('Form Data:', {
         name: this.BeveragemenuForm.get('name')?.value,
@@ -141,6 +153,7 @@ export class AdminorderComponent {
           this.currentSection = 'beverage-menu';
           this.DisplayMenuItems()
           this.cdr.detectChanges();
+          this.BeveragemenuForm.get('status')?.setValue('status');
         },
         (error) => {
           this.message = "fail";
