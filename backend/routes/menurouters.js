@@ -147,7 +147,6 @@ router.put('/coffeemenu/:id', async (req, res, next) => {
 
 
 
-// Delete a coffee menu by ID (DELETE)
 // ลบเมนูกาแฟตาม ID (DELETE)
 router.delete('/coffeemenu/:id', async (req, res, next) => {
   try {
@@ -167,6 +166,31 @@ router.delete('/coffeemenu/:id', async (req, res, next) => {
       });
     }
     res.json({ message: 'ลบเมนูกาแฟสำเร็จ' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updatedCoffeeMenu = req.body;
+
+    // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
+    if (req.file) {
+      updatedCoffeeMenu.photo = {
+        filename: req.file.filename,
+        filePath: req.file.path,
+        fileType: req.file.mimetype,
+        fileSize: req.file.size,
+      };
+    }
+
+    // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
+    const result = await Coffeemenu.findByIdAndUpdate({_id: id}, updatedCoffeeMenu, { new: true });
+
+    // ส่งข้อมูลที่อัปเดตกลับ
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }

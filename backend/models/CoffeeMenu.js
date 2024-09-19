@@ -25,7 +25,8 @@ const coffeeMenuSchema = new mongoose.Schema({
     },
   },
   type_coffee: [String],
-  status: String
+  status: String,
+  create_at: {type: Date , default:Date.now},
 
 });  // Explicitly set collection name
 
