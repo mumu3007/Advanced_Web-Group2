@@ -19,7 +19,7 @@
                       <label for="sizeandsweet" class="text-sm">sweet: {{item.sweetness_level}}%, size: {{item.size}}</label>
             
                     </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCoffee(item._id)">DELETE</button>
                   </div>
                   <div class="flex justify-between pt-3 font-koulen text-md ">
                     <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
@@ -28,7 +28,7 @@
                 </div>
               </div>
             </div>
-            <div *ngFor="let item of cartCakeDetails"
+            <div *ngFor="let item of cakeItems"
               class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
               <div class="flex w-full pl-8  pr-4">
                 <div class="flex justify-center items-center ">
@@ -41,7 +41,7 @@
                       <label for="sizeandsweet" class=" font-noto">{{item.description}}</label>
             
                     </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
                   </div>
                   <div class="flex justify-between pt-3 font-koulen text-md ">
                     <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
@@ -59,14 +59,14 @@
                   <div class="flex justify-between  items-start">
                     <div class="font-koulen">
                       <p class="text-xl">{{item.name}}</p>
-                      <label for="category" class="text-sm">Categoty: {{item.type}}</label>
+                      <label for="category" class="text-sm">Category: {{item.type}}</label>
             
                     </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="removeItem(item)">DELETE</button>
+                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
                   </div>
                   <div class="flex justify-between pt-3 font-koulen text-md ">
                     <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
-                    <p class="text-xl">{{item.price}} BAHT</p>
+                    <p class="text-xl">{{item.price * item.quantity}} BAHT</p>
                   </div>
                 </div>
               </div>
@@ -82,7 +82,7 @@
           </div>
           <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
             <span class="">{{items.name}}</span>
-            <span>{{ items.price }} BAHT</span>
+            <span>{{ items.price * items.quantity}} BAHT</span>
           </div>
           <div class="border-t pt-4 mt-4">
             <div class="flex justify-between font-bold">

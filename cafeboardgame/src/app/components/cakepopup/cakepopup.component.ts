@@ -28,6 +28,7 @@ export class CakepopupComponent {
     private ordersService: OrdersService
   ) {
     this.cakeForm = this.fb.group({
+      user_id: [''],
       cake_id: [''],
       quantity: [1, Validators.required],
       total_price: [0],
@@ -40,6 +41,7 @@ export class CakepopupComponent {
       this.userId = id;
       if (this.userId) {
         this.loadUserData(this.userId);
+        
       }
     });
     this.totalPrice = this.cakeDetails.price
@@ -53,8 +55,9 @@ export class CakepopupComponent {
   loadCakeDetails() {
     this.menupopupService.getCakeDetails(this.cakeId!).subscribe((data) => {
       this.cakeDetails = data;
-      this.cakeForm.patchValue({ cake_id: data._id }); // Set coffee_id in the form
-      this.totalPrice = this.cakeDetails.price
+      this.cakeForm.patchValue({ cake_id: data._id });
+      this.cakeForm.patchValue({ user_id: this.userId }); // Set coffee_id in the form
+      this.updateTotalPrice();
     });
   }
 
@@ -93,7 +96,7 @@ export class CakepopupComponent {
           console.log(orderCakeData)
 
           this.cartsService.addCartItem({
-            user_id: this.userId ?? undefined,
+            user_id: ordercake.user_id,
             ordercoffee_id: [],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
             ordercake_id: [ordercake._id],
             boardgame_id: [],

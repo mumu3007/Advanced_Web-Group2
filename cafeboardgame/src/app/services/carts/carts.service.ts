@@ -22,4 +22,16 @@ export class CartsService {
   getCart(userId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${userId}`);
   }
+
+  deleteOrdercoffee(orderCoffeeId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/ordercoffee/${orderCoffeeId}`);
+  }
+
+  deleteOrdercake(userId: string, cakeId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/ordercake/${userId}/${cakeId}`);
+  }
+
+  deleteOrderboardgame(userId:string, boardgameId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/boardgame/${userId}/${boardgameId}`);
+  }
 }

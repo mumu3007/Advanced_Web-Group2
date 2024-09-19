@@ -1,6 +1,7 @@
 const express = require('express');
 const Ordercake = require('../models/OrderCake');
 const CakeMenu = require('../models/CakeMenu');
+const User = require('../models/User');
 const mongoose = require('mongoose');
 const router = express.Router();
 
@@ -38,8 +39,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/order', async (req, res, next) => {
     try {
-        const {  total_price, quantity, cake_id } = req.body;
+        const { user_id ,total_price, quantity, cake_id } = req.body;
 
+        const user = await User.findById(user_id);
         const cakeMenu = await CakeMenu.findById(cake_id);
 
         if (!cakeMenu) {
@@ -48,6 +50,7 @@ router.post('/order', async (req, res, next) => {
 
         //Create a new order document
         const newOrdercake = new Ordercake({
+            user_id: user._id,
             total_price,
             quantity,
             cake_id: cakeMenu._id // เชื่อมโยง coffeeMenu

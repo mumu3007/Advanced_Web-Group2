@@ -68,7 +68,7 @@ export class MenupopupComponent implements OnInit {
     });
   }
 
-  getImageSource(index: number): string {
+  getImageSource(index: number): string { 
     return this.sizeImages[index] || 'default-image.png';
   }
 
