@@ -9,6 +9,12 @@
         </div>
         <span class="grow h-[2px] bg-redProject"></span>
     </div>
+    <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+
+    <!-- --------popup-------- -->
+    <app-adminbgpopup *ngIf="showPopup" [boardgameID]="selectedBoardgameId"  (close)="closePopup()"></app-adminbgpopup>
+     <!-- --------popup-------- -->
 
     <div *ngIf="currentSection === 'boardgame'" id="boardgame" class="flex justify-center gap-10 ">
         <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-[40%]">
@@ -54,8 +60,6 @@
                             file:text-[18px] file:font-koulen
                             file:rounded-xl file:border-2 file:border-redProject
                             file:bg-transparent file:text-redProject" />
-
-                        <!-- <span class="sr-only">Choose file</span> -->
                         
                     </div>
 
@@ -68,7 +72,6 @@
                 </div>
             </div>
         </form>
-        <!-- ../../../assets/7WondersDuel.webp -->
         <div class="w-[50%] flex flex-col ">
             <div class="overflow-auto h-[32rem] w-full ">
                 <div *ngFor="let boardgame of boardgames" >
@@ -93,7 +96,8 @@
                             </div>
                             <div class="ml-28">
                                 <button type="button"
-                                    class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500">update</button>
+                                    class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
+                                    (click)="openPopup(boardgame._id)">update</button>
                             </div>
                             <div class="pr-3">
                                 <button type="button"
@@ -108,15 +112,12 @@
     </div>
 
 
-
-
-
     <!-- boardgame -->
 
-    <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-28 ">
-        <div class="w-[60%] ">
-            <div *ngFor="let boardgame of boardgames" >
-            <div class="h-full border-redProject border-b-2 pt-3">
+    <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-[70%] ">
+        <div class="w-[60%] overflow-auto h-full">
+            <div *ngFor="let boardgame of boardgames"  >
+            <div class=" h-full border-redProject border-b-2 pt-3">
                 <div class="flex justify-between h-full ">
                     <div class="w-[15%] flex justify-center ">
                         <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
@@ -124,18 +125,18 @@
                     <div class="content-center">
                         <div>
                             <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                            <p class="text-[14px] text-black/80 font-koulen ">category : Family Game, Party Game</p>
+                            <p class="text-[14px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
                         </div>
                     </div>
                     <div class="ml-52 content-center">
                         <div>
-                            <h2 class="text-[20px] font-koulen">X2</h2>
+                            <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
                         </div>
 
                     </div>
                     <div class="w-28 ml-40 content-center">
                         <div>
-                            <h2 class="text-[20px] font-koulen">625 BAHT</h2>
+                            <h2 class="text-[20px] font-koulen">{{boardgame.price}} BAHT</h2>
                         </div>
                     </div>
                 </div>

@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { ToastrModule } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup.component';
+import { AdminbgpopupComponent } from './components/adminbgpopup/adminbgpopup.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup
     MenupopupComponent,
     ItemlistpopupComponent,
     CakepopupComponent,
+    AdminbgpopupComponent,
 
   ],
   imports: [

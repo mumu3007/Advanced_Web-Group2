@@ -21,7 +21,20 @@ export class AdminboardgameComponent implements OnInit {
   typeItems: any[] = [];
   boardgames: any[] = [];
 
-  
+  selectedBoardgameId?: string;
+  showPopup = false;
+
+  openPopup(boardgameId: string) {
+    this.selectedBoardgameId = boardgameId;
+    this.showPopup = true;
+    console.log(boardgameId);
+  }
+
+
+  closePopup() {
+    this.showPopup = false;
+  } 
+
   showSection(sectionId: string): void {
     this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
   }

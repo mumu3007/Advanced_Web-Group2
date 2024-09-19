@@ -1,12 +1,12 @@
 const express = require('express');
 const multer = require("multer");
-
 // Ensure the correct path to the model
 const Boardgame = require('../models/Boardgame');
 const Boardgametype = require('../models/BoardgameType');
 const mongoose = require('mongoose');
 const router = express.Router();
 
+// -------------upload boardgame image----------------
 const fileFilter = (req, file, cb) => {
   // ตรวจสอบประเภทของไฟล์
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
@@ -15,12 +15,10 @@ const fileFilter = (req, file, cb) => {
     cb(new Error('Only .jpeg and .png files are allowed!'), false); // ปฏิเสธไฟล์
   }
 }
-
 // การกำหนดขนาดสูงสุด
 const limits = {
   fileSize: 5 * 1024 * 1024  // ขนาดไฟล์สูงสุด 5 MB
 };
-
 
 const storage = multer.diskStorage({
 destination: function (req, file, cb) {
@@ -37,6 +35,9 @@ const upload = multer({
   fileFilter: fileFilter,
   limits: limits
 });
+
+//----------------------------------------------------------
+
 
 //localhost/boardgame/inactive บอร์ดเกมที่ยังไม่พร้อม
 router.get('/inactive', async (req, res, next) => {
@@ -114,8 +115,8 @@ router.get('/all', async (req, res, next) => {
 //get by id game
 router.get('/:id', async (req, res, next) => {
   try {
-    const id = String(req.params.id)
-    const boardgameID = new mongoose.Types.ObjectId(id)
+    const id = String(req.params.id);
+    const boardgameID = new mongoose.Types.ObjectId(id);
 
     const boardgame = await Boardgame.aggregate([
       {
@@ -125,19 +126,36 @@ router.get('/:id', async (req, res, next) => {
       },
       {
         $lookup: {
-          from: "boardgametypes",   //collection name
-          localField: "type",       // ตัวแปรที่จะต้องเก็บเป็น Fk
-          foreignField: "_id",      // idที่เอามาจากตารางfk
+          from: "boardgametypes",   // ชื่อคอลเลคชั่นที่ต้องเชื่อมโยง
+          localField: "type",       // ฟิลด์ที่เป็น FK
+          foreignField: "_id",      // id ที่เชื่อมโยงจาก collection boardgametypes
           as: "BoardgameTypeDetails"
         }
       }
     ]);
 
-    res.json(boardgame);
+    // ตรวจสอบว่ามีผลลัพธ์หรือไม่
+    if (boardgame.length === 0) {
+      return res.status(404).json({ message: "Boardgame not found" });
+    }
+
+    // ดึง object ตัวแรกออกมา
+    const boardgameDetails = boardgame[0];
+
+    // เพิ่ม URL ของรูปภาพให้กับ boardgame
+    const photoUrl = `${req.protocol}://${req.get('host')}/${boardgameDetails.photo.filePath}`;
+    const boardgameWithPhotoUrl = {
+      ...boardgameDetails,
+      photoUrl // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+    };
+
+    // ส่ง object โดยไม่ต้องห่อด้วย array
+    res.json(boardgameWithPhotoUrl);
   } catch (err) {
     next(err);
   }
 });
+
 
 //create boardgame มี boardGameType._id มาด้วย
 router.post('/boardgame', upload.single("photo"), async (req, res, next) => {
@@ -176,21 +194,47 @@ router.post('/boardgame', upload.single("photo"), async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
-  try{
-    const id = req.params.id
+// router.patch('/:id', async (req, res, next) => {
+//   try{
+//     const id = req.params.id
+//     const updatedBoardgame = req.body;
+//     await Boardgame.findByIdAndUpdate({_id:id} ,updatedBoardgame, {new: true})
+//     .then((updatedBoardgame) =>{
+//       res.status(200).json(updatedBoardgame)
+//     })
+//     .catch((error) => {
+//       res.status(400).json({ error: error.message });
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// })
+
+router.patch('/:id', upload.single("photo"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
     const updatedBoardgame = req.body;
-    await Boardgame.findByIdAndUpdate({_id:id} ,updatedBoardgame, {new: true})
-    .then((updatedBoardgame) =>{
-      res.status(200).json(updatedBoardgame)
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error.message });
-    });
+
+    // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
+    if (req.file) {
+      updatedBoardgame.photo = {
+        filename: req.file.filename,
+        filePath: req.file.path,
+        fileType: req.file.mimetype,
+        fileSize: req.file.size,
+      };
+    }
+
+    // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
+    const result = await Boardgame.findByIdAndUpdate({_id: id}, updatedBoardgame, { new: true });
+
+    // ส่งข้อมูลที่อัปเดตกลับ
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }
-})
+});
+
 
 
 module.exports = router;
