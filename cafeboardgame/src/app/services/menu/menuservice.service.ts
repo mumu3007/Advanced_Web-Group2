@@ -25,12 +25,20 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/menu/recommended_coffee`, { withCredentials: true });
   }
 
-
-  addMenuItem(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/menu/coffeemenu`, data, { withCredentials: true });
+  deleteCoffeeMenu(id : number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/menu/coffeemenu/${id}`, { withCredentials: true });
   }
 
-  addCakeItem(data: CakeMenu): Observable<any> {
-    return this.http.post(`${this.apiUrl}/menu/cakemenu`, data, { withCredentials: true });
+  deletedCakemenu(id : number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/menu/cakemenu/${id}`, { withCredentials: true });
+  }
+
+
+  addMenuItem(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/menu/coffeemenu`, formData, { withCredentials: true });
+  }
+
+  addCakeItem(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/menu/cakemenu`, formData, { withCredentials: true });
   }
 }

@@ -24,7 +24,8 @@ export class AdminorderComponent {
   cakeItems: any[] = [];
   displayedMenuItems: any[] = [];
   displayedCakeItems: any[] = [];
-
+  selectedFile: File | null = null;
+  
 
 
   constructor(
@@ -54,7 +55,7 @@ export class AdminorderComponent {
     hot: new FormControl(false),
     iced: new FormControl(false),
     frappe: new FormControl(false),
-    upload: new FormControl(null),
+    upload: new FormControl(),
     status: new FormControl('status'),
 
   });
@@ -63,7 +64,7 @@ export class AdminorderComponent {
     name: new FormControl(''),
     cakedescription: new FormControl(''),
     cakeprice: new FormControl(),
-    upload: new FormControl(null),
+    upload: new FormControl(),
 
   });
 
@@ -75,42 +76,71 @@ export class AdminorderComponent {
     this.showPopup = false;
   }
 
+  // เมื่อเลือกไฟล์
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    console.log('Selected File:', file);
+    if (file && this.isValidFile(file)) {
+      this.selectedFile = file;
+      this.BeveragemenuForm.patchValue({ upload: file });
+      this.CakemenuForm.patchValue({ upload: file });
+    } else {
+      console.error('Invalid file selected.');
+    }
+    
+  }
+
+  // ตรวจสอบประเภทและขนาดของไฟล์
+  isValidFile(file: File): boolean {
+    const validTypes = ['image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    return validTypes.includes(file.type) && file.size <= maxSize;
+  }
+
+  //เพิ่มเมนูกาแฟ
   AddMenuItem() {
     if (this.BeveragemenuForm.valid) {
+
+      console.log("beveragemenuform",this.BeveragemenuForm)
+
+      const coffeeTypes = ['hot', 'iced', 'frappe']
+      .filter(type => this.BeveragemenuForm.get(type)?.value)
+      .map(type => type.toUpperCase());
+
       // รับค่าจากฟอร์ม
-      const formData = this.BeveragemenuForm.value;
+      const formData = new FormData();
+      formData.append('name', this.BeveragemenuForm.get('name')?.value || '');
+      formData.append('s_price', this.BeveragemenuForm.get('tallcupprice')?.value.toString() || '0');
+      formData.append('m_price', this.BeveragemenuForm.get('grandecupprice')?.value?.toString() || '0');
+      formData.append('l_price', this.BeveragemenuForm.get('venticupprice')?.value?.toString() || '0');
+      formData.append('type_coffee', JSON.stringify(coffeeTypes));
+      formData.append('photo', this.BeveragemenuForm.get('upload')?.value || '');
+      formData.append('status', this.BeveragemenuForm.get('status')?.value ? 'true' : 'false');
 
-      // กำหนดค่าให้กับ this.menu จากฟอร์ม
-      this.menu.name = formData.name || '';
-      this.menu.s_price = formData.tallcupprice || 0;
-      this.menu.m_price = formData.grandecupprice || 0;
-      this.menu.l_price = formData.venticupprice || 0;
-      this.menu.type_coffee = [
-        formData.hot ? 'HOT' : '',
-        formData.iced ? 'ICED' : '',
-        formData.frappe ? 'FRAPPE' : ''
-      ].filter(Boolean);
-      this.menu.photo = formData.upload || '';
-      this.menu.status = formData.status || '';
+      console.log('Form Data:', {
+        name: this.BeveragemenuForm.get('name')?.value,
+        s_price: this.BeveragemenuForm.get('tallcupprice')?.value,
+        m_price: this.BeveragemenuForm.get('grandecupprice')?.value,
+        l_price: this.BeveragemenuForm.get('venticupprice')?.value,
+        type_coffee: coffeeTypes,
+        photo: this.BeveragemenuForm.get('upload')?.value,
+        status: this.BeveragemenuForm.get('status')?.value
+    });
 
-      // ส่งข้อมูลไปยังเมธอดของ ApiService
-      this.menuService.addMenuItem(this.menu).subscribe(
+      console.log('formData',formData)
+      this.menuService.addMenuItem(formData).subscribe(
         (response) => {
           this.message = "success";
-
           console.log(response, this.message);
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Login successful!',
+            detail: 'Add menu successful!',
           });
-
-
           this.BeveragemenuForm.reset();
           this.currentSection = 'beverage-menu';
-          this.menuItems.unshift(response);
-
-
+          this.DisplayMenuItems()
+          this.cdr.detectChanges();
         },
         (error) => {
           this.message = "fail";
@@ -118,15 +148,61 @@ export class AdminorderComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Login failed. Please try again.',
+            detail: 'Add menu failed. Please try again.',
           });
         }
       );
     }
   }
 
-  ClearBeveragemenuForm() {
+  // ลบรายการของเมนูกาแฟ
+  deleteMenuItem(id: number) {
+    this.menuService.deleteCoffeeMenu(id).subscribe(
+      (response) => {
+        console.log("response",response)
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Menu item deleted successfully!',
+        });
+        this.DisplayMenuItems(); // รีเฟรชรายการเมนู
+      },
+      (error) => {
+        console.log("error",error)
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete menu item. Please try again.',
+        });
+      }
+    );
+  }
+  
+  // ลบรายการของเมนูเค้ก
+  deletecakeItem(id: number) {
+    this.menuService.deletedCakemenu(id).subscribe(
+      (response) => {
+        console.log("response",response)
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Menu item deleted successfully!',
+        });
+        this.DisplayCakeItems(); // รีเฟรชรายการเมนู
+      },
+      (error) => {
+        console.log("error",error)
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete menu item. Please try again.',
+        });
+      }
+    );
+  }
 
+  //เคลียร์ฟอร์มเมนูเครื่องดื่มและเค้ก
+  ClearBeveragemenuForm() {
     this.BeveragemenuForm.reset();
     this.BeveragemenuForm.get('status')?.setValue('status');
   }
@@ -134,19 +210,19 @@ export class AdminorderComponent {
     this.CakemenuForm.reset();
   }
 
+  //เพิ่มเมนูเค้ก
   AddCakeMenuItem() {
     if (this.CakemenuForm.valid) {
+      
       // รับค่าจากฟอร์ม
-      const formData = this.CakemenuForm.value;
-
-      // กำหนดค่าให้กับ this.menu จากฟอร์ม
-      this.cakemenu.name = formData.name || '';
-      this.cakemenu.description = formData.cakedescription || '';
-      this.cakemenu.price = formData.cakeprice || 0;
-      this.cakemenu.photo = formData.upload || '';
+      const formData = new FormData();
+        formData.append('name', this.CakemenuForm.get('name')?.value || '');
+        formData.append('description', this.CakemenuForm.get('cakedescription')?.value || '');
+        formData.append('price', this.CakemenuForm.get('cakeprice')?.value?.toString() || '0');
+        formData.append('photo', this.CakemenuForm.get('upload')?.value || '');
 
       // ส่งข้อมูลไปยังเมธอดของ ApiService
-      this.menuService.addCakeItem(this.cakemenu).subscribe(
+      this.menuService.addCakeItem(formData).subscribe(
         (response) => {
           this.message = "success";
 
@@ -159,8 +235,8 @@ export class AdminorderComponent {
 
           this.CakemenuForm.reset();
           this.currentSection = 'cake-menu';
-          this.cakeItems.unshift(response);
-
+          this.DisplayCakeItems();
+          
 
         },
         (error) => {
@@ -179,6 +255,7 @@ export class AdminorderComponent {
   DisplayMenuItems() {
     this.menuService.getMenuItems().subscribe(
       (data) => {
+        
         this.menuItems = data;
         console.log('Menu items:', this.menuItems);
       },
