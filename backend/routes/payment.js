@@ -44,6 +44,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
   try {
     // สร้างเอกสาร payment ใหม่
     const newPayment = new Payment({
+      user_id: req.body.user_id,
       cart_id: req.body.cart_id, // รับ cart_id จาก body request
       status: "pending", // กำหนดสถานะเริ่มต้น
       image: {
