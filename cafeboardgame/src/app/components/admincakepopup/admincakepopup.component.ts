@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { ItemlistpopupService } from '../../services/itemlistpopup/itemlistpopup.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-admincakepopup',
@@ -10,14 +11,20 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class AdmincakepopupComponent {
 
+  @Input() cakemenuID?: string;
   @Output() close = new EventEmitter<void>();
+ 
+  cakemenuData: any;
   updatecakeForm!: FormGroup;
-
+  selectedFile?: File | null = null;
+  currentSection: string = 'all-orders';
+  cakeItems: any[] = [];
 
   constructor(
-    private apiService: ApiService,
-    private itemlistpopupService: ItemlistpopupService,
+    private cakeService: ApiService,
+    private ItemlistpopupService: ItemlistpopupService,
     private fb: FormBuilder,
+    private messageService: MessageService // Inject MessageService
   ){}
 
   ngOnInit(): void {
@@ -25,13 +32,97 @@ export class AdmincakepopupComponent {
       name: [''],
       cakedescription: [''],
       cakeprice: [null],
-      upload: [''],
+      photo: [''],
       create_at: [new Date()],
     });
+    this.loadCakemenuByID();
   }
 
-  closePopup() {
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    console.log('Selected File:', file);
+    if (file && this.isValidFile(file)) {
+      this.selectedFile = file;
+      console.log('Selected File:', this.selectedFile);
+      this.updatecakeForm.patchValue({ photo: file });
+    } else {
+      console.error('Invalid file selected.');
+    }
+  }
+
+  // ตรวจสอบประเภทและขนาดของไฟล์
+  isValidFile(file: File): boolean {
+    const validTypes = ['image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    return validTypes.includes(file.type) && file.size <= maxSize;
+  }
+
+
+  
+  loadCakemenuByID() {
+    if (this.cakemenuID) {
+      this.ItemlistpopupService.getCakeByID(this.cakemenuID).subscribe((data) => {
+        console.log('ข้อมูลที่ได้รับ:', data);
+        this.cakemenuData = data;
+        if (data) {
+          // ตั้งค่าให้ฟอร์มแสดงข้อมูลจาก backend
+          this.updatecakeForm.patchValue({
+            name: data.name,
+            cakedescription: data.description,
+            cakeprice: data.price,
+            photo: data.photo,
+            photoUrl: data.photoUrl,
+            create_at: data.create_at,
+          });
+        }
+        console.log('ข้อมูลในฟอร์มที่ได้รับ:', this.cakemenuData);
+      });
+    }
+  }
+  
+
+  updateCakemenu() {
+    if (this.updatecakeForm.valid && this.cakemenuID) {
+      const formData = new FormData();
+
+    formData.append('name', this.updatecakeForm.get('name')?.value);
+    formData.append('description', this.updatecakeForm.get('cakedescription')?.value);
+    formData.append('price', this.updatecakeForm.get('cakeprice')?.value);
+    formData.append('create_at', this.updatecakeForm.get('create_at')?.value);
+    
+  
+      // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+        console.log('FormData with photo:', formData);
+      }else {
+        console.log('No photo selected');
+      }
+  
+      // เรียกใช้ service สำหรับอัปเดตข้อมูล
+      this.ItemlistpopupService.updateCakemenu(this.cakemenuID, formData)
+        .subscribe(
+          (response) => {
+            console.log('Cake updated:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Update menu successful!',
+            });
+            this.closeCakePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
+          },
+          
+          (error) => {
+            console.error('Error updating boardgame:', error);
+          }
+        );
+    } else {
+      console.log('Form is not valid');
+    }
+  }
+
+  closeCakePopup() {
     this.close.emit();
+    
   }
-
 }
