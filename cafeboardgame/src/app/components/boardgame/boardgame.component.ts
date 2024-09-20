@@ -5,6 +5,7 @@ import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-carousel',
@@ -40,22 +41,27 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
      private fb: FormBuilder,
      private cartsService: CartsService,
      private authService :AuthService,
-     private messageService: MessageService 
+     private messageService: MessageService,
+     private router: Router
      ) {  this.adjustItemsPerPage(window.innerWidth);
 
      }
 
-  selectBoardgame(boardgameId: string): void {
+  selectBoardgame(boardgameId: string): Promise<void> {
+    return new Promise<void>((resolve) => {
     // Toggle selection (add or remove from selected array)
     const index = this.selectedBoardgameIds.indexOf(boardgameId);
     if (index === -1) {
       this.selectedBoardgameIds.push(boardgameId);
       
       console.log("เช็ค addtocart"+ this.addToCart)
+      resolve();
     } else {
       this.selectedBoardgameIds.splice(index, 1);
     }
   }
+)}
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.adjustItemsPerPage(event.target.innerWidth);
@@ -97,7 +103,8 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     }
     console.log("scoll => "+this.scrollPosition)
   }
-  addToCart(): void {
+  addToCart(): Promise<void> {
+    return new Promise<void>((resolve) =>{
     const quantity = this.cartForm.get('quantity')?.value ?? 1;
     // Assuming `this.selectedBoardgameIds` and `this.boardgameQuantity` are properly populated
     const payload = {
@@ -116,6 +123,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
           summary: 'Success',
           detail: 'Boardgames added to cart',
         });
+        resolve()
       },
       (error) => {
         this.messageService.add({
@@ -126,6 +134,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
       }
     );
   }
+)}
   
 togglePopup(price: number) {
   this.selectedPrice = price;
@@ -282,5 +291,11 @@ GetinactiveBoardgameItems() {
         this.totalPrice = totalPrice; // Store the updated total price
       }
     }
+  }
+
+  async   buyNow(boardgameId: string){
+    await this.selectBoardgame(boardgameId)
+    await this.addToCart()
+    this.router.navigate(['/cart']);
   }
 }

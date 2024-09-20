@@ -4,6 +4,7 @@ import { MenupopupService } from '../../services/menupopup/menupopup.service';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { OrdersService } from '../../services/order/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cake-popup',
@@ -25,7 +26,8 @@ export class CakepopupComponent {
     private cartsService: CartsService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private router: Router
   ) {
     this.cakeForm = this.fb.group({
       user_id: [''],
@@ -41,7 +43,7 @@ export class CakepopupComponent {
       this.userId = id;
       if (this.userId) {
         this.loadUserData(this.userId);
-        
+
       }
     });
     this.totalPrice = this.cakeDetails.price
@@ -51,7 +53,7 @@ export class CakepopupComponent {
     console.log('User ID:', id);
   }
 
-  
+
   loadCakeDetails() {
     this.menupopupService.getCakeDetails(this.cakeId!).subscribe((data) => {
       this.cakeDetails = data;
@@ -63,9 +65,9 @@ export class CakepopupComponent {
 
 
   getPrice(): number {
-        return this.cakeDetails?.price || 0;
+    return this.cakeDetails?.price || 0;
   }
-  
+
 
   updateTotalPrice() {
     this.totalPrice = this.getPrice() * this.quantity;
@@ -87,35 +89,43 @@ export class CakepopupComponent {
 
 
 
-  onSubmit() {
-    if (this.cakeForm.valid) {
-      const orderCakeData = this.cakeForm.value;
-      this.ordersService.addCakesItem(orderCakeData).subscribe(
-        (ordercake) => {
-          console.log('Order added to order:', ordercake);
-          console.log(orderCakeData)
+  onSubmit(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.cakeForm.valid) {
+        const orderCakeData = this.cakeForm.value;
+        this.ordersService.addCakesItem(orderCakeData).subscribe(
+          (ordercake) => {
+            console.log('Order added to order:', ordercake);
+            console.log(orderCakeData)
 
-          this.cartsService.addCartItem({
-            user_id: ordercake.user_id,
-            ordercoffee_id: [],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
-            ordercake_id: [ordercake._id],
-            boardgame_id: [],
-          }).subscribe(
-            (cart) => {
-              console.log('OrderCake added to cart:', cart);
-              this.closePopup()
-            },
-            (error) => {
-              console.error('Error adding ordercake to cart:', error);
-            }
-          );
-        },
-        (error) => {
-          console.error('Error adding ordercake to order:', error);
-          console.log(orderCakeData)
-        }
-      );
+            this.cartsService.addCartItem({
+              user_id: ordercake.user_id,
+              ordercoffee_id: [],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
+              ordercake_id: [ordercake._id],
+              boardgame_id: [],
+            }).subscribe(
+              (cart) => {
+                console.log('OrderCake added to cart:', cart);
+                this.closePopup()
+                resolve();
+              },
+              (error) => {
+                console.error('Error adding ordercake to cart:', error);
+                reject(error);
+              }
+            );
+          },
+          (error) => {
+            console.error('Error adding ordercake to order:', error);
+            console.log(orderCakeData)
+            reject(error);
+          }
+        );
+      } else {
+        reject('Form is invalid');
+      }
     }
+    )
   }
 
   closePopup() {
@@ -123,8 +133,11 @@ export class CakepopupComponent {
   }
 
   buyNow() {
-    console.log('Processing buy now...');
-    // Logic for "Buy Now" action
+    if (this.cakeForm.valid) {
+      this.onSubmit().then(() => {
+        this.router.navigate(['/cart']);
+      });
+    }
   }
 
 }
