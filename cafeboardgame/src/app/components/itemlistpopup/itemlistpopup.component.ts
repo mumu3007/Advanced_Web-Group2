@@ -38,6 +38,7 @@ export class ItemlistpopupComponent {
 
   }
 
+
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     console.log('Selected File:', file);
@@ -83,6 +84,7 @@ export class ItemlistpopupComponent {
             create_at: data.create_at,
             status: data.status === 'regular' ? 'true' : 'false',
           });
+
         }
         console.log('Form data received:', this.coffeemenuData); // ตรวจสอบข้อมูลที่ได้รับ
       });

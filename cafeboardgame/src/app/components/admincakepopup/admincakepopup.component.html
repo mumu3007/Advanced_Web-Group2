@@ -1,7 +1,7 @@
 <form [formGroup]="updatecakeForm" (ngSubmit)="updateCakemenu()">
     <div class="fixed inset-0 flex items-center justify-center z-50" >
         <div class="bg-white rounded-3xl py-5 px-8 w-[36rem]">
-            <h3 class="text-redProject font-koulen text-[30px]">Update... </h3>
+            <h3 class="text-redProject font-koulen text-[30px]">Update {{cakemenuData.name}} </h3>
 
             <!--ชื่อและรายละเอียด-->
             <div class="mt-5 font-koulen mb-4">
@@ -19,8 +19,7 @@
                     file:w-44 file:h-14
                     file:text-[18px] file:font-koulen
                     file:rounded-xl file:border-2 file:border-redProject
-                    file:bg-transparent file:text-redProject"
-                    />
+                    file:bg-transparent file:text-redProject"/>
                 <input type="number" placeholder="PRICE" formControlName='cakeprice' min="0" step="any"
                     class="font-koulen text-[18px] w-[14rem] h-14 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
             </div>
