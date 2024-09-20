@@ -233,12 +233,14 @@ export class CartComponent implements OnInit {
   }
 
   togglePopup() {
+
+    this.showPopup = !this.showPopup;
     // ตรวจสอบว่ามีรายการในตะกร้าก่อนเปิดป๊อปอัพ
-    if (this.cartItems.length > 0) {
-      this.showPopup = !this.showPopup;
-    } else {
-      console.warn('Cart is empty. Cannot process payment.');
-    }
+    // if (this.cartItems.length > 0) {
+      
+    // } else {
+    //   console.warn('Cart is empty. Cannot process payment.');
+    // }
   }
 }
 

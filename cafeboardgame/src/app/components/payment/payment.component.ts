@@ -4,6 +4,7 @@ import { PaymentService } from '../../services/payment/payment.service';
 import * as QRCode from 'qrcode';
 import promptpay from 'promptpay-qr';
 import { MessageService } from 'primeng/api'; // เพิ่มการนำเข้า MessageService
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-payment',
@@ -15,6 +16,7 @@ export class PaymentComponent implements OnInit {
   selectedFile: File | null = null;
   promptPayPayload: string = '';
   qrCodeDataUrl: string = '';
+  userId: string | null = null; 
 
   @Input() price: number = 0;
   @Input() cart_id: string | null | undefined;
@@ -23,7 +25,8 @@ export class PaymentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private paymentService: PaymentService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService
   ) {
     // สร้างฟอร์ม
     this.paymentForm = this.fb.group({
@@ -53,6 +56,10 @@ export class PaymentComponent implements OnInit {
       } else {
         this.qrCodeDataUrl = url; // เก็บ URL ของ QR Code เพื่อใช้แสดง
       }
+    });
+
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id; // ดึง userId และเก็บไว้ในตัวแปร
     });
   }
 
@@ -89,6 +96,12 @@ export class PaymentComponent implements OnInit {
     console.log('Form Valid:', this.paymentForm.valid); // ตรวจสอบว่าฟอร์ม valid หรือไม่
     if (this.paymentForm.valid && this.selectedFile) {
       const formData = new FormData();
+      if (this.userId) {
+        formData.append('user_id', this.userId); // เพิ่ม user_id ถ้าไม่ใช่ null
+      } else {
+        formData.append('user_id', ''); // ใช้ค่าดีฟอลต์ถ้า userId เป็น null
+      }
+  
       formData.append('cart_id', this.paymentForm.get('cart_id')?.value);
       formData.append('image', this.selectedFile); // เพิ่มไฟล์ที่เลือกลงใน formData
 

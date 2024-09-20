@@ -6,6 +6,11 @@ const paymentSchema = new mongoose.Schema({
       ref: 'Cart', // อ้างอิงไปยัง Cart ที่เกี่ยวข้อง
       required: true,
     },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // อ้างอิงไปยัง Cart ที่เกี่ยวข้อง
+      required: true,
+    },
     status: {
       type: String,
       enum: ['pending', 'paid', 'failed'], // สถานะของการชำระเงิน
