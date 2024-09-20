@@ -31,4 +31,8 @@ export class BoardgameserviceService {
     return this.http.get(`${this.apiUrl}/boardgametype/all`,{withCredentials: true}) ;
   }
 
+  deletedBoardgame(id : number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/boardgame/${id}`, { withCredentials: true });
+  }
+
 }

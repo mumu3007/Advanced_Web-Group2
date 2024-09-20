@@ -85,16 +85,6 @@ router.get('/boardgame3', async (req, res, next) => {
 });
 
 
-// router.get('/all', async (req, res, next) => {
-//   try {
-//     const Boardgames = await Boardgame.find({ status: true})
-//     .populate('type', 'name');
-//     res.json(Boardgames);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 router.get('/all', async (req, res, next) => {
   try {
     const Boardgames = await Boardgame.find({ status: true})
@@ -113,6 +103,7 @@ router.get('/all', async (req, res, next) => {
     next(err);
   }
 });
+
 
 //get by id game
 router.get('/:id', async (req, res, next) => {
@@ -196,21 +187,6 @@ router.post('/boardgame', upload.single("photo"), async (req, res, next) => {
   }
 });
 
-// router.patch('/:id', async (req, res, next) => {
-//   try{
-//     const id = req.params.id
-//     const updatedBoardgame = req.body;
-//     await Boardgame.findByIdAndUpdate({_id:id} ,updatedBoardgame, {new: true})
-//     .then((updatedBoardgame) =>{
-//       res.status(200).json(updatedBoardgame)
-//     })
-//     .catch((error) => {
-//       res.status(400).json({ error: error.message });
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// })
 
 router.patch('/:id', upload.single("photo"), async (req, res, next) => {
   try {
@@ -247,6 +223,29 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
 
     // ส่งข้อมูลที่อัปเดตกลับ
     res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const deletedBoardgame = await Boardgame.findByIdAndDelete(req.params.id);
+    
+    if (!deletedBoardgame) {
+      return res.status(404).json({ message: 'ไม่พบบอร์ดเกม' });
+    }
+
+    // ตรวจสอบว่ามีฟิลด์ photo อยู่หรือไม่ และลบไฟล์ที่เชื่อมโยง
+    if (deletedBoardgame.photo && deletedBoardgame.photo.filePath) {
+      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(deletedBoardgame.photo.filePath));
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('เกิดข้อผิดพลาดในการลบรูปภาพ:', err);
+        }
+      });
+    }
+    res.json({ message: 'ลบบอร์ดเกมสำเร็จ' });
   } catch (err) {
     next(err);
   }
