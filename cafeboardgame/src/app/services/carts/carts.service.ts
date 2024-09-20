@@ -34,4 +34,8 @@ export class CartsService {
   deleteOrderboardgame(userId:string, boardgameId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/boardgame/${userId}/${boardgameId}`);
   }
+
+  getBaseUrl(): string {
+    return 'http://localhost:3000' // หรือใช้ URL เบสที่คุณต้องการ
+  }
 }

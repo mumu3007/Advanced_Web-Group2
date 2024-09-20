@@ -11,19 +11,19 @@ const router = express.Router();
 
 router.get('/:userId', async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user_id: req.params.userId ,status: false})
+    const cart = await Cart.findOne({ user_id: req.params.userId, status: false })
       .populate({
         path: 'ordercoffee_id',
         populate: {
           path: 'coffee_id', // Populate coffee_id from ordercoffee_id
-          select: 'name' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
+          select: 'name photo' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
         }
       })
       .populate({
         path: 'ordercake_id',
         populate: {
           path: 'cake_id', // Populate coffee_id from ordercoffee_id
-          select: 'name description' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
+          select: 'name description photo' // เลือกเฉพาะฟิลด์ที่คุณต้องการจาก coffee_id เช่น name และ price
         }
       })
       .populate({
@@ -36,8 +36,9 @@ router.get('/:userId', async (req, res) => {
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
-
     
+
+
     // ฟังก์ชันนับ ID ที่ซ้ำ
     const countDuplicateIds = (idArray) => {
       return idArray.reduce((acc, id) => {
@@ -70,7 +71,7 @@ router.get('/:userId', async (req, res) => {
 
 router.post('/add', async (req, res, next) => {
   try {
-    const { user_id, ordercoffee_id, ordercake_id, boardgame_id ,boardgame_quantity} = req.body;
+    const { user_id, ordercoffee_id, ordercake_id, boardgame_id, boardgame_quantity } = req.body;
     const total_price = 0
     // Validate the IDs
     if (!user_id || !Array.isArray(ordercoffee_id) || !Array.isArray(ordercake_id) || !Array.isArray(boardgame_id)) {
@@ -90,10 +91,10 @@ router.post('/add', async (req, res, next) => {
       }, {});
     };
     const ordercoffeeCount = countDuplicateIds(ordercoffee_id);
-const ordercakeCount = countDuplicateIds(ordercake_id);
+    const ordercakeCount = countDuplicateIds(ordercake_id);
 
-     // Calculate the total quantities for boardgames
-     const boardgameCount = boardgame_id.reduce((acc, id, index) => {
+    // Calculate the total quantities for boardgames
+    const boardgameCount = boardgame_id.reduce((acc, id, index) => {
       const quantity = boardgame_quantity[index];
       if (id && quantity > 0) {
         acc[id] = (acc[id] || 0) + quantity;
@@ -113,7 +114,7 @@ const ordercakeCount = countDuplicateIds(ordercake_id);
 
     const ordercoffeeTotal = ordercoffees.reduce((sum, item) => sum + (item.total_price * ordercoffeeCount[item._id]), 0);
     const ordercakeTotal = ordercakes.reduce((sum, item) => sum + (item.total_price * ordercakeCount[item._id]), 0);
-  const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
+    const boardgameTotal = boardgames.reduce((sum, item) => sum + (item.price * boardgameCount[item._id]), 0);
 
     const totalPriceToAdd = ordercoffeeTotal + ordercakeTotal + boardgameTotal;
 
@@ -161,7 +162,8 @@ const ordercakeCount = countDuplicateIds(ordercake_id);
         ordercoffee: finalOrdercoffeeCount,
         ordercake: finalOrdercakeCount,
         boardgame: finalBoardgameCount
-    }});
+      }
+    });
   } catch (err) {
     next(err);
   }
@@ -246,13 +248,13 @@ router.delete('/ordercake/:userId/:cakeId/', async (req, res, next) => {
 
 router.delete('/boardgame/:userId/:boardgameId', async (req, res, next) => {
   try {
-    const  boardgameId  = req.params.boardgameId;
-    const  userId  = req.params.userId;
+    const boardgameId = req.params.boardgameId;
+    const userId = req.params.userId;
 
     const deletedOrders = await Boardgame.find({ _id: boardgameId });
     const deletedCart = await Cart.findOne({ user_id: userId, status: false });
 
-    
+
     // ถ้าไม่พบ ordercake ที่ตรงกัน
     if (!deletedOrders.length) {
       return res.status(404).json({ message: 'No Boardgame found' });
@@ -262,7 +264,7 @@ router.delete('/boardgame/:userId/:boardgameId', async (req, res, next) => {
       return res.status(404).json({ message: 'No deleteCart found' });
     }
 
-    const totalPriceToDeduct = deletedOrders.reduce((sum, order) => sum + order.price, 0) ;
+    const totalPriceToDeduct = deletedOrders.reduce((sum, order) => sum + order.price, 0);
     const boardgameIds = deletedOrders.map(order => order._id);
 
     let cart = await Cart.findOneAndUpdate(
@@ -312,7 +314,7 @@ router.delete('/boardgame/:userId/:boardgameId', async (req, res, next) => {
 //       { 'ordercake_id': orderCakeId },
 //       { $pull: { ordercake_id: orderCakeId } }
 //     );
-    
+
 //     res.json({ message: 'orderCakeId deleted successfully' });
 //   } catch (err) {
 //     next(err);
