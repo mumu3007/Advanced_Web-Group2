@@ -10,9 +10,12 @@ export class ItemlistpopupService {
 
   constructor(private http: HttpClient) { }
 
-  getCoffeemenuByID(coffeemenuid: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${coffeemenuid}`);
+  getCoffeemenuByID(coffeemenuId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`);
   }
-
+  
+  getCakeByID(cakeId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`);
+  }
 
 }

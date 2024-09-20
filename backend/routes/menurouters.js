@@ -284,6 +284,31 @@ router.delete('/cakemenu/:id', async (req, res, next) => {
   }
 });
 
+router.patch('/cakemenu/:id', upload.single("photo"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updatedCakeMenu = req.body;
+
+    // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
+    if (req.file) {
+      updatedCoffeeMenu.photo = {
+        filename: req.file.filename,
+        filePath: req.file.path,
+        fileType: req.file.mimetype,
+        fileSize: req.file.size,
+      };
+    }
+
+    // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
+    const result = await CakeMenu.findByIdAndUpdate({_id: id}, updatedCakeMenu, { new: true });
+
+    // ส่งข้อมูลที่อัปเดตกลับ
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 
 function numberToHexString(num) {
