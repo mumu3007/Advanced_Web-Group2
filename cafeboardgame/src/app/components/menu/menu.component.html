@@ -101,7 +101,7 @@
           class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4">
-            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="beverage.photo" alt=""></div>
+            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="beverage.photoUrl" alt=""></div>
             <div class="text-center">
               <div class="text-lg font-normal font-koulen ">{{ beverage.name }}</div>
               <div class="flex flex-col pt-1">
@@ -148,7 +148,7 @@
           <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
           <div class="px-4 font-koulen">
             <div class="mb-2 flex justify-center">
-              <img class="max-h-36 w-44" [src]="cake.photo" alt="">
+              <img class="max-h-32 max-w-32" [src]="cake.photoUrl" alt="">
             </div>
             <div class="w-full text-start text-xl">{{ cake.name }}</div>
             <div class="flex items-center justify-between pt-1">
