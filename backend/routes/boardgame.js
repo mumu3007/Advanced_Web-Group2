@@ -217,6 +217,7 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
 
     // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
     if (req.file) {
+      console.log('File uploaded:', req.file);
       updatedBoardgame.photo = {
         filename: req.file.filename,
         filePath: req.file.path,

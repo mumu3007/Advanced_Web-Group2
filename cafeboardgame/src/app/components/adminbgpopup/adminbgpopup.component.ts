@@ -97,14 +97,22 @@ export class AdminbgpopupComponent implements OnInit  {
     if (this.boardgameForm.valid && this.boardgameID) {
       const formData = new FormData();
 
-       // แปลงฟอร์มทั้งหมดเป็น JSON string และเพิ่มลงใน FormData --> ยังไม่สามารถอัพเดตstatusได้ ถ้าใช้Boolean 
-    const formValues = JSON.stringify(this.boardgameForm.value);
-    formData.append('formValues', formValues);
+    formData.append('name', this.boardgameForm.get('name')?.value);
+    formData.append('description', this.boardgameForm.get('description')?.value);
+    formData.append('quantity', this.boardgameForm.get('quantity')?.value);
+    formData.append('price', this.boardgameForm.get('price')?.value);
+    formData.append('create_at', this.boardgameForm.get('create_at')?.value);
+    formData.append('status', this.boardgameForm.get('status')?.value.toString());
+
+    // เพิ่มประเภทบอร์ดเกม (type)
+    formData.append('type', this.boardgameForm.get('type')?.value);
   
       // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
       if (this.selectedFile) {
         formData.append('photo', this.selectedFile, this.selectedFile.name);
-        console.log(formData)
+        console.log('FormData with photo:', formData);
+      }else {
+        console.log('No photo selected');
       }
   
       // เรียกใช้ service สำหรับอัปเดตข้อมูล
