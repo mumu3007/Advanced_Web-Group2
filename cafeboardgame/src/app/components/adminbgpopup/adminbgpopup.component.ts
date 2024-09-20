@@ -10,11 +10,12 @@ import { BoardgameserviceService } from '../../services/boardgame/boardgameservi
 })
 export class AdminbgpopupComponent implements OnInit  {
   @Input() boardgameID?: string;
-  // @Input() loadBoardgameTypeItem! : () => void;
   @Output() close = new EventEmitter<void>();
   boardgameForm!: FormGroup;
   boardgameData: any;
   typeItems: any[] = [];
+  selectedFile?: File | null = null;
+
   
   constructor(
     private adminboardgameService: AdminbgpopupService,
@@ -28,7 +29,7 @@ export class AdminbgpopupComponent implements OnInit  {
       description: [''],
       quantity: [null, Validators.required],
       price: [null, Validators.required],
-      photo: [''],
+      photo: [],
       create_at: [new Date()],
       status: [null, Validators.required],
       type: [''],
@@ -40,6 +41,25 @@ export class AdminbgpopupComponent implements OnInit  {
 
   closePopup() {
     this.close.emit();
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    console.log('Selected File:', file);
+    if (file && this.isValidFile(file)) {
+      this.selectedFile = file;
+      console.log('Selected File:', this.selectedFile);
+      this.boardgameForm.patchValue({ photo: file });
+    } else {
+      console.error('Invalid file selected.');
+    }
+  }
+
+  // ตรวจสอบประเภทและขนาดของไฟล์
+  isValidFile(file: File): boolean {
+    const validTypes = ['image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    return validTypes.includes(file.type) && file.size <= maxSize;
   }
 
   loadBoardgameByID() {
@@ -73,12 +93,34 @@ export class AdminbgpopupComponent implements OnInit  {
     )
   }
 
-  // loadBoardgameTypeItem() {
-  //   this.boardgameService.getBoardgameType().subscribe(data => {
-  //     this.typeItems = data;
-  //   }, error => {
-  //     console.error('Error fetching boardgame types:', error);
-  //   });
-  // }
+  updateBoardgame() {
+    if (this.boardgameForm.valid && this.boardgameID) {
+      const formData = new FormData();
+
+       // แปลงฟอร์มทั้งหมดเป็น JSON string และเพิ่มลงใน FormData --> ยังไม่สามารถอัพเดตstatusได้ ถ้าใช้Boolean 
+    const formValues = JSON.stringify(this.boardgameForm.value);
+    formData.append('formValues', formValues);
+  
+      // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+        console.log(formData)
+      }
+  
+      // เรียกใช้ service สำหรับอัปเดตข้อมูล
+      this.adminboardgameService.updateBoardgame(this.boardgameID, formData)
+        .subscribe(
+          (response) => {
+            console.log('Boardgame updated:', response);
+            this.closePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
+          },
+          (error) => {
+            console.error('Error updating boardgame:', error);
+          }
+        );
+    } else {
+      console.log('Form is not valid');
+    }
+  }
   
 }

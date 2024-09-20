@@ -1,4 +1,4 @@
-<form [formGroup]="boardgameForm">
+<form [formGroup]="boardgameForm" (ngSubmit)="updateBoardgame()">
     <div class="fixed inset-0 flex items-center justify-center z-50">
       <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
         <div class="text-redProject font-koulen text-[30px]">
@@ -43,7 +43,7 @@
           </select>
   
           <!-- Photo (file input) -->
-          <input id="photoUrl" type="file" formControlName="photoUrl" class="form-control text-[16px] text-redProject font-koulen w-72 file:mr-2 file:py-2 file:px-4 file:w-44 file:h-full file:text-[18px] file:font-koulen file:rounded-xl file:border-2 file:border-redProject file:bg-transparent file:text-redProject" />
+          <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-72 file:mr-2 file:py-2 file:px-4 file:w-44 file:h-full file:text-[18px] file:font-koulen file:rounded-xl file:border-2 file:border-redProject file:bg-transparent file:text-redProject" />
           
         </div>
   

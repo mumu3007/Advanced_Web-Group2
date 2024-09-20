@@ -78,9 +78,7 @@ export class AdminboardgameComponent implements OnInit {
   AddBoardgame() {
     // ตรวจสอบว่าฟอร์มถูกต้อง
     if (this.boardgameForm.valid) {
-      // ดึงข้อมูลจากฟอร์ม
-      // const formData = this.boardgameForm.value;
-      
+      // ดึงข้อมูลจากฟอร์ม      
       const formData = new FormData();
       formData.append('name', this.boardgameForm.get('name')?.value || '');
       formData.append('description', this.boardgameForm.get('description')?.value || '');
