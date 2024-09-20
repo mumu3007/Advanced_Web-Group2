@@ -195,6 +195,45 @@ router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) =
     next(err);
   }
 });
+router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updatedCoffeeMenu = req.body;
+
+     // ค้นหาบอร์ดเกมเก่าก่อน
+     const existingCoffeeMenu= await Coffeemenu.findById(id);
+     console.log(existingCoffeeMenu.photo)
+
+    // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
+    if (req.file) {
+      console.log('File uploaded:', req.file);
+      updatedCoffeeMenu.photo = {
+        filename: req.file.filename,
+        filePath: req.file.path,
+        fileType: req.file.mimetype,
+        fileSize: req.file.size,
+      };
+      if (existingCoffeeMenu.photo && existingCoffeeMenu.photo.filePath) {
+        const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(existingCoffeeMenu.photo.filePath));
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error('เกิดข้อผิดพลาดในการลบรูปภาพเก่า:', err);
+          } else {
+            console.log('ลบรูปภาพเก่าเรียบร้อยแล้ว:', oldImagePath);
+          }
+        });
+      }
+    }
+
+    // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
+    const result = await Coffeemenu.findByIdAndUpdate({_id: id}, updatedCoffeeMenu, { new: true });
+
+    // ส่งข้อมูลที่อัปเดตกลับ
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
 
 
 
@@ -290,19 +329,35 @@ router.delete('/cakemenu/:id', async (req, res, next) => {
   }
 });
 
+
 router.patch('/cakemenu/:id', upload.single("photo"), async (req, res, next) => {
   try {
     const id = req.params.id;
     const updatedCakeMenu = req.body;
 
+     // ค้นหาบอร์ดเกมเก่าก่อน
+     const existingCakemenu = await CakeMenu.findById(id);
+     console.log(existingCakemenu.photo)
+
     // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
     if (req.file) {
-      updatedCoffeeMenu.photo = {
+      console.log('File uploaded:', req.file);
+      updatedCakeMenu.photo = {
         filename: req.file.filename,
         filePath: req.file.path,
         fileType: req.file.mimetype,
         fileSize: req.file.size,
       };
+      if (existingCakemenu.photo && existingCakemenu.photo.filePath) {
+        const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(existingCakemenu.photo.filePath));
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error('เกิดข้อผิดพลาดในการลบรูปภาพเก่า:', err);
+          } else {
+            console.log('ลบรูปภาพเก่าเรียบร้อยแล้ว:', oldImagePath);
+          }
+        });
+      }
     }
 
     // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
@@ -314,7 +369,6 @@ router.patch('/cakemenu/:id', upload.single("photo"), async (req, res, next) => 
     next(err);
   }
 });
-
 
 
 function numberToHexString(num) {

@@ -25,13 +25,15 @@ export class AdminorderComponent {
   displayedCakeItems: any[] = [];
   selectedFile: File | null = null;
   selectedCoffeemenuId?: string;
+  selectedCakemenuId?: string;
   showPopup = false;
+  showCakePopup = false;
+  
 
 
   constructor(
     private menuService: ApiService,
     private cakeService: ApiService,
-    private router: Router,
     private messageService: MessageService, // Inject MessageService
     private cdr: ChangeDetectorRef
 
@@ -54,8 +56,20 @@ export class AdminorderComponent {
     console.log(coffeemenuId);
   }
 
+  openCakePopup(cakemenuId: string) {
+    this.selectedCakemenuId = cakemenuId;
+    this.showCakePopup = true;
+    console.log(cakemenuId);
+  }
+
   closePopup() {
     this.showPopup = false;
+    this.DisplayMenuItems();
+  }
+
+  closeCakePopup() {
+    this.showCakePopup = false;
+    this.DisplayCakeItems();
   }
 
   BeveragemenuForm = new FormGroup({
@@ -289,6 +303,9 @@ export class AdminorderComponent {
       }
     );
   }
+
+
+  
 
   orders = [
     {

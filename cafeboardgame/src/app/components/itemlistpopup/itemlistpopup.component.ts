@@ -12,8 +12,8 @@ export class ItemlistpopupComponent {
   @Input() coffeemenuID?: string;
   @Output() close = new EventEmitter<void>();
   updateorderForm! : FormGroup
-  BeveragemenuForm!: FormGroup;
   coffeemenuData: any;
+  selectedFile?: File | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -38,6 +38,25 @@ export class ItemlistpopupComponent {
 
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    console.log('Selected File:', file);
+    if (file && this.isValidFile(file)) {
+      this.selectedFile = file;
+      console.log('Selected File:', this.selectedFile);
+      this.updateorderForm.patchValue({ photo: file });
+    } else {
+      console.error('Invalid file selected.');
+    }
+  }
+
+  // ตรวจสอบประเภทและขนาดของไฟล์
+  isValidFile(file: File): boolean {
+    const validTypes = ['image/jpeg', 'image/png'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    return validTypes.includes(file.type) && file.size <= maxSize;
+  }
+
   loadCoffeemenuByID() {
     if (this.coffeemenuID) {
       this.itemlistpopupService.getCoffeemenuByID(this.coffeemenuID).subscribe((data) => {
@@ -47,9 +66,7 @@ export class ItemlistpopupComponent {
           iced: !!data.iced, // แปลงค่าเป็น boolean
           frappe: !!data.frappe // แปลงค่าเป็น boolean
         };
-
         
-
         this.coffeemenuData = data
         if (data) {
           // แสดงข้อมูลในฟอร์ม
@@ -75,4 +92,6 @@ export class ItemlistpopupComponent {
   closePopup() {
     this.close.emit();
   }
+
+
 }

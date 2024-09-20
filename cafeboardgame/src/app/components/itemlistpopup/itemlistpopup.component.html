@@ -37,7 +37,8 @@
             <!--อัพรูปและเลือกสถานะ-->
             <div class="flex justify-between mb-8">
                 <span class="sr-only">Choose file</span>
-                <input type="file" formControlName="photo" class="form-control text-[16px] text-redProject font-koulen w-[16rem]
+                <input type="file" (change)="onFileSelected($event)"
+                formControlName="photo" class="form-control text-[16px] text-redProject font-koulen w-[16rem]
                 file:mr-4 file:py-2 file:px-4
                 file:w-36 file:h-12
                 file:text-[18px] file:font-koulen

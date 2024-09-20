@@ -15,7 +15,9 @@
 
   <!-- --------popup-------- -->
   <app-itemlistpopup *ngIf="showPopup" [coffeemenuID]="selectedCoffeemenuId"  (close)="closePopup()"></app-itemlistpopup>
+  <app-admincakepopup *ngIf="showCakePopup" [cakemenuID]="selectedCakemenuId"  (close)="closeCakePopup()"></app-admincakepopup>
    <!-- --------popup-------- -->
+
 
   <!-- หน้าแสดงสินค้าที่ถูกซื้อ (All Order) -->
   <div *ngIf="currentSection === 'all-orders'" id="all-orders" class="container mx-auto">
@@ -192,7 +194,7 @@
                 <h2 class="text-[18px] text-black/80 font-koulen whitespace-normal break-words">{{ item.description }}</h2>
               </div>
               <div class="flex justify-between items-start gap-3 ml-4">
-                <button type="button" class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Update</button>
+                <button type="button" (click)="openCakePopup(item._id)" class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Update</button>
                 <button type="button" (click)="deletecakeItem(item._id)"  class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Delete</button>
               </div>
             </div>

@@ -1,33 +1,34 @@
-<form [formGroup]="updatecakeForm" >
+<form [formGroup]="updatecakeForm" (ngSubmit)="updateCakemenu()">
     <div class="fixed inset-0 flex items-center justify-center z-50" >
-        <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
+        <div class="bg-white rounded-3xl py-5 px-8 w-[36rem]">
             <h3 class="text-redProject font-koulen text-[30px]">Update... </h3>
 
             <!--ชื่อและรายละเอียด-->
-            <div class="mt-4 font-koulen">
+            <div class="mt-5 font-koulen mb-4">
                 <input type="text" placeholder="Name" formControlName='name'
-                    class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
+                    class="font-koulen text-[18px] w-full h-14 mb-5 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
                 <textarea type="text" placeholder="Details.." formControlName='cakedescription'
-                    class="font-koulen text-[18px] w-full h-[14rem]  pt-1 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"></textarea>
+                    class="font-koulen text-[18px] w-full h-[14rem]  pt-1 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"></textarea>
             </div>
 
             <!--อัพรูปและราคา-->
             <div class="flex justify-between mb-8">
-                <input id="photo" type="file" formControlName="upload" 
+                <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="photo" 
                     class="form-control text-[16px] text-redProject font-koulen w-80 
                     file:mr-4 file:py-2 file:px-4
                     file:w-44 file:h-14
                     file:text-[18px] file:font-koulen
                     file:rounded-xl file:border-2 file:border-redProject
-                    file:bg-transparent file:text-redProject" />
+                    file:bg-transparent file:text-redProject"
+                    />
                 <input type="number" placeholder="PRICE" formControlName='cakeprice' min="0" step="any"
-                    class="form-control font-koulen text-[18px] w-[18rem] h-14 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
+                    class="font-koulen text-[18px] w-[14rem] h-14 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
             </div>
 
             <!--ปุ่ม-->
             <div class="flex justify-between">
                 <button type="button" class="font-koulen text-[18px] w-28 h-10 text-redProject items-center justify-center rounded-xl border-2 border-redProject hover:bg-[#B70A1A] hover:text-white transition-all duration-200"
-                  (click)="closePopup()">Cancel</button>
+                  (click)="closeCakePopup()">Cancel</button>
                 <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-200">Update Item</button>
               </div>
 

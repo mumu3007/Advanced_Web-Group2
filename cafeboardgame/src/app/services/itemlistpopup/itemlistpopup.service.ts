@@ -18,4 +18,12 @@ export class ItemlistpopupService {
     return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`);
   }
 
+  updateCoffeemenu(coffeemenuId: string, formData: FormData): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`, formData);
+  }
+
+  updateCakemenu(cakeId: string, formData: FormData): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/menu/cakemenu/${cakeId}`, formData);
+  }
+
 }
