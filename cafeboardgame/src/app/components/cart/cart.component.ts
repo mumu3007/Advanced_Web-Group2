@@ -41,116 +41,6 @@ export class CartComponent implements OnInit {
     console.log('User ID:', id);
   }
 
-  // loadCart(userId: string): void {
-  //   this.cartsService.getCart(userId).subscribe(
-  //     (cart) => {
-  //       console.log(cart)
-
-  //       this.cartCoffeeDetails = [];
-  //       this.cartCakeDetails = [];
-  //       this.cartAllName = [];
-  //       this.selectedCartId = cart.cart._id;
-
-  //       const boardgameItems = [
-  //         ...cart.cart.boardgame_id
-  //       ];
-
-  //       cart.cart.ordercoffee_id.forEach((ordercoffee: any) => {
-  //         const orderId = ordercoffee._id;
-  //         const coffeeName = ordercoffee.coffee_id.name;
-  //         const coffeeSize = ordercoffee.size
-  //         const coffeeSweet = ordercoffee.sweetness_level
-  //         const coffeeQuantity = ordercoffee.quantity || 0;
-  //         const coffeeTotalPrice = ordercoffee.total_price;
-  //         const coffeePhoto = ordercoffee.coffee_id.photo;
-
-
-  //         this.cartCoffeeDetails.push({
-  //           _id: orderId,
-  //           name: coffeeName,
-  //           size: coffeeSize,
-  //           sweetness_level: coffeeSweet,
-  //           quantity: coffeeQuantity,
-  //           total_price: coffeeTotalPrice,
-  //           photo: coffeePhoto
-  //         });
-
-  //         this.cartAllName.push({
-  //           _id: orderId,
-  //           name: coffeeName,
-  //           total_price: coffeeTotalPrice,
-  //         });
-
-  //         this.totalPrice += coffeeTotalPrice
-  //       });
-
-
-  //       const sameCakeItems: { [key: string]: any } = {}
-  //       cart.cart.ordercake_id.forEach((ordercake: any) => {
-  //         const cakeId = ordercake.cake_id._id;
-  //         const cakeName = ordercake.cake_id.name;
-  //         const cakeQuantity = ordercake.quantity || 0;
-  //         const cakeTotalPrice = ordercake.total_price;
-  //         const cakePhoto = ordercake.cake_id.photo;
-  //         const cakeDescription = ordercake.cake_id.description
-
-  //         if (!sameCakeItems[cakeName]) {
-  //           sameCakeItems[cakeName] = {
-  //             ...ordercake,
-  //             cake_id: cakeId, 
-  //             name: cakeName,
-  //             description: cakeDescription,
-  //             quantity: cakeQuantity, // เริ่มต้นด้วยจำนวน 1
-  //             total_price: cakeTotalPrice, // เพิ่มประเภทสินค้า (ถ้ามี)
-  //             photo: cakePhoto
-  //           };
-
-  //         } else {
-  //           sameCakeItems[cakeName].quantity += cakeQuantity;
-  //           sameCakeItems[cakeName].total_price += cakeTotalPrice; // ถ้ามีสินค้าซ้ำ ให้เพิ่มจำนวน
-  //         }
-
-  //         const existingItemIndex = this.cartAllName.findIndex((item) => item._id === cakeId);
-
-  //         if (existingItemIndex !== -1) {
-  //           // ถ้ามีรายการอยู่แล้ว ให้ทำการอัปเดตราคา
-  //           this.cartAllName[existingItemIndex].total_price += cakeTotalPrice;
-  //         } else {
-  //           // ถ้าไม่มีรายการนั้นใน cartAllName ให้ทำการเพิ่มใหม่
-  //           this.cartAllName.push({
-  //             _id: cakeId,
-  //             name: cakeName,
-  //             total_price: cakeTotalPrice,
-  //           });
-  //         }
-
-  //         this.totalPrice += cakeTotalPrice
-  //       });
-
-  //       const combinedItems: { [key: string]: any } = {};
-  //       boardgameItems.forEach((item: any) => {
-  //         const id = item._id.toString();
-
-  //         if (!combinedItems[id]) {
-  //           combinedItems[id] = {
-  //             ...item,
-  //             quantity: 1,
-  //             type: item.type ? item.type.name : 'Unknown'
-  //           };
-  //         } else {
-  //           combinedItems[id].quantity++;
-  //         }
-  //       });
-
-  //       this.cartItems = Object.values(combinedItems);
-  //       this.cakeItems = Object.values(sameCakeItems);
-  //       console.log(this.cakeItems)
-  //       this.totalPrice = this.totalPrice + this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-  //     },
-  //     (error) => console.error('Error loading cart:', error)
-  //   );
-  // }
   loadCart(userId: string): void {
     this.cartsService.getCart(userId).subscribe(
       (cart) => {
@@ -166,14 +56,14 @@ export class CartComponent implements OnInit {
         ];
 
         cart.cart.ordercoffee_id.forEach((ordercoffee: any) => {
+          
           const orderId = ordercoffee._id;
           const coffeeName = ordercoffee.coffee_id.name;
           const coffeeSize = ordercoffee.size
           const coffeeSweet = ordercoffee.sweetness_level
           const coffeeQuantity = ordercoffee.quantity || 0;
           const coffeeTotalPrice = ordercoffee.total_price;
-          const coffeePhoto = ordercoffee.coffee_id.photo;
-
+          const coffeePhoto = `${this.cartsService.getBaseUrl()}/${ordercoffee.coffee_id.photo.filePath}`; // ใช้ service ที่สร้างขึ้น
 
           this.cartCoffeeDetails.push({
             _id: orderId,
@@ -191,7 +81,7 @@ export class CartComponent implements OnInit {
             total_price: coffeeTotalPrice,
           });
 
-          // this.totalPrice += coffeeTotalPrice
+          this.totalPrice += coffeeTotalPrice
         });
 
 
@@ -201,8 +91,8 @@ export class CartComponent implements OnInit {
           const cakeName = ordercake.cake_id.name;
           const cakeQuantity = ordercake.quantity || 0;
           const cakeTotalPrice = ordercake.total_price;
-          const cakePhoto = ordercake.cake_id.photo;
           const cakeDescription = ordercake.cake_id.description
+          const cakePhotoUrl = `${this.cartsService.getBaseUrl()}/${ordercake.cake_id.photo.filePath}`; // สร้าง URL
 
           if (!sameCakeItems[cakeName]) {
             sameCakeItems[cakeName] = {
@@ -212,7 +102,7 @@ export class CartComponent implements OnInit {
               description: cakeDescription,
               quantity: cakeQuantity, // เริ่มต้นด้วยจำนวน 1
               total_price: cakeTotalPrice, // เพิ่มประเภทสินค้า (ถ้ามี)
-              photo: cakePhoto
+              photo: cakePhotoUrl
             };
 
           } else {
@@ -255,13 +145,10 @@ export class CartComponent implements OnInit {
         this.cartItems = Object.values(combinedItems);
         this.cakeItems = Object.values(sameCakeItems);
         console.log(this.cartCoffeeDetails)
-        console.log(this.cakeItems)
+        console.log("cakeItems:",this.cakeItems)
         console.log(this.cartItems)
         console.log(this.cartAllName)
         this.calculateTotalPrice()
-        
-        
-        // this.totalPrice = this.totalPrice + this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
       },
       (error) => console.error('Error loading cart:', error)

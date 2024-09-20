@@ -226,7 +226,13 @@ router.get('/cakemenu/:id', async (req, res, next) => {
     if (!cakemenu) {
       return res.status(404).json({ message: 'cakemenu not found' });
     }
-    res.json(cakemenu);
+    const photoUrl = `${req.protocol}://${req.get('host')}/${cakemenu.photo.filePath}`;
+    const cakemenuWithPhotoUrl = {
+      ...cakemenu._doc,
+      photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+    };
+
+    res.json(cakemenuWithPhotoUrl);
   } catch (err) {
     next(err);
   }
