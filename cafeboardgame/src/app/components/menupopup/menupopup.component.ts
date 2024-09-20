@@ -4,6 +4,7 @@ import { MenupopupService } from '../../services/menupopup/menupopup.service';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { OrdersService } from '../../services/order/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-popup',
@@ -32,7 +33,8 @@ export class MenupopupComponent implements OnInit {
     private cartsService: CartsService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private router: Router
   ) {
     this.orderForm = this.fb.group({
       type_order: ['', Validators.required],
@@ -119,45 +121,52 @@ export class MenupopupComponent implements OnInit {
       this.updateTotalPrice();
     }
   }
-  // onSubmit() {
-
-  onSubmit() {
-    if (this.orderForm.valid) {
-      const orderData = this.orderForm.value;
-      this.ordersService.addOrdersItem(orderData).subscribe(
-        (order) => {
-          console.log('Order added to order:', order);
-          console.log(orderData)
-
-          this.cartsService.addCartItem({
-            user_id: this.userId ?? undefined,
-            ordercoffee_id: [order._id],  // ส่ง id ของ ordercoffee ที่เพิ่งสร้างไป
-            ordercake_id: [],
-            boardgame_id: [],
-          }).subscribe(
-            (cart) => {
-              console.log('Order added to cart:', cart);
-              this.closePopup()
-            },
-            (error) => {
-              console.error('Error adding order to cart:', error);
-            }
-          );
-        },
-        (error) => {
-          console.error('Error adding order to order:', error);
-          console.log(orderData)
-        }
-      );
-    }
-  }
 
   closePopup() {
     this.close.emit();
   }
 
   buyNow() {
-    console.log('Processing buy now...');
-    // Logic for "Buy Now" action
+    if (this.orderForm.valid) {
+      this.onSubmit().then(() => {
+        this.router.navigate(['/cart']);
+      });
+    }
   }
+
+  onSubmit(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.orderForm.valid) {
+        const orderData = this.orderForm.value;
+        this.ordersService.addOrdersItem(orderData).subscribe(
+          (order) => {
+            console.log('Order added to order:', order);
+
+            this.cartsService.addCartItem({
+              user_id: this.userId ?? undefined,
+              ordercoffee_id: [order._id],
+              ordercake_id: [],
+              boardgame_id: [],
+            }).subscribe(
+              (cart) => {
+                console.log('Order added to cart:', cart);
+                this.closePopup();
+                resolve(); // เมื่อการทำงานสำเร็จ ให้เรียก resolve()
+              },
+              (error) => {
+                console.error('Error adding order to cart:', error);
+                reject(error); // หากเกิดข้อผิดพลาด ให้ reject()
+              }
+            );
+          },
+          (error) => {
+            console.error('Error adding order to order:', error);
+            reject(error); // หากเกิดข้อผิดพลาด ให้ reject()
+          }
+        );
+      } else {
+        reject('Form is invalid');
+      }
+    });
+  } 
 }
