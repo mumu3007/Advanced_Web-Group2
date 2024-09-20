@@ -10,6 +10,12 @@
           </div>
       <span class="grow h-[2px] bg-redProject"></span>
   </div>
+  <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+
+
+  <!-- --------popup-------- -->
+  <app-itemlistpopup *ngIf="showPopup" [coffeemenuID]="selectedCoffeemenuId"  (close)="closePopup()"></app-itemlistpopup>
+   <!-- --------popup-------- -->
 
   <!-- หน้าแสดงสินค้าที่ถูกซื้อ (All Order) -->
   <div *ngIf="currentSection === 'all-orders'" id="all-orders" class="container mx-auto">
@@ -50,21 +56,21 @@
 
         <div class="flex justify-between mb-4">
           <label class="flex items-center space-x-2 cursor-pointer">
-            <input type="checkbox" formControlName="hot" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
+            <input type="checkbox" id="hot" formControlName="hot" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
              appearance-none rounded-md shadow border-2 border-redProject bg-bgPro checked:bg-redProject checked:border-redProject 
              relative checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 
              checked:after:flex checked:after:items-center checked:after:justify-center">
             <span class="text-redProject font-koulen">HOT</span>
           </label>
           <label class="flex items-center space-x-2 cursor-pointer">
-            <input type="checkbox" formControlName="iced" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
+            <input type="checkbox" id="iced" formControlName="iced" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
              appearance-none rounded-md shadow border-2 border-redProject bg-bgPro checked:bg-redProject checked:border-redProject 
              relative checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 
              checked:after:flex checked:after:items-center checked:after:justify-center">
             <span class="text-redProject font-koulen">ICED</span>
           </label>
           <label class="flex items-center space-x-2 cursor-pointer">
-            <input type="checkbox" formControlName="frappe" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
+            <input type="checkbox" id="frappe" formControlName="frappe" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
              appearance-none rounded-md shadow border-2 border-redProject bg-bgPro checked:bg-redProject checked:border-redProject 
              relative checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 
              checked:after:flex checked:after:items-center checked:after:justify-center" >
@@ -83,9 +89,9 @@
           <select
               class=" form-control font-koulen text-[18px] text-redProject w-[18rem] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
               formControlName="status">
-              <option value="status" selected>Status</option>
-              <option value="regular">Regular Menu</option>
-              <option value="recommended">Recommended Menu</option> 
+              <option value="status">Status</option>
+              <option value="true">Regular Menu</option>
+              <option value="false">Recommended Menu</option>  
           </select>
         </div>
 
@@ -116,9 +122,11 @@
                 <p class="text-[18px] font-koulen whitespace-normal break-words">: {{ item.s_price }}, {{ item.m_price }}, {{ item.l_price }} BAHT</p>
               </div>
               <div class="flex justify-between items-start ml-8 gap-3">
-                <button (click)="openPopup()" type="button" class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Update</button>
-                <app-itemlistpopup *ngIf="showPopup" (close)="closePopup()"></app-itemlistpopup>
-                <button type="button" (click)="deleteMenuItem(item._id)" class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Delete</button>
+                <button (click)="openPopup(item._id)" type="button" 
+                  class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Update</button>
+              
+                <button type="button" (click)="deleteMenuItem(item._id)" 
+                  class="text-[20px] text-formfPro font-koulen w-30 text-end hover:text-redProject">Delete</button>
               </div>
             </div>
           </div>           
@@ -184,8 +192,7 @@
                 <h2 class="text-[18px] text-black/80 font-koulen whitespace-normal break-words">{{ item.description }}</h2>
               </div>
               <div class="flex justify-between items-start gap-3 ml-4">
-                <button (click)="openPopup()" type="button" class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Update</button>
-                <app-itemlistpopup *ngIf="showPopup" (close)="closePopup()"></app-itemlistpopup>
+                <button type="button" class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Update</button>
                 <button type="button" (click)="deletecakeItem(item._id)"  class="text-[20px] text-formfPro font-koulen text-end hover:text-redProject">Delete</button>
               </div>
             </div>
