@@ -13,8 +13,8 @@ import { Menu } from '../../models/menu.model';
 })
 export class AdminorderComponent {
 
-  menu: Menu = { name: '', s_price: 0, m_price: 0, l_price: 0, photo: '', type_coffee: [], status: '', }
-  cakemenu: CakeMenu = { name: '', description: '', price: 0, photo: '', }
+  menu: Menu = { name: '', s_price: 0, m_price: 0, l_price: 0, photo: '', type_coffee: [], status: '', create_at:new Date(), }
+  cakemenu: CakeMenu = { name: '', description: '', price: 0, photo: '', create_at:new Date(), }
 
   currentSection: string = 'all-orders'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
   menuSection: string = 'all-menu';
@@ -233,6 +233,7 @@ export class AdminorderComponent {
         formData.append('description', this.CakemenuForm.get('cakedescription')?.value || '');
         formData.append('price', this.CakemenuForm.get('cakeprice')?.value?.toString() || '0');
         formData.append('photo', this.CakemenuForm.get('upload')?.value || '');
+        formData.append('create_at', this.CakemenuForm.get('create_at')?.value?.toString() || new Date().toISOString());
 
       // ส่งข้อมูลไปยังเมธอดของ ApiService
       this.menuService.addCakeItem(formData).subscribe(

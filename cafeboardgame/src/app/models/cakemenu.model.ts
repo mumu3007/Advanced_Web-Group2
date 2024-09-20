@@ -3,4 +3,5 @@ export interface CakeMenu {
     price: number;
     description: string;
     photo: string;
+    create_at: Date;
 }

@@ -28,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup.component';
 import { AdminbgpopupComponent } from './components/adminbgpopup/adminbgpopup.component';
+import { AdmincakepopupComponent } from './components/admincakepopup/admincakepopup.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AdminbgpopupComponent } from './components/adminbgpopup/adminbgpopup.co
     ItemlistpopupComponent,
     CakepopupComponent,
     AdminbgpopupComponent,
+    AdmincakepopupComponent,
 
   ],
   imports: [

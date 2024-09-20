@@ -6,4 +6,5 @@ export interface Menu {
     photo: string;
     type_coffee: string[];
     status: string;
+    create_at: Date;
 }
