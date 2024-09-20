@@ -9,8 +9,8 @@
             <div *ngFor="let item of cartCoffeeDetails"
               class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
               <div class="flex w-full pl-8 pr-4">
-                <div class="flex justify-center items-center ">
-                  <img [src]="item.photo" class="w-18 h-20">
+                <div class="flex justify-center items-center w-20 h-20 ">
+                  <img [src]="item.photo" class="w-full h-full object-cover">
                 </div>
                 <div class="pl-10 w-full pt-2">
                   <div class="flex justify-between  items-start">
@@ -31,11 +31,11 @@
             <div *ngFor="let item of cakeItems"
               class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
               <div class="flex w-full pl-8  pr-4">
-                <div class="flex justify-center items-center ">
-                  <img [src]="item.photo" class="w-18 h-20">
+                <div class="flex justify-center items-center w-20 h-20">
+                  <img [src]="item.photo" class="w-full h-full object-cover">
                 </div>
                 <div class="pl-10 w-full pt-2">
-                  <div class="flex justify-between  items-start">
+                  <div class="flex justify-between items-start">
                     <div class="font-koulen">
                       <p class="text-xl">{{item.name}}</p>
                       <label for="sizeandsweet" class=" font-noto">{{item.description}}</label>
@@ -51,12 +51,12 @@
               </div>
             </div>
             <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
-              <div class="flex w-full pl-4 pr-4">
-                <div class="flex justify-center items-center max-w-16 max-h-20">
-                  <img src="../../../assets/sherock.png" class="max-w-16 max-h-20">
+              <div class="flex w-full pl-8 pr-4">
+                <div class="flex justify-center items-center w-18 h-20">
+                  <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
                 </div>
-                <div class="pl-6 w-full pt-2">
-                  <div class="flex justify-between  items-start">
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between items-start">
                     <div class="font-koulen">
                       <p class="text-xl">{{item.name}}</p>
                       <label for="category" class="text-sm">Category: {{item.type}}</label>

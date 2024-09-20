@@ -129,13 +129,16 @@ export class CartComponent implements OnInit {
 
         const combinedItems: { [key: string]: any } = {};
         boardgameItems.forEach((item: any) => {
+          console.log(item)
+          const boardgamePhotoUrl = `${this.cartsService.getBaseUrl()}/${item.photo.filePath}`; // สร้าง URL
           const id = item._id.toString();
 
           if (!combinedItems[id]) {
             combinedItems[id] = {
               ...item,
               quantity: 1,
-              type: item.type ? item.type.name : 'Unknown'
+              type: item.type ? item.type.name : 'Unknown',
+              photo: boardgamePhotoUrl
             };
           } else {
             combinedItems[id].quantity++;
@@ -144,10 +147,10 @@ export class CartComponent implements OnInit {
 
         this.cartItems = Object.values(combinedItems);
         this.cakeItems = Object.values(sameCakeItems);
-        console.log(this.cartCoffeeDetails)
+        console.log("cartCoffeeItems:", this.cartCoffeeDetails)
         console.log("cakeItems:",this.cakeItems)
-        console.log(this.cartItems)
-        console.log(this.cartAllName)
+        console.log("cartItems:",this.cartItems)
+        console.log("cartAllName:", this.cartAllName)
         this.calculateTotalPrice()
 
       },
@@ -215,14 +218,6 @@ export class CartComponent implements OnInit {
         console.error('Error deleting order:', error);
       }
     );
-  }
-
-  removeItem(item: any): void {
-    // ลบสินค้าออกจาก cartItems
-    this.cartItems = this.cartItems.filter(i => i !== item);
-
-    // อัพเดทราคาหลังจากลบ
-    this.totalPrice = this.cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   }
 
   calculateTotalPrice() {
