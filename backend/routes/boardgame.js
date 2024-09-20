@@ -5,6 +5,8 @@ const Boardgame = require('../models/Boardgame');
 const Boardgametype = require('../models/BoardgameType');
 const mongoose = require('mongoose');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
 
 // -------------upload boardgame image----------------
 const fileFilter = (req, file, cb) => {
@@ -215,6 +217,10 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
     const id = req.params.id;
     const updatedBoardgame = req.body;
 
+     // ค้นหาบอร์ดเกมเก่าก่อน
+     const existingBoardgame = await Boardgame.findById(id);
+     console.log(existingBoardgame.photo)
+
     // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
     if (req.file) {
       console.log('File uploaded:', req.file);
@@ -224,6 +230,16 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
         fileType: req.file.mimetype,
         fileSize: req.file.size,
       };
+      if (existingBoardgame.photo && existingBoardgame.photo.filePath) {
+        const oldImagePath = path.join(__dirname, '..', 'uploads', path.basename(existingBoardgame.photo.filePath));
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error('เกิดข้อผิดพลาดในการลบรูปภาพเก่า:', err);
+          } else {
+            console.log('ลบรูปภาพเก่าเรียบร้อยแล้ว:', oldImagePath);
+          }
+        });
+      }
     }
 
     // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
