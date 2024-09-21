@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { ItemlistpopupService } from '../../services/itemlistpopup/itemlistpopup.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-itemlistpopup',
@@ -19,6 +20,7 @@ export class ItemlistpopupComponent {
     private apiService: ApiService,
     private itemlistpopupService: ItemlistpopupService,
     private fb: FormBuilder,
+    private messageService: MessageService // Inject MessageService
   ){}
 
   ngOnInit(): void {
@@ -62,11 +64,7 @@ export class ItemlistpopupComponent {
     if (this.coffeemenuID) {
       this.itemlistpopupService.getCoffeemenuByID(this.coffeemenuID).subscribe((data) => {
         console.log('Coffeemenu data received:', data); // ตรวจสอบข้อมูลที่ได้รับ
-        const coffeeTypes = {
-          hot: !!data.hot, // แปลงค่าเป็น boolean
-          iced: !!data.iced, // แปลงค่าเป็น boolean
-          frappe: !!data.frappe // แปลงค่าเป็น boolean
-        };
+        const coffeeTypesArray = data.type_coffee ? data.type_coffee[0].split(',') : [];
         
         this.coffeemenuData = data
         if (data) {
@@ -76,18 +74,62 @@ export class ItemlistpopupComponent {
             tallcupprice: data.s_price,  
             grandecupprice: data.m_price,  
             venticupprice: data.l_price,  
-            hot: data.type_coffee.includes('HOT'),
-            iced: data.type_coffee.includes('ICED'),
-            frappe: data.type_coffee.includes('FRAPPE'),
-            // photo: data.photo,
-            // photoUrl: data.photoUrl,
+            hot: coffeeTypesArray.includes('HOT'), // ตรวจสอบว่ามี HOT หรือไม่
+            iced: coffeeTypesArray.includes('ICED'), // ตรวจสอบว่ามี ICED หรือไม่
+            frappe: coffeeTypesArray.includes('FRAPPE'), // ตรวจสอบว่ามี FRAPPE หรือไม่ // ใช้ค่าจาก coffeeTypes
             create_at: data.create_at,
-            status: data.status === 'regular' ? 'true' : 'false',
+            status: data.status
           });
 
         }
         console.log('Form data received:', this.coffeemenuData); // ตรวจสอบข้อมูลที่ได้รับ
       });
+    }
+  }
+
+  updateCoffeemenu() {
+    if (this.updateorderForm.valid && this.coffeemenuID) {
+      const formData = new FormData();
+      const coffeeTypes = ['hot', 'iced', 'frappe']
+      .filter(type => this.updateorderForm.get(type)?.value) // ตรวจสอบว่าเลือกประเภทไหนบ้าง
+      .map(type => type.toUpperCase()); // แปลงให้เป็นตัวใหญ่
+
+      formData.append('name', this.updateorderForm.get('name')?.value);
+      formData.append('s_price', this.updateorderForm.get('tallcupprice')?.value);
+      formData.append('m_price', this.updateorderForm.get('grandecupprice')?.value);
+      formData.append('l_price', this.updateorderForm.get('venticupprice')?.value);
+      formData.append('type_coffee', coffeeTypes.join(','));
+      formData.append('status', this.updateorderForm.get('status')?.value.toString());
+      formData.append('create_at', this.updateorderForm.get('create_at')?.value);
+    
+  
+      // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+        console.log('FormData with photo:', formData);
+      }else {
+        console.log('No photo selected');
+      }
+  
+      // เรียกใช้ service สำหรับอัปเดตข้อมูล
+      this.itemlistpopupService.updateCoffeemenu(this.coffeemenuID, formData)
+        .subscribe(
+          (response) => {
+            console.log('Cake updated:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Update menu successful!',
+            });
+            this.closePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
+          },
+          
+          (error) => {
+            console.error('Error updating boardgame:', error);
+          }
+        );
+    } else {
+      console.log('Form is not valid');
     }
   }
 

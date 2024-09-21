@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-
+//--------------------------------- upload image -----------------------------------------------------------
 
 const fileFilter = (req, file, cb) => {
   // ตรวจสอบประเภทของไฟล์
@@ -23,7 +23,6 @@ const fileFilter = (req, file, cb) => {
 const limits = {
   fileSize: 5 * 1024 * 1024  // ขนาดไฟล์สูงสุด 5 MB
 };
-
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -41,7 +40,9 @@ const upload = multer({
   limits: limits
 });
 
-// Get all coffee menus
+
+//--------------------------------- Get all coffee menus -----------------------------------------------
+
 router.get('/coffeemenu', async (req, res, next) => {
   try {
     const coffeemenus = await Coffeemenu.find();
@@ -60,6 +61,8 @@ router.get('/coffeemenu', async (req, res, next) => {
   }
 });
 
+//--------------------------------- Get Recommended menus ------------------------------------------------
+
 router.get('/recommended_coffee', async (req, res, next) => {
   try {
     const coffeemenus = await Coffeemenu.find({ status: "recommended" });
@@ -69,7 +72,8 @@ router.get('/recommended_coffee', async (req, res, next) => {
   }
 });
 
-// Get a coffee menu by ID
+//--------------------------------- Get a coffee menu by ID ----------------------------------------------
+
 router.get('/coffeemenu/:id', async (req, res, next) => {
   try {
     const coffeemenu = await Coffeemenu.findById(req.params.id);
@@ -82,7 +86,8 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
   }
 });
 
-// Create a new coffee menu (POST)
+//--------------------------------- Create a new coffee menu (POST) ---------------------------------------
+
 router.post('/coffeemenu', upload.single("photo"), async (req, res, next) => {
   try {
     const { name, s_price, m_price, l_price, type_coffee, status } = req.body;
@@ -116,7 +121,8 @@ router.post('/coffeemenu', upload.single("photo"), async (req, res, next) => {
   }
 });
 
-//ยังทำงานไม่ได้ ติดหาด้วยไอดีเพราะว่า ใน database เป็น objecId แต่รับมาเป็นตัวเลขธรรม
+//------------------ ยังทำงานไม่ได้ ติดหาด้วยไอดีเพราะว่า ใน database เป็น objecId แต่รับมาเป็นตัวเลขธรรม --------------------
+
 router.put('/coffeemenu/:id', async (req, res, next) => {
   try {
     const { name, s_price, m_price, l_price, photo, type_coffee, status } = req.body;
@@ -145,62 +151,14 @@ router.put('/coffeemenu/:id', async (req, res, next) => {
   }
 });
 
-
-
-// ลบเมนูกาแฟตาม ID (DELETE)
-router.delete('/coffeemenu/:id', async (req, res, next) => {
-  try {
-    const deletedCoffeeMenu = await Coffeemenu.findByIdAndDelete(req.params.id);
-    
-    if (!deletedCoffeeMenu) {
-      return res.status(404).json({ message: 'ไม่พบเมนูกาแฟ' });
-    }
-
-    // ตรวจสอบว่ามีฟิลด์ photo อยู่หรือไม่ และลบไฟล์ที่เชื่อมโยง
-    if (deletedCoffeeMenu.photo && deletedCoffeeMenu.photo.filePath) {
-      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(deletedCoffeeMenu.photo.filePath));
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error('เกิดข้อผิดพลาดในการลบรูปภาพ:', err);
-        }
-      });
-    }
-    res.json({ message: 'ลบเมนูกาแฟสำเร็จ' });
-  } catch (err) {
-    next(err);
-  }
-});
+//------------------------ Update Coffee Menu ---------------------------------------------------------
 
 router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) => {
   try {
     const id = req.params.id;
     const updatedCoffeeMenu = req.body;
 
-    // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
-    if (req.file) {
-      updatedCoffeeMenu.photo = {
-        filename: req.file.filename,
-        filePath: req.file.path,
-        fileType: req.file.mimetype,
-        fileSize: req.file.size,
-      };
-    }
-
-    // ใช้ findByIdAndUpdate เพื่ออัปเดตข้อมูล
-    const result = await Coffeemenu.findByIdAndUpdate({_id: id}, updatedCoffeeMenu, { new: true });
-
-    // ส่งข้อมูลที่อัปเดตกลับ
-    res.status(200).json(result);
-  } catch (err) {
-    next(err);
-  }
-});
-router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const updatedCoffeeMenu = req.body;
-
-     // ค้นหาบอร์ดเกมเก่าก่อน
+     // ค้นหาข้อมูลของเมนูกาแฟเดิม
      const existingCoffeeMenu= await Coffeemenu.findById(id);
      console.log(existingCoffeeMenu.photo)
 
@@ -235,7 +193,35 @@ router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) =
   }
 });
 
+//------------------------- Delete coffee menu by ID ------------------------------------------
 
+router.delete('/coffeemenu/:id', async (req, res, next) => {
+  try {
+    const deletedCoffeeMenu = await Coffeemenu.findByIdAndDelete(req.params.id);
+    
+    if (!deletedCoffeeMenu) {
+      return res.status(404).json({ message: 'ไม่พบเมนูกาแฟ' });
+    }
+
+    // ตรวจสอบว่ามีฟิลด์ photo อยู่หรือไม่ และลบไฟล์ที่เชื่อมโยง
+    if (deletedCoffeeMenu.photo && deletedCoffeeMenu.photo.filePath) {
+      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(deletedCoffeeMenu.photo.filePath));
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('เกิดข้อผิดพลาดในการลบรูปภาพ:', err);
+        }
+      });
+    }
+    res.json({ message: 'ลบเมนูกาแฟสำเร็จ' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+
+
+//--------------------------------- Get all cake menus -----------------------------------------------
 
 router.get('/cakemenu', async (req, res, next) => {
   try {
@@ -256,8 +242,7 @@ router.get('/cakemenu', async (req, res, next) => {
   }
 });
 
-
-
+//--------------------------------- Get all cake menus by ID  -----------------------------------------------
 
 router.get('/cakemenu/:id', async (req, res, next) => {
   try {
@@ -277,12 +262,13 @@ router.get('/cakemenu/:id', async (req, res, next) => {
   }
 });
 
+//--------------------------------- Create a new cake menu (POST) ---------------------------------------
 
 router.post('/cakemenu', upload.single("photo"), async (req, res, next) => {
   try {
     const { name, price, description } = req.body;
 
-    // Create a new CoffeeMenu document
+    // Create a new Cake document
     const newCakeMenu = new CakeMenu({
       name,
       price,
@@ -306,36 +292,14 @@ router.post('/cakemenu', upload.single("photo"), async (req, res, next) => {
   }
 });
 
-router.delete('/cakemenu/:id', async (req, res, next) => {
-  try {
-    const deletedcakemenu = await CakeMenu.findByIdAndDelete(req.params.id);
-    
-    if (!deletedcakemenu) {
-      return res.status(404).json({ message: 'ไม่พบเมนูกาแฟ' });
-    }
-
-    // ตรวจสอบว่ามีฟิลด์ photo อยู่หรือไม่ และลบไฟล์ที่เชื่อมโยง
-    if (deletedcakemenu.photo && deletedcakemenu.photo.filePath) {
-      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(deletedcakemenu.photo.filePath));
-      fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error('เกิดข้อผิดพลาดในการลบรูปภาพ:', err);
-        }
-      });
-    }
-    res.json({ message: 'ลบเมนูกาแฟสำเร็จ' });
-  } catch (err) {
-    next(err);
-  }
-});
-
+//------------------------ Update cake Menu ---------------------------------------------------------
 
 router.patch('/cakemenu/:id', upload.single("photo"), async (req, res, next) => {
   try {
     const id = req.params.id;
     const updatedCakeMenu = req.body;
 
-     // ค้นหาบอร์ดเกมเก่าก่อน
+     // ค้นหาเมนูเค้กอันเดิม
      const existingCakemenu = await CakeMenu.findById(id);
      console.log(existingCakemenu.photo)
 
@@ -370,6 +334,32 @@ router.patch('/cakemenu/:id', upload.single("photo"), async (req, res, next) => 
   }
 });
 
+//------------------------- Delete cake menu by ID ------------------------------------------
+
+router.delete('/cakemenu/:id', async (req, res, next) => {
+  try {
+    const deletedcakemenu = await CakeMenu.findByIdAndDelete(req.params.id);
+    
+    if (!deletedcakemenu) {
+      return res.status(404).json({ message: 'ไม่พบเมนูเค้ก' });
+    }
+
+    // ตรวจสอบว่ามีฟิลด์ photo อยู่หรือไม่ และลบไฟล์ที่เชื่อมโยง
+    if (deletedcakemenu.photo && deletedcakemenu.photo.filePath) {
+      const imagePath = path.join(__dirname, '..', 'uploads', path.basename(deletedcakemenu.photo.filePath));
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('เกิดข้อผิดพลาดในการลบรูปภาพ:', err);
+        }
+      });
+    }
+    res.json({ message: 'ลบเมนูเค้กสำเร็จ' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+//----------------------------------------------------------------------------------------------------------------------------
 
 function numberToHexString(num) {
   let hex = num.toString(16);

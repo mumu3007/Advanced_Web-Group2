@@ -58,7 +58,6 @@ export class AdmincakepopupComponent {
   }
 
 
-  
   loadCakemenuByID() {
     if (this.cakemenuID) {
       this.ItemlistpopupService.getCakeByID(this.cakemenuID).subscribe((data) => {
@@ -70,8 +69,6 @@ export class AdmincakepopupComponent {
             name: data.name,
             cakedescription: data.description,
             cakeprice: data.price,
-            photo: data.photo,
-            photoUrl: data.photoUrl,
             create_at: data.create_at,
           });
         }
@@ -80,17 +77,15 @@ export class AdmincakepopupComponent {
     }
   }
   
-
   updateCakemenu() {
     if (this.updatecakeForm.valid && this.cakemenuID) {
       const formData = new FormData();
 
-    formData.append('name', this.updatecakeForm.get('name')?.value);
-    formData.append('description', this.updatecakeForm.get('cakedescription')?.value);
-    formData.append('price', this.updatecakeForm.get('cakeprice')?.value);
-    formData.append('create_at', this.updatecakeForm.get('create_at')?.value);
+      formData.append('name', this.updatecakeForm.get('name')?.value);
+      formData.append('description', this.updatecakeForm.get('cakedescription')?.value);
+      formData.append('price', this.updatecakeForm.get('cakeprice')?.value);
+      formData.append('create_at', this.updatecakeForm.get('create_at')?.value);
     
-  
       // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
       if (this.selectedFile) {
         formData.append('photo', this.selectedFile, this.selectedFile.name);
