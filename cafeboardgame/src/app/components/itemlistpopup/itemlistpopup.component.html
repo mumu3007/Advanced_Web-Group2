@@ -1,7 +1,7 @@
-<form [formGroup]="updateorderForm" >
+<form [formGroup]="updateorderForm" (ngSubmit)="updateCoffeemenu()">
     <div class="fixed inset-0 flex items-center justify-center z-50" >
         <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
-            <h3 class="text-redProject font-koulen text-[30px]">Update..</h3>
+            <h3 class="text-redProject font-koulen text-[30px]">Update {{coffeemenuData.name}}</h3>
 
             <!--ชื่อและราคา-->
             <div class="mt-4 font-koulen">
@@ -48,8 +48,8 @@
                 <select formControlName="status" class="font-koulen text-[18px] text-redProject w-56 h-12 
                 outline-none border-2 border-redProject rounded-xl">
                 <option value="status">Status</option>
-                <option value="true">Regular Menu</option>
-                <option value="false">Recommended Menu</option>            
+                <option value="regular">Regular Menu</option>
+                <option value="recommended">Recommended Menu</option>            
                 </select>
             </div>
 
@@ -58,9 +58,7 @@
                 <button type="button" class="font-koulen text-[18px] w-28 h-10 text-redProject items-center justify-center rounded-xl border-2 border-redProject hover:bg-[#B70A1A] hover:text-white transition-all duration-200"
                   (click)="closePopup()">Cancel</button>
                 <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-200">Update Item</button>
-              </div>
-
-
+            </div>
         </div>
     </div>
 </form>

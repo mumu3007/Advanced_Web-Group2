@@ -129,9 +129,6 @@ export class AdminorderComponent {
 
       const status = this.BeveragemenuForm.get('status')?.value;
       const statusValue = status === 'true' ? 'regular' : 'recommended';
-
-
-
       // รับค่าจากฟอร์ม
       const formData = new FormData();
       formData.append('name', this.BeveragemenuForm.get('name')?.value || '');
@@ -152,7 +149,6 @@ export class AdminorderComponent {
         photo: this.BeveragemenuForm.get('upload')?.value,
         status: this.BeveragemenuForm.get('status')?.value
     });
-
       console.log('formData',formData)
       this.menuService.addMenuItem(formData).subscribe(
         (response) => {

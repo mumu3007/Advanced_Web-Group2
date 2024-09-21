@@ -11,6 +11,7 @@
       <span class="grow h-[2px] bg-redProject"></span>
   </div>
   <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
+  <div *ngIf="showCakePopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
 
 
 
@@ -37,7 +38,7 @@
     </div>
   </div>
 
-  <!-- หน้าเครื่องดื่ม(Beverage Menu) -->
+  <!--------- หน้าเครื่องดื่ม(Beverage Menu) ------------->
   <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="flex justify-start gap-6 ">
 
     <!-- เพิ่มเมนูกาแฟ -->
@@ -107,7 +108,7 @@
       </div>
     </form>
     
-    <!-- แสดงรายการเมนูเครื่องดื่ม -->
+    <!--------------- แสดงรายการเมนูเครื่องดื่ม --------------->
     <div class="w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of menuItems">
@@ -139,7 +140,7 @@
   </div> 
 
 
-  <!-- หน้าเมนูเค้ก (Cake and Bakery Menu) -->
+  <!------------ หน้าเมนูเค้ก (Cake and Bakery Menu) ------------->
   <div *ngIf="currentSection === 'cake-menu'" id="cake-menu" class="flex justify-start gap-6 ">
     
     <!-- เพิ่มเมนูเค้ก -->
@@ -177,7 +178,7 @@
       </div>
     </form>
 
-    <!--แสดงรายการเมนูของเค้ก-->
+    <!----------------- แสดงรายการเมนูของเค้ก ----------------->
     <div class="w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of cakeItems">
