@@ -64,7 +64,7 @@ export class ItemlistpopupComponent {
     if (this.coffeemenuID) {
       this.itemlistpopupService.getCoffeemenuByID(this.coffeemenuID).subscribe((data) => {
         console.log('Coffeemenu data received:', data); // ตรวจสอบข้อมูลที่ได้รับ
-        const coffeeTypesArray = data.type_coffee ? data.type_coffee[0].split(',') : [];
+        console.log('typecoffee',data.type_coffee);
         
         this.coffeemenuData = data
         if (data) {
@@ -74,15 +74,16 @@ export class ItemlistpopupComponent {
             tallcupprice: data.s_price,  
             grandecupprice: data.m_price,  
             venticupprice: data.l_price,  
-            hot: coffeeTypesArray.includes('HOT'), // ตรวจสอบว่ามี HOT หรือไม่
-            iced: coffeeTypesArray.includes('ICED'), // ตรวจสอบว่ามี ICED หรือไม่
-            frappe: coffeeTypesArray.includes('FRAPPE'), // ตรวจสอบว่ามี FRAPPE หรือไม่ // ใช้ค่าจาก coffeeTypes
+            hot: data.type_coffee.includes('HOT'), // ตรวจสอบว่า HOT มีอยู่ในอาเรย์หรือไม่
+            iced: data.type_coffee.includes('ICED'), // ตรวจสอบว่า ICED มีอยู่ในอาเรย์หรือไม่
+            frappe: data.type_coffee.includes('FRAPPE'), // ตรวจสอบว่า FRAPPE มีอยู่ในอาเรย์หรือไม่
             create_at: data.create_at,
             status: data.status
           });
 
         }
         console.log('Form data received:', this.coffeemenuData); // ตรวจสอบข้อมูลที่ได้รับ
+        console.log('update order:', this.updateorderForm.getRawValue());
       });
     }
   }
@@ -91,16 +92,25 @@ export class ItemlistpopupComponent {
     if (this.updateorderForm.valid && this.coffeemenuID) {
       const formData = new FormData();
       const coffeeTypes = ['hot', 'iced', 'frappe']
-      .filter(type => this.updateorderForm.get(type)?.value) // ตรวจสอบว่าเลือกประเภทไหนบ้าง
-      .map(type => type.toUpperCase()); // แปลงให้เป็นตัวใหญ่
+      .filter(type => this.updateorderForm.get(type)?.value)
+      .map(type => type.toUpperCase());
 
       formData.append('name', this.updateorderForm.get('name')?.value);
       formData.append('s_price', this.updateorderForm.get('tallcupprice')?.value);
       formData.append('m_price', this.updateorderForm.get('grandecupprice')?.value);
       formData.append('l_price', this.updateorderForm.get('venticupprice')?.value);
-      formData.append('type_coffee', coffeeTypes.join(','));
+      formData.append('type_coffee', JSON.stringify(coffeeTypes));
       formData.append('status', this.updateorderForm.get('status')?.value.toString());
       formData.append('create_at', this.updateorderForm.get('create_at')?.value);
+
+      console.log('Form Data1:', {
+        name: this.updateorderForm.get('name')?.value,
+        s_price: this.updateorderForm.get('tallcupprice')?.value,
+        m_price: this.updateorderForm.get('grandecupprice')?.value,
+        l_price: this.updateorderForm.get('venticupprice')?.value,
+        type_coffee: coffeeTypes,
+        status: this.updateorderForm.get('status')?.value
+    });
     
   
       // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData

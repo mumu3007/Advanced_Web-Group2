@@ -45,7 +45,7 @@ const upload = multer({
 
 router.get('/coffeemenu', async (req, res, next) => {
   try {
-    const coffeemenus = await Coffeemenu.find();
+    const coffeemenus = await Coffeemenu.find().sort({ create_at: -1 });
 
     // เพิ่ม URL ของรูปภาพให้แต่ละ payment
     const coffemenusWithPhotoUrl = coffeemenus.map(coffeemenu => {
@@ -163,8 +163,22 @@ router.put('/coffeemenu/:id', async (req, res, next) => {
 router.patch('/coffeemenu/:id', upload.single("photo"), async (req, res, next) => {
   try {
     const id = req.params.id;
-    const updatedCoffeeMenu = req.body;
+    const { name, s_price, m_price, l_price, type_coffee, status } = req.body;
 
+    // แปลง type_coffee เป็น array
+    let parsedType_coffee;
+    parsedType_coffee = JSON.parse(type_coffee);
+
+    // สร้าง object สำหรับการอัปเดต
+    const updatedCoffeeMenu = {
+      name,
+      s_price,
+      m_price,
+      l_price,
+      type_coffee: parsedType_coffee, 
+      status,
+    };
+    
      // ค้นหาข้อมูลของเมนูกาแฟเดิม
      const existingCoffeeMenu= await Coffeemenu.findById(id);
      console.log(existingCoffeeMenu.photo)
