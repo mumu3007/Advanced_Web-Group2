@@ -25,19 +25,18 @@ export class MenuComponent implements OnInit {
   selectedMenuId?: string;
   selectedCakeId?: string;
 
-  // ฟอร์มควบคุม
-  // Add FormGroup
+  constructor(private apiService: ApiService, private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.loadMenuItems();
+    this.loadCakeItems();
+    this.loadRecommendedItems()
+  }
 
   openPopup(menuId: string) {
     this.selectedMenuId = menuId;
     this.showPopup = true;
     console.log(menuId);
-  }
-
-
-  closePopup() {
-    this.showPopup = false;
-    this.showCakePopup = false;
   }
 
   openCakePopup(cakeId: string) {
@@ -46,22 +45,10 @@ export class MenuComponent implements OnInit {
     console.log(cakeId);
   }
 
-  constructor(private apiService: ApiService, private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.loadMenuItems();
-    this.loadCakeItems();
-    this.loadRecommendedItems()
-    // Subscribe to form changes to update total price
-    // this.cartForm.valueChanges.subscribe(() => this.calculateTotalPrice());
+  closePopup() {
+    this.showPopup = false;
+    this.showCakePopup = false;
   }
-
-  cartForm = this.fb.group({
-    selectedOption: ['hot', Validators.required], // Default to 'hot'
-    selectedSweetness: ['50%', Validators.required], // Default to '50%'
-    additionalDetails: [''],
-    quantity: [1, [Validators.required, Validators.min(1)]],
-  });
 
   loadMenuItems() {
     this.apiService.getMenuItems().subscribe(
@@ -118,59 +105,44 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  // ฟังก์ชันเปิด popup
-
-
-  updateDisplayedMenuItems() {
-    const start = this.currentPage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.displayedMenuItems = this.menuItems.slice(start, end);
-    console.log("refresh complete")
-  }
-
-  updateDisplayedCakeItems() {
-    const start = this.currentCakePage * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    this.displayedCakeItems = this.cakeItems.slice(start, end);
-    console.log("refresh complete")
-  }
-
-  nextPage() {
-    if ((this.currentPage + 1) * this.itemsPerPage < this.menuItems.length) {
-      this.currentPage++;
-      this.updateDisplayedMenuItems();
+  updateDisplayedItems(type: 'beverage' | 'cake'): void {
+    if (type === 'beverage') {
+      const start = this.currentPage * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      this.displayedMenuItems = this.menuItems.slice(start, end);
+    } else if (type === 'cake') {
+      const start = this.currentCakePage * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      this.displayedCakeItems = this.cakeItems.slice(start, end);
     }
   }
 
-  prevPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.updateDisplayedMenuItems();
-    }
-  }
-  nextCakePage() {
-    if ((this.currentCakePage + 1) * this.itemsPerPage < this.cakeItems.length) {
-      this.currentCakePage++;
-      this.updateDisplayedCakeItems();
-    }
-  }
-
-  prevCakePage() {
-    if (this.currentCakePage > 0) {
-      this.currentCakePage--;
-      this.updateDisplayedCakeItems();
+  nextPage(type: 'beverage' | 'cake'): void {
+    if (type === 'beverage') {
+      if ((this.currentPage + 1) * this.itemsPerPage < this.menuItems.length) {
+        this.currentPage++;
+        this.updateDisplayedItems('beverage');
+      }
+    } else if (type === 'cake') {
+      if ((this.currentCakePage + 1) * this.itemsPerPage < this.cakeItems.length) {
+        this.currentCakePage++;
+        this.updateDisplayedItems('cake');
+      }
     }
   }
 
-  // ฟังก์ชันเพิ่มไปยังตะกร้า
-  addToCart() {
-    if (this.cartForm.valid) {
-      console.log('Added to cart:', this.selectedItem.name);
-      this.closePopup();
+  prevPage(type: 'beverage' | 'cake'): void {
+    if (type === 'beverage') {
+      if (this.currentPage > 0) {
+        this.currentPage--;
+        this.updateDisplayedItems('beverage');
+      }
+    } else if (type === 'cake') {
+      if (this.currentCakePage > 0) {
+        this.currentCakePage--;
+        this.updateDisplayedItems('cake');
+      }
     }
   }
-
-  
-
 }
 

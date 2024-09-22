@@ -63,7 +63,14 @@ router.get('/coffeemenu', async (req, res, next) => {
 router.get('/recommended_coffee', async (req, res, next) => {
   try {
     const coffeemenus = await Coffeemenu.find({ status: "recommended" });
-    res.json(coffeemenus);
+    const coffemenusWithPhotoUrl = coffeemenus.map(coffeemenu => {
+      const photoUrl = `${req.protocol}://${req.get('host')}/${coffeemenu.photo.filePath}`;
+      return {
+        ...coffeemenu._doc,
+        photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+      };
+    });
+    res.json(coffemenusWithPhotoUrl);
   } catch (err) {
     next(err);
   }

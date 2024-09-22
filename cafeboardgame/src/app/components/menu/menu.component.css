@@ -1,0 +1,100 @@
+.font-color {
+    font-family: "Koulen", cursive;
+    --tw-text-opacity: 1;
+    color: rgb(210 9 28 / var(--tw-text-opacity));
+}
+
+.menu-text {
+    font-family: "Koulen", cursive;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    --tw-text-opacity: 1;
+    color: rgb(210 9 28 / var(--tw-text-opacity));
+}
+
+.span-nav-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #D2091C;
+}
+
+.menu-nav-section {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.menu-nav-section:hover {
+    color: #dc2626;
+    transform: scale(1.25);
+}
+
+.button-primary {
+    --tw-bg-opacity: 1;
+    background-color: rgb(210 9 28 / var(--tw-bg-opacity));
+    color: white;
+    padding: 0.2rem 1rem;
+    border-radius: 0.5rem;
+    font-family: "Koulen", cursive;
+    transition: transform 0.2s ease-in-out;
+}
+
+.button-primary:hover {
+    transform: scale(1.1);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-card {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    border-width: 3px;
+    border-color: #D2091C;
+    outline-width: 3px;
+    outline-color: rgba(254, 242, 242);
+    border-radius: 30px;
+    width: 18rem;
+}
+
+.button-custom {
+    height: 3rem;
+    font-size: 2.25rem;
+    color: #D2091C;
+    transition: transform 0.2s ease;
+}
+
+.button-custom:disabled {
+    opacity: 0.5;
+}
+
+.button-custom:hover {
+    transform: scale(1.5);
+  
+}
+
+.border-line {
+    flex-grow: 1;
+    height: 100%;
+    border-bottom-width: 2px;
+    border-bottom-color: #D2091C;
+}
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    /* แทนที่ top, right, bottom, left ด้วย inset: 0 */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* bg-black bg-opacity-50 */
+    z-index: 10;
+    /* z-10 */
+}
