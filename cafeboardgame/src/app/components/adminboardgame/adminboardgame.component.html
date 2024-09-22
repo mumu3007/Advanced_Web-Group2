@@ -25,7 +25,13 @@
                     <div class="form-control flex flex-row gap-4">
                         <input type="text" placeholder="Name"
                             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='name'>
+                            formControlName='name' required>
+                            <!-- <div *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)" 
+                                class="alert alert-danger">
+                                <div *ngIf="boardgameForm.get('name')?.errors?.['required']">
+                                    Name is required
+                                </div>
+                            </div> -->
                         <input type="number" placeholder="price"
                             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
                             formControlName='price' min="0" step="any">
@@ -49,10 +55,10 @@
                     <div class="flex flex-row gap-4 pb-8">
                         <select
                             class=" form-control font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
-                            formControlName="status">
-                            <option value="" disabled selected >Status</option>
-                            <option [value]="true">Available</option>
-                            <option [value]="false">Unavailable</option>
+                            formControlName="status" >
+                            <option value="null" disabled selected>Status</option> 
+                            <option value="true">Available</option>
+                            <option value="false">Unavailable</option>
                         </select>
                         <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-72 
                             file:mr-2 file:py-2 file:px-4
@@ -62,12 +68,13 @@
                             file:bg-transparent file:text-redProject" />
                         
                     </div>
-
+                    <!-- hover:bg-[#B70A1A] -->
                     <div class="flex justify-between ">
                         <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
-                             hover:bg-redProject hover:text-white transition-all duration-500">DELETE</button>
+                             hover:bg-redProject hover:text-white transition-all duration-500"
+                             (click)="ClearBoardgameForm()">CLEAR</button>
                         <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
-                            hover:bg-[#B70A1A] transition-all duration-500">ADD ITEM</button>
+                            hover:bg-[#B70A1A] transition-all duration-200">ADD ITEM</button>
                     </div>
                 </div>
             </div>
@@ -85,7 +92,7 @@
                                     <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
                                     <p class="text-[12px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
                                     <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT</p>
-                                    <p class="text-[12px] text-black/80 font-koulen ">status : {{boardgame.status }} </p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">status : {{ boardgame.status ? 'Available' : 'Unavailable' }} </p>
                                 </div>
                             </div>
                             <div class="ml-28">
