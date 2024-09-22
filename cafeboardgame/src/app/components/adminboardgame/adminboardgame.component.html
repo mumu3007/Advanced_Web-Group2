@@ -81,7 +81,7 @@
             </div>
         </form>
         <div class="w-[50%] flex flex-col ">
-            <div class="overflow-auto h-[32rem] w-full ">
+            <div class="overflow-auto h-[32rem] w-full pr-2">
                 <div *ngFor="let boardgame of boardgames" >
                     <div class=" h-full border-redProject  border-b-2 pt-3">
                         <div class="flex justify-between h-full">
@@ -114,7 +114,7 @@
                                     class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
                                     (click)="openPopup(boardgame._id)">update</button>
                             </div>
-                            <div class="pr-3 w-16">
+                            <div class=" w-16">
                                 <button type="button"
                                     class="font-koulen text-[20px]  text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
                                     (click)="deleteBoardgameItem(boardgame._id)">DELETE</button>

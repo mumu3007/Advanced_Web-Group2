@@ -15,8 +15,8 @@ export class AdminboardgameComponent implements OnInit {
 
   boardgame: Boardgame = { name: '', description: '', quantity: 0, price: 0, photo: '', create_at: new Date(), status: false, type: "", }
 
-  currentSection: string = 'boardgame'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
-  menuSection: string = 'all-menu';
+  currentSection: string = 'all-boardgame'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
+  // menuSection: string = 'all-menu';
   message: string = '';
   selectedFile: File | null = null;
 
@@ -112,7 +112,8 @@ export class AdminboardgameComponent implements OnInit {
             });
             setTimeout(() => {            
               this.boardgameForm.reset();
-              window.location.reload();
+              this.loadBoardgames();
+              // window.location.reload();
             }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
           }
         },
@@ -157,7 +158,8 @@ export class AdminboardgameComponent implements OnInit {
   ClearBoardgameForm() {
     this.boardgameForm.reset();
     // this.boardgameForm.get('status')?.setValue(null);
-    this.boardgameForm.get('type')?.setValue(null);
+    // this.boardgameForm.get('type')?.setValue(null);
+    // this.boardgameForm.get('photo')?.setValue('');
 
     // window.location.reload();
 
