@@ -1,36 +1,35 @@
-<!-- product-popup.component.html -->
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <div class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="fixed inset-0 flex-center z-50 font-koulen" >
+        <p-toast></p-toast>
         <div class="bg-white rounded-3xl py-8 px-12 w-[26rem]">
-            <h2 class="text-center font-koulen text-2xl">{{ menuDetails?.name }}</h2>
+            <h2 class="text-center  text-2xl">{{ menuDetails?.name }}</h2>
 
-            <!-- Radio Button ร้อน เย็น -->
-            <div class="mt-7 flex justify-center gap-8 font-koulen">
-                <div *ngFor="let type of menuDetails?.type_coffee" class="flex items-center">
+            <!-- Radio ร้อน เย็น -->
+            <div class="mt-7 flex-center gap-8 ">
+                <div *ngFor="let type of menuDetails?.type_coffee" class="flex-center">
                     <label for="type-{{ type }}" class="mr-2 text-2xl">{{ type }}</label>
                     <input type="radio" [value]="type" formControlName="type_order" name="type_order"
                         id="type-{{ type }}"
-                        class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md
-                        checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center" />
+                        class="custom-checkbox" />
                 </div>
             </div>
 
-            <!-- Dropdown เลือกระดับความหวาน -->
-            <div class="mt-4 font-koulen">
+            <!-- Dropdown ความหวาน -->
+            <div class="mt-4 ">
                 <label class="text-[18px]">Sweet</label>
-                <select formControlName="sweetness_level" class="border border-black rounded-lg p-2 w-full">
+                <select formControlName="sweetness_level" class="custom-input">
                     <option *ngFor="let sweetness of [0, 25, 50, 75, 100]" [value]="sweetness">{{ sweetness }}%</option>
                 </select>
             </div>
 
-            <!-- Radio Button เลือกขนาดแก้ว -->
-            <div class="flex mt-4 font-koulen justify-center gap-8">
+            <!-- Radio ขนาดแก้ว -->
+            <div class="flex-center mt-4  gap-8">
                 <div *ngFor="let size of sizes; let i = index">
                     <div class="flex h-24 justify-center items-end">
                         <img [src]="getImageSource(i)" class="mt-2" />
                     </div>
 
-                    <div class="flex justify-center pt-2">
+                    <div class="flex-center pt-2">
                         <div class="text-center">
                             <div class="flex items-end">
                                 <label for="size-{{ size }}" class="block text-base leading-tight">{{ size }}</label>
@@ -39,42 +38,46 @@
                             <small class="-top-1 mt-[-4px] block">{{ getPrice(size) }} BAHT</small>
                             <input type="radio" [value]="size" formControlName="size" name="size" id="size-{{ size }}"
                                 (change)="onSizeChange(size)"
-                                class="appearance-none h-6 w-6 border border-black checked:bg-redProject checked:border-black focus:outline-none rounded-md
-                                checked:after:content-['✔'] checked:after:text-white checked:after:flex checked:after:justify-center checked:after:items-center" />
+                                class="custom-checkbox" />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Input กรอกรายละเอียดเพิ่มเติม -->
-            <div class="mt-4 font-koulen">
+            <!-- Input รายละเอียดเพิ่มเติม -->
+            <div class="mt-4 ">
                 <label class="text-[18px]">Details</label>
                 <textarea formControlName="description"
-                    class="border border-black rounded-lg p-2 w-full min-h-16 resize-none"
+                    class="custom-input min-h-16 resize-none"
                     placeholder="Enter any notes"></textarea>
             </div>
 
-            <!-- ปุ่ม เพิ่ม ลด จำนวน -->
-            <div class="mt-4 flex items-center font-koulen text-3xl justify-between">
-                <div>
-                    <button type="button" class="px-2 border text-3xl border-black rounded"
-                        (click)="decreaseQuantity()">-</button>
-                    <span class="mx-4 text-xl">{{ quantity }}</span>
-                    <button type="button" class="px-2 border text-3xl border-black rounded"
-                        (click)="increaseQuantity()">+</button>
+            <!-- ปุ่ม เพิ่ม-ลด -->
+            <div class="mt-4 flex items-center  text-3xl justify-between">
+                <div class="flex w-[30%]">
+                    <div class="w-1/4">
+                        <button type="button" class="custom-quantity-button" (click)="decreaseQuantity()">-</button>
+                    </div>
+                    <div class="flex w-1/2 text-xl justify-center items-center">
+                        {{ quantity }}
+                    </div>
+                    <div class="w-1/4 ">
+                        <button type="button" class="custom-quantity-button"
+                            (click)="increaseQuantity()">+</button>
+                    </div>
                 </div>
                 <span class="text-xl text-end pt-[17px]">Total Price: {{ totalPrice }} BAHT</span>
             </div>
 
             <!-- ปุ่ม Close -->
-            <div class="mt-6 flex justify-between font-koulen">
-                <button type="button" class="text-redProject px-2 rounded-md uppercase border-2 border-redProject"
+            <div class="mt-6 flex justify-between ">
+                <button type="button" class="custom-button"
                     (click)="closePopup()">cancel</button>
                 <div class="flex gap-2">
-                    <button type="submit" class="text-redProject px-2 rounded-md uppercase border-2 border-redProject">Add
-                        to Cart</button>
-                    <button type="button" class="bg-redProject text-white px-2 rounded-md uppercase" (click)="buyNow()">buy
-                        now</button>
+                    <button type="submit"
+                        class="custom-button">Add to Cart</button>
+                    <button type="button" class="bg-redProject text-white px-2 rounded-md uppercase"
+                        (click)="buyNow()">buy now</button>
                 </div>
             </div>
         </div>

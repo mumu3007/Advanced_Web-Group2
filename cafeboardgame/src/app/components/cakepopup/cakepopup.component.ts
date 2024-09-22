@@ -5,6 +5,7 @@ import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { OrdersService } from '../../services/order/order.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-cake-popup',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 export class CakepopupComponent {
   @Input() cakeId?: string;
   @Output() close = new EventEmitter<void>();
+  @Output() onOrderSuccess = new EventEmitter<void>();
   cakeDetails: any;
   quantity: number = 1;
   totalPrice!: number;
@@ -27,11 +29,12 @@ export class CakepopupComponent {
     private authService: AuthService,
     private fb: FormBuilder,
     private ordersService: OrdersService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.cakeForm = this.fb.group({
-      user_id: [''],
-      cake_id: [''],
+      user_id: ['', Validators.required],
+      cake_id: ['', Validators.required],
       quantity: [1, Validators.required],
       total_price: [0],
     });
@@ -106,6 +109,7 @@ export class CakepopupComponent {
             }).subscribe(
               (cart) => {
                 console.log('OrderCake added to cart:', cart);
+                this.onOrderSuccess.emit(); 
                 this.closePopup()
                 resolve();
               },
@@ -123,6 +127,11 @@ export class CakepopupComponent {
         );
       } else {
         reject('Form is invalid');
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Something Missing',
+          detail: 'Please Login.',
+        });
       }
     }
     )
