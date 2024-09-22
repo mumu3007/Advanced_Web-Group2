@@ -23,9 +23,9 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent},
   { path: 'menu', component: MenuComponent},
   { path: 'profile', component: ProfileComponent },
-  { path: 'admin', component: AdminorderComponent },
+  { path: 'admin', component: AdminorderComponent,canActivate:[authGuard] },
   { path: 'itempop', component: ItemlistpopupComponent },
-  { path: 'adminboardgame', component: AdminboardgameComponent },
+  { path: 'adminboardgame', component: AdminboardgameComponent,canActivate:[authGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   { path: '**', redirectTo: '/home' }  
  
