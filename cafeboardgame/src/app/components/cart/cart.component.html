@@ -1,98 +1,99 @@
-<div class="bg-[#F4F1EC] h-screen ">
+<div class="bg-[#F4F1EC] min-h-screen">
   <app-navbar></app-navbar>
-  <div class="container ml-28  p-4 pt-12">
-      
-      <div class="flex flex-col md:flex-row gap-8 pt-5">
-        <div class="w-full md:w-3/5 ">
-          <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
-          <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
-            <div *ngFor="let item of cartCoffeeDetails"
-              class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
-              <div class="flex  w-full pl-8 pr-4">
-                <div class="flex justify-center items-center w-[20%] ">
-                  <img [src]="item.photo" class="w-full h-full object-cover">
-                </div>
-                <div class="pl-10 w-full pt-2">
-                  <div class="flex justify-between  items-start">
-                    <div class="font-koulen">
-                      <p class="text-xl">{{item.name}}</p>
-                      <label for="sizeandsweet" class="text-sm">sweet: {{item.sweetness_level}}%, size: {{item.size}}</label>
-            
-                    </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCoffee(item._id)">DELETE</button>
-                  </div>
-                  <div class="flex justify-between pt-3 font-koulen text-md ">
-                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
-                    <p class="text-xl">{{item.total_price}} BAHT</p>
-                  </div>
-                </div>
+  <div class="container mx-auto px-4 pt-12">
+    <div class="flex flex-col md:flex-row gap-8 pt-5">
+      <!-- Cart Items Section -->
+      <div class="w-full md:w-3/5">
+        <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
+        <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
+          <!-- Coffee Cart Items -->
+          <div *ngFor="let item of cartCoffeeDetails" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+            <div class="flex w-full pl-8 pr-4">
+              <div class="flex justify-center items-center w-[20%]">
+                <img [src]="item.photo" class="w-full h-full object-cover">
               </div>
-            </div>
-            <div *ngFor="let item of cakeItems"
-              class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
-              <div class="flex w-full pl-8  pr-4">
-                <div class="flex justify-center items-center w-[20%]">
-                  <img [src]="item.photo" class="w-full h-full object-cover">
+              <div class="pl-10 w-full pt-2">
+                <div class="flex justify-between items-start">
+                  <div class="font-koulen">
+                    <p class="text-xl">{{item.name}}</p>
+                    <label for="sizeandsweet" class="text-sm">Sweet: {{item.sweetness_level}}%, Size: {{item.size}}</label>
+                  </div>
+                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCoffee(item._id)">DELETE</button>
                 </div>
-                <div class="pl-10 w-full pt-2">
-                  <div class="flex justify-between items-start">
-                    <div class="font-koulen">
-                      <p class="text-xl">{{item.name}}</p>
-                      <label for="sizeandsweet" class=" font-noto">{{item.description}}</label>
-            
-                    </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
-                  </div>
-                  <div class="flex justify-between pt-3 font-koulen text-md ">
-                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
-                    <p class="text-xl">{{item.total_price}} BAHT</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
-              <div class="flex w-full pl-8 pr-4">
-                <div class="flex justify-center items-center w-[20%]">
-                  <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
-                </div>
-                <div class="pl-10 w-full pt-2">
-                  <div class="flex justify-between items-start">
-                    <div class="font-koulen">
-                      <p class="text-xl">{{item.name}}</p>
-                      <label for="category" class="text-sm">Category: {{item.type}}</label>
-            
-                    </div>
-                    <button class="font-koulen text-redProject text-xl" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
-                  </div>
-                  <div class="flex justify-between pt-3 font-koulen text-md ">
-                    <span class=" py-1 bg-gray-100">quantity: {{ item.quantity }}</span>
-                    <p class="text-xl">{{item.price * item.quantity}} BAHT</p>
-                  </div>
+                <div class="flex justify-between pt-3 font-koulen text-md">
+                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
+                  <p class="text-xl">{{item.total_price}} BAHT</p>
                 </div>
               </div>
             </div>
           </div>
           
-        </div>
-        <div class="relative w-full md:w-[45%]  px-8 py-14 rounded-3xl border-2 border-redProject mt-4">
-          <h2 class="absolute -top-5 left-16 bg-[#F4F1EC] px-4  text-redProject font-koulen text-4xl mb-4">TOTAL PRICE</h2>
-          <div *ngFor="let item of cartAllName" class="flex justify-between mb-4 font-koulen text-xl">
-            <span class="">{{ item.name }}</span>
-            <span>{{ item.total_price }} BAHT</span>
-          </div>
-          <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
-            <span class="">{{items.name}}</span>
-            <span>{{ items.price * items.quantity}} BAHT</span>
-          </div>
-          <div class="border-t pt-4 mt-4">
-            <div class="flex justify-between font-bold">
-              <span>TOTAL</span>
-              <span>{{ totalPrice }} BAHT</span>
+          <!-- Cake Cart Items -->
+          <div *ngFor="let item of cakeItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+            <div class="flex w-full pl-8 pr-4">
+              <div class="flex justify-center items-center w-[20%]">
+                <img [src]="item.photo" class="w-full h-full object-cover">
+              </div>
+              <div class="pl-10 w-full pt-2">
+                <div class="flex justify-between items-start">
+                  <div class="font-koulen">
+                    <p class="text-xl">{{item.name}}</p>
+                    <label for="sizeandsweet" class="font-noto">{{item.description}}</label>
+                  </div>
+                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
+                </div>
+                <div class="flex justify-between pt-3 font-koulen text-md">
+                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
+                  <p class="text-xl">{{item.total_price}} BAHT</p>
+                </div>
+              </div>
             </div>
           </div>
-          <button (click)="togglePopup()" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen">PROCESS TO CHECKOUT</button>
-          <app-payment *ngIf="showPopup" [price]="totalPrice" [cart_id]="selectedCartId" (close)="togglePopup()"></app-payment> <!-- Update price here -->
+          
+          <!-- Boardgame Cart Items -->
+          <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+            <div class="flex w-full pl-8 pr-4">
+              <div class="flex justify-center items-center w-[20%]">
+                <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
+              </div>
+              <div class="pl-10 w-full pt-2">
+                <div class="flex justify-between items-start">
+                  <div class="font-koulen">
+                    <p class="text-xl">{{item.name}}</p>
+                    <label for="category" class="text-sm">Category: {{item.type}}</label>
+                  </div>
+                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
+                </div>
+                <div class="flex justify-between pt-3 font-koulen text-md">
+                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
+                  <p class="text-xl">{{item.price * item.quantity}} BAHT</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Total Price Section -->
+      <div class="relative w-full md:w-[45%] px-8 py-14 rounded-3xl border-2 border-redProject mt-4">
+        <h2 class="absolute -top-5 left-16 bg-[#F4F1EC] px-4 text-redProject font-koulen text-4xl mb-4">TOTAL PRICE</h2>
+        <div *ngFor="let item of cartAllName" class="flex justify-between mb-4 font-koulen text-xl">
+          <span>{{ item.name }}</span>
+          <span>{{ item.total_price }} BAHT</span>
+        </div>
+        <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
+          <span>{{items.name}}</span>
+          <span>{{ items.price * items.quantity}} BAHT</span>
+        </div>
+        <div class="border-t pt-4 mt-4">
+          <div class="flex justify-between font-bold">
+            <span>TOTAL</span>
+            <span>{{ totalPrice }} BAHT</span>
+          </div>
+        </div>
+        <button (click)="togglePopup()" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen w-full mt-6">PROCESS TO CHECKOUT</button>
+        <app-payment *ngIf="showPopup" [price]="totalPrice" [cart_id]="selectedCartId" (close)="togglePopup()"></app-payment>
+      </div>
     </div>
+  </div>
 </div>
