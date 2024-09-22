@@ -1,4 +1,5 @@
 <form [formGroup]="boardgameForm" (ngSubmit)="updateBoardgame()">
+  <p-toast></p-toast>
     <div class="fixed inset-0 flex items-center justify-center z-50">
       <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
         <div class="text-redProject font-koulen text-[30px]">
@@ -11,7 +12,7 @@
             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
           
           <!-- Price -->
-          <input type="number" placeholder="Price" formControlName="price" min="0" step="any"
+          <input type="number" placeholder="Price" formControlName="price" min="1" step="any"
             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
         </div>
   
@@ -28,11 +29,9 @@
           </select>
   
           <!-- Quantity -->
-          <input type="number" placeholder="Quantity" formControlName="quantity" min="0" step="any"
+          <input type="number" placeholder="Quantity" formControlName="quantity" min="1" step="any"
             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
         </div>
-
-        <!-- <img [src]="photoUrl" alt=""> -->
   
         <div class="flex flex-row gap-4 pb-8">
           <!-- Status -->
