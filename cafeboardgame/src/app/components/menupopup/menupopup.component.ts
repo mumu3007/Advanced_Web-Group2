@@ -5,6 +5,7 @@ import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { OrdersService } from '../../services/order/order.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-menu-popup',
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
 export class MenupopupComponent implements OnInit {
   @Input() menuId?: string;
   @Output() close = new EventEmitter<void>();
+  @Output() onOrderSuccess = new EventEmitter<void>();
+
   menuDetails: any;
   quantity: number = 1;
   totalPrice: number = 0;
@@ -34,16 +37,17 @@ export class MenupopupComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private ordersService: OrdersService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.orderForm = this.fb.group({
       type_order: ['', Validators.required],
       sweetness_level: [0, Validators.required],
       size: ['', Validators.required],
       description: [''],
-      coffee_id: [''],
-      quantity: [1, Validators.required],
-      total_price: [0],
+      coffee_id: ['', Validators.required],
+      quantity: [1, [Validators.required, Validators.min(1)]],
+      total_price: [0, Validators.min(0)],
     });
   }
 
@@ -52,15 +56,9 @@ export class MenupopupComponent implements OnInit {
     this.authService.getUserId().subscribe((id) => {
       this.userId = id;
       if (this.userId) {
-        this.loadUserData(this.userId);
+        console.log('User ID:', this.userId);
       }
     });
-  }
-
-
-
-  loadUserData(id: string) {
-    console.log('User ID:', id);
   }
 
   loadMenuDetails() {
@@ -122,10 +120,6 @@ export class MenupopupComponent implements OnInit {
     }
   }
 
-  closePopup() {
-    this.close.emit();
-  }
-
   buyNow() {
     if (this.orderForm.valid) {
       this.onSubmit().then(() => {
@@ -150,23 +144,33 @@ export class MenupopupComponent implements OnInit {
             }).subscribe(
               (cart) => {
                 console.log('Order added to cart:', cart);
+                this.onOrderSuccess.emit(); 
                 this.closePopup();
-                resolve(); // เมื่อการทำงานสำเร็จ ให้เรียก resolve()
+                resolve(); 
               },
               (error) => {
                 console.error('Error adding order to cart:', error);
-                reject(error); // หากเกิดข้อผิดพลาด ให้ reject()
+                reject(error);
               }
             );
           },
           (error) => {
             console.error('Error adding order to order:', error);
-            reject(error); // หากเกิดข้อผิดพลาด ให้ reject()
+            reject(error);
           }
         );
       } else {
         reject('Form is invalid');
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Type or Size Missing',
+          detail: 'Please select a type of order and size.',
+        });
       }
     });
   } 
+
+  closePopup() {
+    this.close.emit();
+  }
 }

@@ -1,0 +1,65 @@
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-checkbox {
+    appearance: none;
+    height: 1.5rem;
+    width: 1.5rem;
+    border: 1px solid black;
+    border-radius: 0.375rem;
+    outline: none;
+    position: relative;
+}
+
+.custom-checkbox:checked {
+
+    background-color: #D2091C;
+    border-color: black;
+}
+
+.custom-checkbox:checked::after {
+    content: '✔';
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.custom-input {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.custom-button {
+    color: #D2091C;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 0.375rem;
+    text-transform: uppercase;
+    border: 2px solid #D2091C;
+
+}
+
+.custom-quantity-button {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border: 1px solid black;
+    font-size: 1.875rem;
+    border-radius: 0.25rem;
+}

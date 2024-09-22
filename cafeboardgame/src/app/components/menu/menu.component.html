@@ -1,11 +1,12 @@
 <app-navbar></app-navbar>
+<p-toast></p-toast>
 <div class="bg-orange-100/50 -z-10">
   <div *ngIf="showPopup" class="popup-overlay"></div>
   <div *ngIf="showCakePopup" class="popup-overlay"></div>
 
   <!-- ตัว Popup -->
-  <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
-  <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (close)="closePopup()"></app-cake-popup>
+  <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (onOrderSuccess)="handleOrderSuccess()" (close)="closePopup()"></app-menu-popup>
+  <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (onOrderSuccess)="handleOrderSuccess()"(close)="closePopup()"></app-cake-popup>
 
   <!-- รูปตกแต่ง -->
   <div class="flex-space-between mb-12">

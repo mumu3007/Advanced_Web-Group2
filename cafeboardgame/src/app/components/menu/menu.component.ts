@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Import FormBuilder and FormGroup
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-menu',
@@ -25,7 +26,7 @@ export class MenuComponent implements OnInit {
   selectedMenuId?: string;
   selectedCakeId?: string;
 
-  constructor(private apiService: ApiService, private fb: FormBuilder) { }
+  constructor(private apiService: ApiService, private fb: FormBuilder,private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.loadMenuItems();
@@ -43,6 +44,15 @@ export class MenuComponent implements OnInit {
     this.selectedCakeId = cakeId;
     this.showCakePopup = true;
     console.log(cakeId);
+  }
+
+  handleOrderSuccess() {
+    this.closePopup(); // ปิด popup
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Order Successful',
+      detail: 'Your order has been added to the cart successfully.',
+    });
   }
 
   closePopup() {
