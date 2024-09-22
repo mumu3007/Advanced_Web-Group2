@@ -9,6 +9,7 @@ import { environment } from '../../../environments/enviroment';
 export class AuthService {
   private Url = `${environment.apiUrl}`;
   private userIdSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject เพื่อเก็บ userId
+  private roleSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject เพื่อเก็บ userId
  
 
 
@@ -18,6 +19,15 @@ export class AuthService {
     getUserId(): Observable<string | null> {
       return this.userIdSubject.asObservable();
     }
+
+    getUserRole(): Observable<string | null> {
+      return this.roleSubject.asObservable();
+    }
+
+    getRole(): string | null {
+      return this.roleSubject.getValue(); // ส่งคืนบทบาทจาก BehaviorSubject
+    }
+    
 
     getUserById(id: string): Observable<any> {
       return this.http.get(`${this.Url}/user/${id}`, { withCredentials: true }).pipe(
@@ -55,11 +65,15 @@ export class AuthService {
       tap((response) => {
         if (response.userId) {
           this.userIdSubject.next(response.userId); // อัปเดต userId เมื่อผู้ใช้รับรอง
+          this.roleSubject.next(response.role); // อัปเดตบทบาท
+
+          console.log("role subject",this.roleSubject.getValue())
         }
       }),
       map((response) => !!response.userId),
       catchError((error) => {
         this.userIdSubject.next(null);
+        this.roleSubject.next(null);
         return of(false);
       })
     );

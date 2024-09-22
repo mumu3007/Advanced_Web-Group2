@@ -19,7 +19,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
     res.cookie('token', token, {
@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/protected", authMiddleware, (req, res) => {
-  res.status(200).json({ userId: req.userId });
+  res.status(200).json({ userId: req.userId,role: req.role });
 });
 
 

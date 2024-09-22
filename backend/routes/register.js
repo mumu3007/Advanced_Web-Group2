@@ -5,11 +5,11 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, phone, role } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ name, email, password: hashedPassword ,phone});
+    const user = new User({ name, email, password: hashedPassword ,phone, role: role || 'user'});
     await user.save();
 
     res.status(201).json({ message: "User registered successfully", user });
