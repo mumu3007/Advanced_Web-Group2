@@ -34,6 +34,7 @@ export class AdminboardgameComponent implements OnInit {
 
   closePopup() {
     this.showPopup = false;
+    this.loadBoardgames();
   }
 
   showSection(sectionId: string): void {
@@ -53,7 +54,7 @@ export class AdminboardgameComponent implements OnInit {
     price: new FormControl(), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
     photo: new FormControl(),
     create_at: new FormControl(new Date()), // ตั้งค่าเริ่มต้นเป็นวันที่ปัจจุบัน
-    status: new FormControl(null, Validators.required),
+    status: new FormControl(null,Validators.required),
     type: new FormControl(''),
 
   });
@@ -111,6 +112,7 @@ export class AdminboardgameComponent implements OnInit {
           console.log('Response:', response);
           // ทำความสะอาดฟอร์มหลังจากส่งข้อมูลสำเร็จ
           this.boardgameForm.reset();
+          window.location.reload();
         },
         (error) => {
           // การตอบกลับจาก API ล้มเหลว
@@ -118,6 +120,7 @@ export class AdminboardgameComponent implements OnInit {
           console.error('Error:', error);
           console.log(formData)
         }
+
       );
     } else {
       // ฟอร์มไม่ถูกต้อง
@@ -127,7 +130,7 @@ export class AdminboardgameComponent implements OnInit {
   }
 
   loadBoardgames() {
-    this.boardgameService.getBoardgame().subscribe(
+    this.boardgameService.getAllBoardgames().subscribe(
       (data) => {
         this.boardgames = data;
         // this.displayedMenuItems = this.menuItems.slice(0, this.itemsPerPage);
@@ -177,6 +180,16 @@ export class AdminboardgameComponent implements OnInit {
         this.typeItems = data
       }
     )
+  }
+
+  ClearBoardgameForm() {
+    this.boardgameForm.reset();
+    this.boardgameForm.get('status')?.setValue(null);
+    this.boardgameForm.get('type')?.setValue('');
+    // this.boardgameForm.get('photo')?.setValue('');
+
+    // window.location.reload();
+
   }
 
   // ลบบอร์ดเกม

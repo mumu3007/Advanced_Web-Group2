@@ -104,6 +104,26 @@ router.get('/all', async (req, res, next) => {
   }
 });
 
+//---------for admin boardgames-----------
+router.get('/allboardgame', async (req, res, next) => {
+  try {
+    const Boardgames = await Boardgame.find()
+    .populate('type', 'name');
+
+       // เพิ่ม URL ของรูปภาพให้แต่ละ payment
+       const boardgamesWithPhotoUrl = Boardgames.map(boardgame => {
+        const photoUrl = `${req.protocol}://${req.get('host')}/${boardgame.photo.filePath}`;
+        return {
+          ...boardgame._doc,
+          photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+        };
+      });
+    res.json(boardgamesWithPhotoUrl);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 //get by id game
 router.get('/:id', async (req, res, next) => {

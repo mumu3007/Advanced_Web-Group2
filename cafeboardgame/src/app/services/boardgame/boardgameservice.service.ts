@@ -22,7 +22,11 @@ export class BoardgameserviceService {
     return this.http.get(`${this.apiUrl}/boardgame/inactive`,{withCredentials: true});
   }
 
-  // ฟังก์ชันเพื่อเรียก POST API
+  // ---------for adminBoardgame----
+  getAllBoardgames(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/boardgame/allboardgame`,{withCredentials: true}) ;
+  }
+
   addBoardgame(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/boardgame/boardgame`, formData);
   }
