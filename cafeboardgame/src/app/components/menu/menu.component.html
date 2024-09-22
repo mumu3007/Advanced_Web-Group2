@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <p-toast></p-toast>
-<div class="bg-orange-100/50 -z-10">
+<div class="bg-orange-100/50 -z-10 ">
   <div *ngIf="showPopup" class="popup-overlay"></div>
   <div *ngIf="showCakePopup" class="popup-overlay"></div>
 
@@ -9,19 +9,21 @@
   <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (onOrderSuccess)="handleOrderSuccess()"(close)="closePopup()"></app-cake-popup>
 
   <!-- รูปตกแต่ง -->
-  <div class="flex-space-between mb-12">
-    <img src="../../../assets/menu_left.png" alt="">
-    <div class="flex-center">
-      <span class="font-seymour text-border text-redProject text-[40px] pt-16">Take a break and<br />
-        enjoy your coffee!</span>
+  <div class="flex-space-between mb-16">
+    <img src="../../../assets/menu_left.png" alt="" class=" sm:w-0 md:w-96 lg:w-[26rem]">
+    <div class="flex-center pl-12 ">
+      <div class="lg:flex-col font-koulen leading-tight md720:pl-12">
+        <p class="text-border text-redProject text-4xl md:text-5xl lg:text-[64px] tracking-wider pt-16">Take a break and</p>
+        <p class="text-border text-redProject text-5xl  md:text-6xl lg:text-[64px] tracking-wider">enjoy your coffee!</p>
+      </div>
     </div>
-    <img src="../../../assets/menu_right.png" alt="">
+    <img src="../../../assets/menu_right.png" alt="" class=" sm:w-80 md:w-0 lg1200:w26rem">
   </div>
 
   <!-- menu-nav -->
   <div class="flex-center relative mb-24">
     <span class="span-nav-line"></span>
-    <div class="flex-center space-x-8 menu-text tracking-wider mx-12 gap-24">
+    <div class="flex-center  mx-12 tracking-wider flex-col gap-7 text-center lg:flex-row lg:gap-24 menu-text">
       <a (click)="scrollToSection('todays-special')" class="menu-nav-section">TODAY'S SPECIAL</a>
       <a (click)="scrollToSection('beverage')" class="menu-nav-section">BEVERAGE</a>
       <a (click)="scrollToSection('cake')" class="menu-nav-section">CAKE AND BAKERY</a>
@@ -31,7 +33,7 @@
 
   <!-- SPECIAL -->
   <section id="todays-special" class="pt-24">
-    <div class="text-5xl font-color pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
+    <div class="text-4xl md:text-5xl font-color pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
     <div class="flex gap-40 overflow-x-auto h-96 items-center py-8 px-20">
 
       <div *ngFor="let item of recommendedItems">
@@ -71,7 +73,7 @@
 
       <button (click)="prevPage('beverage')" [disabled]="currentPage === 0" class="button-custom">&lt;</button>
 
-      <div class="grid grid-cols-3 gap-8 p-5 mx-12 font-koulen">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-5 mx-12 font-koulen">
         <div *ngFor="let beverage of displayedMenuItems" class="menu-card">
           <div class="px-4">
             <div class="mb-2 flex-center"><img class="max-h-24 " [src]="beverage.photoUrl" alt=""></div>
@@ -106,7 +108,7 @@
       <button (click)="prevPage('cake')" [disabled]="currentCakePage === 0" class="button-custom">&lt;
       </button>
 
-      <div class="grid grid-cols-3 gap-8 p-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-5">
         <div *ngFor="let cake of displayedCakeItems" class="menu-card">
           <div class="px-4 font-koulen">
             <div class="mb-2 flex-center">

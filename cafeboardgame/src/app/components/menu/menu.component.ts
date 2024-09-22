@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Import FormBuilder and FormGroup
 import { MessageService } from 'primeng/api';
@@ -32,6 +32,33 @@ export class MenuComponent implements OnInit {
     this.loadMenuItems();
     this.loadCakeItems();
     this.loadRecommendedItems()
+    this.updateItemsPerPage(); // เรียกใช้เมื่อตอนโหลดหน้า
+
+    // ตรวจสอบขนาดหน้าจอทุกครั้งที่เปลี่ยนแปลง
+    window.addEventListener('resize', this.updateItemsPerPage.bind(this));
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.updateItemsPerPage();
+  }
+
+  updateItemsPerPage(): void {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth >= 1024) {
+      // หน้าจอขนาดใหญ่ (lg)
+      this.itemsPerPage = 6;
+    } else if (screenWidth >= 768) {
+      // หน้าจอขนาดกลาง (md)
+      this.itemsPerPage = 4;
+    } else {
+      // หน้าจอขนาดเล็ก (sm)
+      this.itemsPerPage = 2;
+    }
+
+    this.updateDisplayedItems('beverage'); 
+    this.updateDisplayedItems('cake');// อัพเดทเมนูที่แสดงเมื่อมีการเปลี่ยน itemsPerPage
   }
 
   openPopup(menuId: string) {
