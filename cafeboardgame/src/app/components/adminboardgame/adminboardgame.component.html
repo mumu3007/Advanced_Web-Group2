@@ -14,7 +14,8 @@
 
     <!-- --------popup-------- -->
     <app-adminbgpopup *ngIf="showPopup" [boardgameID]="selectedBoardgameId"  (close)="closePopup()"></app-adminbgpopup>
-     <!-- --------popup-------- -->
+    <!-- --------popup-------- -->
+    <p-toast></p-toast>
 
     <div *ngIf="currentSection === 'boardgame'" id="boardgame" class="flex justify-center gap-10 ">
         <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-[40%]">
@@ -26,7 +27,7 @@
                         <input type="text" placeholder="Name"
                             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
                             formControlName='name' required>
-                            <!-- <div *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)" 
+                        <!-- <div *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)" 
                                 class="alert alert-danger">
                                 <div *ngIf="boardgameForm.get('name')?.errors?.['required']">
                                     Name is required
@@ -34,7 +35,7 @@
                             </div> -->
                         <input type="number" placeholder="price"
                             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='price' min="0" step="any">
+                            formControlName='price' min="1" step="any">
                     </div>
                     <textarea type="text" placeholder="Details.."
                         class="font-koulen text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
@@ -44,19 +45,19 @@
                         <select
                             class=" font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400"
                             formControlName="type">
-                            <option value="" disabled selected>Category</option>
+                            <option value="null" disabled selected>Category</option>
                             <option *ngFor="let i of typeItems" [value]="i._id">{{i.name}}</option>
 
                         </select>
                         <input type="number" placeholder="Quantity"
                             class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='quantity' min="0" step="any">
+                            formControlName='quantity' min="1" step="any">
                     </div>
                     <div class="flex flex-row gap-4 pb-8">
                         <select
                             class=" form-control font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
-                            formControlName="status" >
-                            <option value="null" disabled selected>Status</option> 
+                            formControlName="status">
+                            <option value="null" disabled selected>Status</option>
                             <option value="true">Available</option>
                             <option value="false">Unavailable</option>
                         </select>
@@ -66,13 +67,13 @@
                             file:text-[18px] file:font-koulen
                             file:rounded-xl file:border-2 file:border-redProject
                             file:bg-transparent file:text-redProject" />
-                        
+
                     </div>
                     <!-- hover:bg-[#B70A1A] -->
                     <div class="flex justify-between ">
                         <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
                              hover:bg-redProject hover:text-white transition-all duration-500"
-                             (click)="ClearBoardgameForm()">CLEAR</button>
+                            (click)="ClearBoardgameForm()">CLEAR</button>
                         <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
                             hover:bg-[#B70A1A] transition-all duration-200">ADD ITEM</button>
                     </div>
@@ -87,26 +88,33 @@
                             <div class="w-[15%]  flex justify-center ">
                                 <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
                             </div>
-                            <div class="w-56">
+                            <div class="w-80">
                                 <div>
                                     <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                                    <p class="text-[12px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
-                                    <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT</p>
-                                    <p class="text-[12px] text-black/80 font-koulen ">status : {{ boardgame.status ? 'Available' : 'Unavailable' }} </p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">category : {{boardgame.type.name}}
+                                    </p>
+                                    <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT
+                                    </p>
+                                    <p class="text-[12px] text-black/80 font-koulen">
+                                        status : 
+                                        <span [ngClass]="{'text-green-600': boardgame.status, 'text-redProject': !boardgame.status}">
+                                          {{ boardgame.status ? 'Available' : 'Unavailable' }}
+                                        </span>
+                                      </p>
                                 </div>
                             </div>
-                            <div class="ml-28">
+                            <div class="w-32">
                                 <div>
                                     <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
                                 </div>
-    
+
                             </div>
-                            <div class="ml-28">
+                            <div class="w-16">
                                 <button type="button"
                                     class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
                                     (click)="openPopup(boardgame._id)">update</button>
                             </div>
-                            <div class="pr-3">
+                            <div class="pr-3 w-16">
                                 <button type="button"
                                     class="font-koulen text-[20px]  text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
                                     (click)="deleteBoardgameItem(boardgame._id)">DELETE</button>
@@ -114,7 +122,7 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -125,30 +133,30 @@
     <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-[70%] ">
         <div class="w-[60%] overflow-auto h-full">
             <div *ngFor="let boardgame of boardgames"  >
-            <div class=" h-full border-redProject border-b-2 pt-3">
-                <div class="flex justify-between h-full ">
-                    <div class="w-[15%] flex justify-center ">
-                        <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
-                    </div>
-                    <div class="content-center">
-                        <div>
-                            <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                            <p class="text-[14px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
+                <div class=" h-full border-redProject border-b-2 pt-3">
+                    <div class="flex justify-between h-full ">
+                        <div class="w-[15%] flex justify-center ">
+                            <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
                         </div>
-                    </div>
-                    <div class="ml-52 content-center">
-                        <div>
-                            <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
+                        <div class="content-center">
+                            <div>
+                                <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
+                                <p class="text-[14px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
+                            </div>
                         </div>
+                        <div class="ml-52 content-center">
+                            <div>
+                                <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
+                            </div>
 
-                    </div>
-                    <div class="w-28 ml-40 content-center">
-                        <div>
-                            <h2 class="text-[20px] font-koulen">{{boardgame.price}} BAHT</h2>
+                        </div>
+                        <div class="w-28 ml-40 content-center">
+                            <div>
+                                <h2 class="text-[20px] font-koulen">{{boardgame.price}} BAHT</h2>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>

@@ -2,11 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AdminbgpopupService } from '../../services/adminbgpopup/adminbgpopup.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
+import { MessageService } from 'primeng/api'; 
 
 @Component({
   selector: 'app-adminbgpopup',
   templateUrl: './adminbgpopup.component.html',
-  styleUrl: './adminbgpopup.component.css'
+  styleUrl: './adminbgpopup.component.css',
+  providers: [MessageService] // Add MessageService provider
+
 })
 export class AdminbgpopupComponent implements OnInit  {
   @Input() boardgameID?: string;
@@ -15,11 +18,13 @@ export class AdminbgpopupComponent implements OnInit  {
   boardgameData: any;
   typeItems: any[] = [];
   selectedFile?: File | null = null;
+  message: string = '';
 
   
   constructor(
     private adminboardgameService: AdminbgpopupService,
     private boardgameService: BoardgameserviceService,
+    private messageService: MessageService, // Inject MessageService
     private fb: FormBuilder
   ) {}
 
@@ -119,15 +124,33 @@ export class AdminbgpopupComponent implements OnInit  {
       this.adminboardgameService.updateBoardgame(this.boardgameID, formData)
         .subscribe(
           (response) => {
-            console.log('Boardgame updated:', response);
-            this.closePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
-          },
-          (error) => {
-            console.error('Error updating boardgame:', error);
+            if (response.error) {
+              this.message = response.error;
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to update boardgame. Please try again.',
+              });
+            }else {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Boardgame update successfully!',
+              });
+              setTimeout(() => {            
+                this.closePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
+              }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
+            }
           }
         );
     } else {
-      console.log('Form is not valid');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill all required fields.',
+      });
+      this.boardgameForm.markAllAsTouched(); // ทำให้ทุกฟิลด์ถูก mark ว่า touched เพื่อแสดงข้อผิดพลาด
+
     }
   }
   

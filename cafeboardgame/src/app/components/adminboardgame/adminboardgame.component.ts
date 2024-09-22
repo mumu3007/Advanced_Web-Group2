@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Boardgame } from '../../models/boardgame.model';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../services/menu/menuservice.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
-import { MessageService } from 'primeng/api'; // Import MessageService
+import { MessageService } from 'primeng/api'; 
 
 @Component({
   selector: 'app-adminboardgame',
   templateUrl: './adminboardgame.component.html',
-  styleUrl: './adminboardgame.component.css'
+  styleUrl: './adminboardgame.component.css',
+  providers: [MessageService] // Add MessageService provider
+
 })
 export class AdminboardgameComponent implements OnInit {
 
@@ -49,13 +50,13 @@ export class AdminboardgameComponent implements OnInit {
 
   boardgameForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    quantity: new FormControl(), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
-    price: new FormControl(), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
+    description: new FormControl('',Validators.required),
+    quantity: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
+    price: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
     photo: new FormControl(),
     create_at: new FormControl(new Date()), // ตั้งค่าเริ่มต้นเป็นวันที่ปัจจุบัน
     status: new FormControl(null,Validators.required),
-    type: new FormControl(''),
+    type: new FormControl(null,Validators.required),
 
   });
   // quantity: new FormControl(0, [Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
@@ -92,40 +93,45 @@ export class AdminboardgameComponent implements OnInit {
       formData.append('create_at', this.boardgameForm.get('create_at')?.value?.toString() || new Date().toISOString());
       formData.append('status', this.boardgameForm.get('status')?.value ? 'true' : 'false');
       formData.append('type', this.boardgameForm.get('type')?.value || '');
-      // สร้างข้อมูล Boardgame จากข้อมูลฟอร์ม
-      // const boardgame: Boardgame = {
-      //   name: formData.name || '',
-      //   description: formData.description || '',
-      //   quantity: formData.quantity || 0,
-      //   price: formData.price || 0,
-      //   photo: formData.photo || '',
-      //   create_at: formData.create_at || new Date(),
-      //   status: formData.status ?? false, 
-      //   type: formData.type || "",
-      // };
 
       // ส่งข้อมูลไปยัง backend API
       this.boardgameService.addBoardgame(formData).subscribe(
         (response) => {
-          // การตอบกลับจาก API สำเร็จ
-          this.message = "Boardgame added successfully!";
-          console.log('Response:', response);
-          // ทำความสะอาดฟอร์มหลังจากส่งข้อมูลสำเร็จ
-          this.boardgameForm.reset();
-          window.location.reload();
+          if (response.error) {
+            this.message = response.error;
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to add boardgame. Please try again.',
+            });
+          }else {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Boardgame added successfully!',
+            });
+            setTimeout(() => {            
+              this.boardgameForm.reset();
+              window.location.reload();
+            }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
+          }
         },
-        (error) => {
-          // การตอบกลับจาก API ล้มเหลว
-          this.message = "Failed to add boardgame.";
-          console.error('Error:', error);
-          console.log(formData)
+        error => {
+          console.log('Failed to add boardgame', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to add boardgame. Please try again.',
+          });
         }
-
       );
     } else {
-      // ฟอร์มไม่ถูกต้อง
-      this.message = "Form is invalid.";
-      console.log("Form is invalid");
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill all required fields.',
+      });
+      this.boardgameForm.markAllAsTouched(); // ทำให้ทุกฟิลด์ถูก mark ว่า touched เพื่อแสดงข้อผิดพลาด
     }
   }
 
@@ -133,46 +139,12 @@ export class AdminboardgameComponent implements OnInit {
     this.boardgameService.getAllBoardgames().subscribe(
       (data) => {
         this.boardgames = data;
-        // this.displayedMenuItems = this.menuItems.slice(0, this.itemsPerPage);
       },
       (error) => {
         console.error('Error fetching boardgame:', error);
       }
     );
   }
-
-
-  // AddBoardgame() {
-  //   if (this.boardgameForm.valid) {
-  //     const formData = this.boardgameForm.value;
-
-  //     const boardgame: Boardgame = {
-  //       name: formData.name || '',
-  //       description: formData.description || '',
-  //       quantity: formData.quantity || 0,
-  //       price: formData.price || 0,
-  //       photo: formData.photo || '',
-  //       create_at: formData.create_at || new Date(),
-  //       status: formData.status ?? false,
-  //       type: (formData.type || []).filter((t: string | null) => t !== null) as string[],
-  //     };
-
-  //     this.boardgameService.addBoardgame(this.boardgame).subscribe(
-  //       (response) => {
-  //           this.message = "success";
-  //           console.log(response, this.message);
-  //       },
-  //       (error) => {
-  //           this.message = "fail";
-  //           console.log(error, this.message);
-  //       }
-  //   );
-
-  //   } else {
-  //     console.log("Form is invalid");
-  //   }
-  // }
-
 
   loadBoardgameTypeItem() {
     this.boardgameService.getBoardgameType().subscribe(
@@ -184,9 +156,8 @@ export class AdminboardgameComponent implements OnInit {
 
   ClearBoardgameForm() {
     this.boardgameForm.reset();
-    this.boardgameForm.get('status')?.setValue(null);
-    this.boardgameForm.get('type')?.setValue('');
-    // this.boardgameForm.get('photo')?.setValue('');
+    // this.boardgameForm.get('status')?.setValue(null);
+    this.boardgameForm.get('type')?.setValue(null);
 
     // window.location.reload();
 
@@ -200,7 +171,7 @@ export class AdminboardgameComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Menu item deleted successfully!',
+          detail: 'Boardgame deleted successfully!',
         });
         this.loadBoardgames(); // รีเฟรชรายการเมนู
       },
@@ -209,7 +180,7 @@ export class AdminboardgameComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to delete menu item. Please try again.',
+          detail: 'Failed to delete boardgame. Please try again.',
         });
       }
     );
