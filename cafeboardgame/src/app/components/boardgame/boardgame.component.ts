@@ -212,12 +212,12 @@ GetinactiveBoardgameItems() {
 // }
 
 
-  updateDisplayedItems() {
-    // const start = this.currentPage * this.itemsPerPage;
-    // const end = start + this.itemsPerPage;
-    this.displayedItems = this.boardgameItems
-    console.log("refresh complete")
-  }
+updateDisplayedItems() {
+  const start = this.currentPage * this.itemsPerPage;
+  const end = start + this.itemsPerPage;
+  this.displayedItems = this.boardgameItems.slice(start, end);
+  console.log("Page updated: ", this.displayedItems);
+}
 
   nextPage() {
     if ((this.currentPage + 1) * this.itemsPerPage < this.boardgameItems.length) {
