@@ -1,65 +1,45 @@
-<!-- <div *ngFor="let item of menuItems">
-    <p>{{ item.name }} - {{ item.price }} บาท</p>
-  </div>
-   -->
-<!-- Form เพื่อเพิ่มเมนูใหม่ -->
-<!-- <form (submit)="addMenuItem({ name: itemName.value, price: itemPrice.value, description: itemDescription.value, photo: itemPhoto.value})">
-    <input #itemName placeholder="ชื่อเมนู" />
-    <input #itemPrice placeholder="ราคาเมนู" type="number" />
-    <input #itemDescription placeholder="คำอธิบาย" />
-    <input #itemPhoto placeholder="ลิงค์รูปภาพ"/>
-    <button type="submit">เพิ่มเมนู</button>
-  </form> -->
-
 <app-navbar></app-navbar>
-
 <div class="bg-orange-100/50 -z-10">
-  <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
-  <div *ngIf="showCakePopup" class="fixed inset-0 bg-black bg-opacity-50 z-10"></div>
+  <div *ngIf="showPopup" class="popup-overlay"></div>
+  <div *ngIf="showCakePopup" class="popup-overlay"></div>
 
-  
   <!-- ตัว Popup -->
   <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
   <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (close)="closePopup()"></app-cake-popup>
-  <div class="flex justify-between mb-12">
+
+  <!-- รูปตกแต่ง -->
+  <div class="flex-space-between mb-12">
     <img src="../../../assets/menu_left.png" alt="">
-    <div class="flex items-center">
+    <div class="flex-center">
       <span class="font-seymour text-border text-redProject text-[40px] pt-16">Take a break and<br />
         enjoy your coffee!</span>
     </div>
     <img src="../../../assets/menu_right.png" alt="">
   </div>
 
-  <!-- Navbar -->
-  <div class="flex justify-center items-center relative mb-24">
-    <span class="grow h-[2px] bg-redProject"></span>
-    <div class="flex justify-center space-x-8 font-koulen text-4xl text-redProject tracking-wider mx-12 gap-24">
-      <a (click)="scrollToSection('todays-special')"
-        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">TODAY'S
-        SPECIAL</a>
-      <a (click)="scrollToSection('beverage')"
-        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">BEVERAGE</a>
-      <a (click)="scrollToSection('cake')"
-        class="cursor-pointer hover:text-red-600 transition-transform duration-200 transform hover:scale-125">CAKE AND
-        BAKERY</a>
+  <!-- menu-nav -->
+  <div class="flex-center relative mb-24">
+    <span class="span-nav-line"></span>
+    <div class="flex-center space-x-8 menu-text tracking-wider mx-12 gap-24">
+      <a (click)="scrollToSection('todays-special')" class="menu-nav-section">TODAY'S SPECIAL</a>
+      <a (click)="scrollToSection('beverage')" class="menu-nav-section">BEVERAGE</a>
+      <a (click)="scrollToSection('cake')" class="menu-nav-section">CAKE AND BAKERY</a>
     </div>
-    <span class="grow h-[2px] bg-redProject"></span>
+    <span class="span-nav-line"></span>
   </div>
 
-
-
+  <!-- SPECIAL -->
   <section id="todays-special" class="pt-24">
-    <div class="text-5xl font-normal text-[#D2091C] font-koulen pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
+    <div class="text-5xl font-color pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
     <div class="flex gap-40 overflow-x-auto h-96 items-center py-8 px-20">
-      <div *ngFor="let item of recommendedItems" class="">
 
-        <div class="relative flex items-center ml-24">
+      <div *ngFor="let item of recommendedItems">
+        <div class="relative flex-center ml-24">
           <div class="rounded-3xl border-[3px] border-redProject p-5 w-[390px] h-[260px] relative flex justify-end ">
             <div class="w-[75%]">
-
               <p class="font-koulen text-orange-500 text-3xl text-center">{{item.name}}</p>
               <div class="flex text-2xl">
-                <div class="text-start font-normal font-koulen pt-1">
+                <div class="text-start font-koulen pt-1">
                   <p>TALL</p>
                   <p>GRANDE</p>
                   <p>VENTI</p>
@@ -69,110 +49,83 @@
                   <p>__________</p>
                   <p>__________</p>
                 </div>
-                <div class="text-end font-normal font-koulen pt-1">
+                <div class="text-end  font-koulen pt-1">
                   <p>{{item.s_price}} ฿</p>
                   <p>{{item.m_price}} ฿</p>
                   <p>{{item.l_price}} ฿</p>
                 </div>
               </div>
-
             </div>
           </div>
-          <img [src]="item.photo" alt="Left character" class="absolute left-[-30%] w-[220px] " />
+          <img [src]="item.photoUrl" alt="Left character" class="absolute left-[-30%] w-[220px] " />
         </div>
-
       </div>
     </div>
-
-
   </section>
 
-  <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
+  <!-- beverage -->
   <section id="beverage" class=" pt-24">
-    <div class="text-center text-4xl font-normal text-[#D2091C] font-koulen">BEVERAGE MENU</div>
-    <div class="flex justify-center items-center">
+    <div class="text-center menu-text">BEVERAGE MENU</div>
+    <div class="flex-center">
 
-      <button (click)="prevPage()" [disabled]="currentPage === 0"
-        class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&lt;
-      </button>
+      <button (click)="prevPage('beverage')" [disabled]="currentPage === 0" class="button-custom">&lt;</button>
 
-      <div class="grid grid-cols-3 gap-8 p-5 mx-12">
-        <div *ngFor="let beverage of displayedMenuItems"
-          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
-          <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
+      <div class="grid grid-cols-3 gap-8 p-5 mx-12 font-koulen">
+        <div *ngFor="let beverage of displayedMenuItems" class="menu-card">
           <div class="px-4">
-            <div class="mb-2 flex justify-center"><img class="max-h-24 " [src]="beverage.photoUrl" alt=""></div>
+            <div class="mb-2 flex-center"><img class="max-h-24 " [src]="beverage.photoUrl" alt=""></div>
             <div class="text-center">
-              <div class="text-lg font-normal font-koulen ">{{ beverage.name }}</div>
+              <div class="text-lg  ">{{ beverage.name }}</div>
               <div class="flex flex-col pt-1">
                 <div>
-                  <div *ngFor="let size of sizes; let i = index" class="flex text-start font-normal font-koulen pt-1">
+                  <div *ngFor="let size of sizes; let i = index" class="flex text-start  pt-1">
                     <p class="w-[25%]">{{ size }}</p>
                     <span class="flex w-full border-b-2 border-black mb-2"></span>
-                    <p class="w-[40%] text-end">{{ getPriceBySize(beverage, i) }} BAHT</p>
+                    <p class="w-[45%] text-end">{{ getPriceBySize(beverage, i) }} BAHT</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="flex justify-center font-koulen mt-auto">
-            <button class="bg-redProject text-white px-4 py-1 rounded-lg" (click)="openPopup(beverage._id)">Add to
-              Cart</button>
-            <!-- <div *ngIf="showPopup">
-                <app-menu-popup [menuId]="selectedMenuId" (close)="closePopup()"></app-menu-popup>
-              </div> -->
+          <div class="flex-center  mt-auto">
+            <button class="button-primary" (click)="openPopup(beverage._id)">Add to Cart</button>
           </div>
-
-
         </div>
       </div>
-      <button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= menuItems.length"
-        class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&gt;
-      </button>
+      <button (click)="nextPage('beverage')" [disabled]="(currentPage + 1) * itemsPerPage >= menuItems.length"
+        class="button-custom">&gt;</button>
     </div>
-
-    <!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID --><!-- COFFEE GRID -->
   </section>
 
+  <!-- cake -->
   <section id="cake" class="pt-24">
-    <div class="text-center text-4xl font-normal text-[#D2091C] font-koulen">CAKE AND BAKERY MENU</div>
-    <div class="flex justify-center items-center">
+    <div class="text-center menu-text">CAKE AND BAKERY MENU</div>
+    <div class="flex-center">
 
-      <button (click)="prevCakePage()" [disabled]="currentCakePage === 0"
-        class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&lt;
+      <button (click)="prevPage('cake')" [disabled]="currentCakePage === 0" class="button-custom">&lt;
       </button>
 
       <div class="grid grid-cols-3 gap-8 p-5">
-        <div *ngFor="let cake of displayedCakeItems"
-          class="p-4 flex flex-col  border-[3px] border-[#D2091C] outline-3 outline-red-50 rounded-[30px] w-72">
-          <!-- ใส่เนื้อหาของเมนูที่ต้องการแสดง เช่น ชื่อและรูป -->
+        <div *ngFor="let cake of displayedCakeItems" class="menu-card">
           <div class="px-4 font-koulen">
-            <div class="mb-2 flex justify-center">
+            <div class="mb-2 flex-center">
               <img class="max-h-32 max-w-32" [src]="cake.photoUrl" alt="">
             </div>
             <div class="w-full text-start text-xl">{{ cake.name }}</div>
-            <div class="flex items-center justify-between pt-1">
-              <span class="grow h-full border-b-2 border-redProject items-self-end"></span>
+            <div class="flex-space-between pt-1">
+              <span class="border-line"></span>
               <p class=" pt-1 px-3 text-xl">{{ cake.price }} BAHT</p>
-              <span class="grow h-full border-b-2 border-redProject items-self-end"></span>
+              <span class="border-line"></span>
             </div>
-
-
-
-
           </div>
-          <div class="flex justify-center mt-auto">
-            <button (click)="openCakePopup(cake._id)"
-              class="mt-4 px-4 py-1 bg-[#D2091C] text-white rounded-[10px] w-[50%]  font-koulen ">
-              ADD TO CART</button>
+          <div class="flex-center mt-auto">
+            <button (click)="openCakePopup(cake._id)" class="button-primary">ADD TO CART</button>
           </div>
         </div>
       </div>
-      <button (click)="nextCakePage()" [disabled]="(currentCakePage + 1) * itemsPerPage >= cakeItems.length"
-        class="h-12 text-4xl text-redProject disabled:opacity-50 transition-transform duration-200 transform hover:scale-150">&gt;
+      <button (click)="nextPage('cake')" [disabled]="(currentCakePage + 1) * itemsPerPage >= cakeItems.length"
+        class="button-custom">&gt;
       </button>
     </div>
-
   </section>
-
 </div>
