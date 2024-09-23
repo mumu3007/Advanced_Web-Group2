@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api'; // Import MessageService
@@ -73,15 +73,15 @@ export class AdminorderComponent {
   }
 
   BeveragemenuForm = new FormGroup({
-    name: new FormControl(''),
-    tallcupprice: new FormControl(),
-    grandecupprice: new FormControl(),
-    venticupprice: new FormControl(),
+    name: new FormControl('',Validators.required),
+    tallcupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]), //ต้องระบุค่าและระบุค่าเป็นตัวเลข
+    grandecupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+    venticupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
     hot: new FormControl(false),
     iced: new FormControl(false),
     frappe: new FormControl(false),
     upload: new FormControl(),
-    status: new FormControl('status'),
+    status: new FormControl('status', [Validators.required, Validators.pattern('^(?!status$).*$')]), // ต้องไม่เท่ากับค่า 'status'
     create_at: new FormControl(new Date()),
 
   });
@@ -119,6 +119,9 @@ export class AdminorderComponent {
 
   //เพิ่มเมนูกาแฟ
   AddMenuItem() {
+    
+    this.BeveragemenuForm.markAllAsTouched(); // ทำให้ทุกฟิลด์ถูกสัมผัส
+
     if (this.BeveragemenuForm.valid) {
 
       console.log("beveragemenuform",this.BeveragemenuForm)
@@ -132,7 +135,7 @@ export class AdminorderComponent {
       // รับค่าจากฟอร์ม
       const formData = new FormData();
       formData.append('name', this.BeveragemenuForm.get('name')?.value || '');
-      formData.append('s_price', this.BeveragemenuForm.get('tallcupprice')?.value.toString() || '0');
+      formData.append('s_price', this.BeveragemenuForm.get('tallcupprice')?.value?.toString() || '0');
       formData.append('m_price', this.BeveragemenuForm.get('grandecupprice')?.value?.toString() || '0');
       formData.append('l_price', this.BeveragemenuForm.get('venticupprice')?.value?.toString() || '0');
       formData.append('type_coffee', JSON.stringify(coffeeTypes));
@@ -306,28 +309,28 @@ export class AdminorderComponent {
   orders = [
     {
       image: 'assets/images/iced-espresso-coffee.jpg',
-      name: 'ICED ESPRESSO COFFEE',
-      description: 'SWEET: 25% \nSIZE: TALL \nUsername: myde',
-      quantity: 'X2',
-      price: 138
+      name: 'Username : Nong guidemoomoo',
+      description: 'Einspanner \nmatcha chocolate ice cream \nBerry Strawberry Dutch Baby',
+      quantity: 'X3',
+      price: 279
     },
     {
       image: 'assets/images/classic-chocolate-cake.jpg',
-      name: 'CLASSIC CHOCOLATE CAKE',
-      description: 'เค้กช็อกโกแลตสดสลับพร้อมไอศครีมช็อกโกแลต \nUsername: myde',
-      quantity: 'X1',
-      price: 99
+      name: 'Username : Nong guidemoomoo',
+      description: 'Exploding Kitten \nSplendor \nExploding Kitten',
+      quantity: 'X3',
+      price: 9730
     },
     {
       image: 'assets/images/iced-matcha-milk.jpg',
-      name: 'ICED MATCHA MILK',
-      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
-      quantity: 'X2',
-      price: 176
+      name: 'Username : Nong guidemoomoo',
+      description: 'Ematcha chocolate ice cream  \nBerry Strawberry Dutch Baby \nSplendor',
+      quantity: 'X3',
+      price: 1584
     },
     {
       image: 'assets/images/iced-matcha-milk.jpg',
-      name: 'ICED MATCHA MILK',
+      name: 'Username : Nong guidemoomoo',
       description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
       quantity: 'X2',
       price: 176
