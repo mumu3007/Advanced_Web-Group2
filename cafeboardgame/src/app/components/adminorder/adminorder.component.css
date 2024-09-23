@@ -1,3 +1,47 @@
+/* styles.css หรือไฟล์ CSS ของคุณ */
+.input-style {
+    font-family: 'Koulen', sans-serif; 
+    font-size: 18px; 
+    width: 100%; 
+    height: 48px; 
+    padding: 8px; 
+    margin-bottom: 18px; 
+    border: 2px solid #D2091C; /* สีขอบเริ่มต้น */
+    outline: none; 
+    background-color: var(--bgPro); 
+    border-radius: 12px; 
+    transition: border-color 0.2s; /* เพิ่ม transition สำหรับสีขอบ */
+}
+
+.input-style::placeholder {
+    color: rgba(210, 9, 28, 0.7); /* สีของ placeholder */
+    opacity: 1; /* ทำให้แน่ใจว่า placeholder มองเห็นได้ */
+}
+
+/* สีขอบเมื่อมีข้อผิดพลาด */
+.input-error {
+    border-color: #FF4A00; 
+}
+
+.input-error::placeholder {
+    color: rgba(255, 74, 0, 0.8); /* สีของ placeholder เมื่อมีข้อผิดพลาด */
+}
+
+
+/* สีขอบเมื่อถูกต้อง */
+.input-valid {
+    border-color: var#D2091C;
+}
+
+.input-valid::placeholder {
+    color: rgba(210, 9, 28, 0.7); /* สีของ placeholder เมื่อถูกต้อง */
+}
+
+
+
+
+
+
 /* Webkit Scrollbar (Chrome, Safari) */
 div::-webkit-scrollbar {
     width: 10px;
