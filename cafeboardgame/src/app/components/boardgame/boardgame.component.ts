@@ -3,7 +3,7 @@ import { BoardgameserviceService } from '../../services/boardgame/boardgameservi
 import { FormBuilder, Validators } from '@angular/forms';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { ToastrService } from 'ngx-toastr';
+
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
@@ -14,11 +14,10 @@ import { Router } from '@angular/router';
 
 })
 export class BoardgameComponent implements OnInit {
+
+  // --------------------------------------------------------Parameter variable
 totalPrice: any;
-
 selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to cart
-
-
   currentIndex = 0;
   boardgameItems: any[] = [];
   boardgameItemsdesc: any[] = [];
@@ -36,7 +35,8 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
   sectionrigthtoleft: string | undefined;
   sectionopcity1: string | undefined;
   sectionopcity2: string | undefined;
-  
+
+  //---------------------------------------------------------Constructor
   constructor(private boardgameservice :BoardgameserviceService ,
      private fb: FormBuilder,
      private cartsService: CartsService,
@@ -46,22 +46,24 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
      ) {  this.adjustItemsPerPage(window.innerWidth);
 
      }
+//---------------------------------------------OnInit
+  ngOnInit(): void {
+    this.loadMenuItems();
+    this.Get3BoardgameItems();
+    this.GetinactiveBoardgameItems();
 
-  selectBoardgame(boardgameId: string): Promise<void> {
-    return new Promise<void>((resolve) => {
-    // Toggle selection (add or remove from selected array)
-    const index = this.selectedBoardgameIds.indexOf(boardgameId);
-    if (index === -1) {
-      this.selectedBoardgameIds.push(boardgameId);
-      
-      console.log("เช็ค addtocart"+ this.addToCart)
-      resolve();
-    } else {
-      this.selectedBoardgameIds.splice(index, 1);
-    }
+
+    this.authService.getUserId().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.loadUserData(this.userId); // ใช้ userId ในการโหลดข้อมูลอื่น ๆ
+      }
+    });
+    
   }
-)}
-
+  loadUserData(id: string) {
+    console.log('User ID:', id);
+  }
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.adjustItemsPerPage(event.target.innerWidth);
@@ -77,6 +79,8 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     this.loadMenuItems();
     this.updateDisplayedItems()
   }
+
+  //-----------------------------------------------------จับ  event เลื่อนหน้าจอ กับ animation
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: Event): void {
     this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -103,6 +107,10 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     }
     console.log("scoll => "+this.scrollPosition)
   }
+
+  //-------------------------------------------------------add cart
+
+
   addToCart(): Promise<void> {
     return new Promise<void>((resolve) =>{
     const quantity = this.cartForm.get('quantity')?.value ?? 1;
@@ -136,34 +144,24 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
     );
   }
 )}
-  
-togglePopup(price: number) {
-  this.selectedPrice = price;
-  this.showPopup = !this.showPopup; // Toggle modal visibility
-}
-
-  ngOnInit(): void {
-    this.loadMenuItems();
-    this.Get3BoardgameItems();
-    this.GetinactiveBoardgameItems();
 
 
-    this.authService.getUserId().subscribe((id) => {
-      this.userId = id;
-      if (this.userId) {
-        this.loadUserData(this.userId); // ใช้ userId ในการโหลดข้อมูลอื่น ๆ
-      }
-    });
-    
+
+//---------------------------------------------------------- loadData
+  selectBoardgame(boardgameId: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+    // Toggle selection (add or remove from selected array)
+    const index = this.selectedBoardgameIds.indexOf(boardgameId);
+    if (index === -1) {
+      this.selectedBoardgameIds.push(boardgameId);
+      
+      console.log("เช็ค addtocart"+ this.addToCart)
+      resolve();
+    } else {
+      this.selectedBoardgameIds.splice(index, 1);
+    }
   }
-  loadUserData(id: string) {
-    console.log('User ID:', id);
-  }
-
-
-
-  
-
+)}
 loadMenuItems() {
   this.boardgameservice.getBoardgame().subscribe(
     (data) => {
@@ -199,20 +197,13 @@ GetinactiveBoardgameItems() {
 }
 
 
+
   get displayedCards() {
     return this.boardgameinactiveItem
   }
-// scrollNext() {
-//   const container = document.querySelector('.custom-scrollbar');
-//   container.scrollBy({ left: 300, behavior: 'smooth' });
-// }
-
-// scrollPrev() {
-//   const container = document.querySelector('.custom-scrollbar');
-//   container.scrollBy({ left: -300, behavior: 'smooth' });
-// }
 
 
+//----------------------------------------------------- slice show
 updateDisplayedItems() {
   const start = this.currentPage * this.itemsPerPage;
   const end = start + this.itemsPerPage;
@@ -226,30 +217,17 @@ updateDisplayedItems() {
       this.updateDisplayedItems();
     }
   }
-
-  cartForm = this.fb.group({
-    price: [{ value: 0, disabled: true }], 
-    quantity: [1, [Validators.required, Validators.min(1)]]
-  });
-
   prevPage() {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.updateDisplayedItems();
     }
-  }
-    // ฟังก์ชันเปิด popup
-    openPopup(item: any) {
-      this.selectedItem = item;
-      this.showPopupSelectItem = !this.showPopupSelectItem;
-   
-    }
-    closePopup() {
-
-      this.showPopupSelectItem = !this.showPopupSelectItem;
-      this.resetForm();
-   
-    }
+  } 
+//--------------------------------------------- Form
+  cartForm = this.fb.group({
+    price: [{ value: 0, disabled: true }], 
+    quantity: [1, [Validators.required, Validators.min(1)]]
+  });
     resetForm() {
       this.cartForm.reset({
         quantity: 1
@@ -257,7 +235,7 @@ updateDisplayedItems() {
     }
     
 
-
+//---------------------------------------------- increase Decrease Quan
     increaseQuantity() {
       const currentQuantity = this.cartForm.get('quantity')?.value;
       const maxQuantity = this.selectedItem?.quantity; // Optional chaining to handle null or undefined
@@ -293,6 +271,23 @@ updateDisplayedItems() {
       }
     }
   }
+  //--------------------------------------------Popup
+    
+togglePopup(price: number) {
+  this.selectedPrice = price;
+  this.showPopup = !this.showPopup; // Toggle modal visibility
+}
+openPopup(item: any) {
+  this.selectedItem = item;
+  this.showPopupSelectItem = !this.showPopupSelectItem;
+
+}
+closePopup() {
+
+  this.showPopupSelectItem = !this.showPopupSelectItem;
+  this.resetForm();
+
+}
 
   async   buyNow(boardgameId: string){
     await this.selectBoardgame(boardgameId)
