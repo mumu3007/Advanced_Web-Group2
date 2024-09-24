@@ -184,13 +184,13 @@ export class MenuComponent implements OnInit {
 
   truncateName(name: string): string {
     const parts = name.split(' '); 
-    if (name.length <= 26) {
+    if (name.length <= 32) {
       return name;  // ถ้าชื่อมีความยาว <= 20 ให้คืนค่านั้นเลย
     }
     else{
       if (parts.length > 2) {
         // ถ้าเจอคำมากกว่า 2 ส่วน ให้รวมเฉพาะส่วนแรกและส่วนที่ 2 และต่อด้วย '...'
-        return parts.slice(0, 3).join(' ') + '...';
+        return parts.slice(0, 4).join(' ') + '...';
       }
       return name;
     }
