@@ -1,9 +1,9 @@
 <app-navbaradmin></app-navbaradmin>
-<div class="bg-bgPro h-screen">
+<div class="bg-bgPro h-full lg:h-screen">
   <p-toast></p-toast>
   <div class="pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-4">
       <span class="grow h-[2px] bg-redProject"></span>
-          <div class="flex justify-center space-x-32 mx-12">
+          <div class="flex flex-col text-center lg:flex lg:flex-row lg:justify-center lg:space-x-16 mx-12">
             <a (click)="showSection('all-orders')" class="cursor-pointer hover:text-red-600">ALL Orders</a>
             <a (click)="showSection('beverage-menu')" class="cursor-pointer hover:text-red-600">Beverage Menu</a>
             <a (click)="showSection('cake-menu')" class="cursor-pointer hover:text-red-600">Cake and Bakery Menu</a>
@@ -48,10 +48,10 @@
   </div>
 
   <!--------- หน้าเครื่องดื่ม(Beverage Menu) ------------->
-  <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="flex justify-start gap-6 ">
+  <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="lg:flex lg:flex-row lg:justify-center lg:gap-6 flex flex-col gap-7">
 
     <!-- เพิ่มเมนูกาแฟ -->
-    <form  form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-[40%]  ml-8">
+    <form  form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-full lg:w-[40%]  ">
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
         style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
@@ -132,9 +132,12 @@
           </label>
         </div>
 
-        <div class="flex flex-row gap-5 h-20">
-          <div class="flex flex-col"> <!-- Wrapper for styling and layout -->
-            <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
+
+        
+        
+        <div class="flex flex-row justify-between gap-5 h-20">
+          <input id="photo" type="file" (change)="onFileSelected($event)"  formControlName="upload"
+
               class="form-control text-[16px] text-redProject font-koulen w-80 
               file:mr-4 file:py-2 file:px-4
               file:w-44 file:h-12
@@ -183,11 +186,11 @@
     </form>
     
     <!--------------- แสดงรายการเมนูเครื่องดื่ม --------------->
-    <div class="w-[54%] flex flex-col mt-2 ">
+    <div class="w-full lg:w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of menuItems">
           <div class=" h-full border-redProject  border-b-2 pt-3">
-            <div class="flex justify-start h-full gap-3">
+            <div class="flex justify-between h-full gap-3">
               <div class="w-[7rem] h-[9rem] flex justify-center ml-3 ">
                 <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.photoUrl" alt="">
               </div>
@@ -215,10 +218,10 @@
 
 
   <!------------ หน้าเมนูเค้ก (Cake and Bakery Menu) ------------->
-  <div *ngIf="currentSection === 'cake-menu'" id="cake-menu" class="flex justify-start gap-6 ">
+  <div *ngIf="currentSection === 'cake-menu'" id="cake-menu" class="flex flex-col gap-7 lg:flex lg:flex-row lg:justify-center lg:gap-6">
     
     <!-- เพิ่มเมนูเค้ก -->
-    <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()" class="w-[40%] ml-8">
+    <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()" class="w-full lg:w-[40%] ">
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
           style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
@@ -250,6 +253,7 @@
           </div>
         </div>
         
+
         <div class="flex flex-row gap-4 h-20 pb-8 mt-36">
           <div class="flex flex-col"> <!-- เพิ่ม div เพื่อจัดเรียง -->
             <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
@@ -294,11 +298,11 @@
     </form>
 
     <!----------------- แสดงรายการเมนูของเค้ก ----------------->
-    <div class="w-[54%] flex flex-col mt-2 ">
+    <div class="w-full lg:w-[54%] flex flex-col mt-2 ">
       <div class="overflow-auto h-[32rem] w-full pr-5 ">
         <div *ngFor="let item of cakeItems">
           <div class=" h-full border-redProject  border-b-2 pt-3">
-            <div class="flex justify-start h-full gap-2">
+            <div class="flex justify-between h-full gap-2">
               <div class="w-[8rem] h-[8rem] flex justify-center ml-2 ">
                 <img class="w-[96%] h-[90%] rounded-2xl" [src]="item.photoUrl" alt="">
               </div>

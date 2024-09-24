@@ -11,7 +11,7 @@ export class AdminbgpopupService {
   constructor(private http: HttpClient) { }
 
   getBoardgameByID(boardgameId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/boardgame/${boardgameId}`);
+    return this.http.get(`${this.apiUrl}/boardgame/${boardgameId}`,{withCredentials: true});
   }
 
   // ฟังก์ชันอัปเดตบอร์ดเกมตาม ID โดยรองรับการอัปโหลดรูปภาพ

@@ -1,6 +1,6 @@
 <app-navbaradmin></app-navbaradmin>
 
-<div class="bg-bgPro h-screen">
+<div class="bg-bgPro h-full lg:h-screen">
     <div class=" pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-8">
         <span class="grow h-[2px] bg-redProject"></span>
         <div class="flex justify-center space-x-32 mx-12">
@@ -18,8 +18,8 @@
     <!-- --------popup-------- -->
     <p-toast></p-toast>
 
-    <div  class="flex justify-center gap-10 ">
-        <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-[40%]">
+    <div  class="flex flex-col lg:flex lg:flex-row lg:justify-center lg:gap-10 gap-6 ">
+        <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-full lg:w-[40%]">
             <div class="">
                 <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
                     style="font-size: 24px; display: inline-block; padding: 0 10px;">Add board game to the list</h3>
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </form>
-        <div class="w-[50%] flex flex-col ">
+        <div class="w-full lg:w-[50%] flex flex-col ">
             <div class="overflow-auto h-[32rem] w-full pr-2">
                 <div *ngFor="let boardgame of boardgames" >
                     <div class=" h-full border-redProject  border-b-2 pt-3">
@@ -104,7 +104,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="w-32">
+                            <div class="w-28">
                                 <div>
                                     <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
                                 </div>
