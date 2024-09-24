@@ -1,56 +1,101 @@
 <form [formGroup]="boardgameForm" (ngSubmit)="updateBoardgame()">
   <p-toast></p-toast>
-    <div class="fixed inset-0 flex items-center justify-center z-50">
-      <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
-        <div class="text-redProject font-koulen text-[30px]">
-          <h3>Update {{boardgameData.name}}</h3>
+  <div class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
+      <div class="text-redProject font-koulen text-[30px]">
+        <h3>Update {{boardgameData.name}}</h3>
+      </div>
+
+      <div class="flex flex-row gap-4">
+        <!-- Name -->
+        <div class="h-20 w-1/2">
+          <input type="text" placeholder="Name" id="name"
+            class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+            formControlName='name' min="1" step="any" [ngClass]="{
+                    'input-error': boardgameForm.get('name')?.touched && boardgameForm.get('name')?.invalid,
+                    'input-valid': !boardgameForm.get('name')?.touched || boardgameForm.get('name')?.valid }">
+          <div
+            *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)"
+            class="text-orangePro text-sm -mt-5 mb-2">
+            name is required
+          </div>
         </div>
-  
-        <div class="flex flex-row gap-4">
-          <!-- Name -->
-          <input type="text" placeholder="Name" formControlName="name" id="name" 
-            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
-          
-          <!-- Price -->
-          <input type="number" placeholder="Price" formControlName="price" min="1" step="any"
-            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
-        </div>
-  
-        <!-- Description -->
-        <textarea type="text" placeholder="Details.." formControlName="description"
-          class="font-koulen text-[14px] w-full pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"></textarea>
-        
-        <div class="flex flex-row gap-4">
-          <!-- Category (type) -->
-          <select formControlName="type" class="font-koulen text-[18px] text-redProject w-[50%] h-14 bg-white p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400">
-            <option value="" disabled selected>Category</option>
-            <!-- Assuming typeItems are being looped from component -->
-            <option *ngFor="let type of typeItems" [value]="type._id">{{type.name}}</option>
-          </select>
-  
-          <!-- Quantity -->
-          <input type="number" placeholder="Quantity" formControlName="quantity" min="1" step="any"
-            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
-        </div>
-  
-        <div class="flex flex-row gap-4 pb-8">
-          <!-- Status -->
-          <select formControlName="status" class="form-control font-koulen text-[18px] text-redProject w-[50%] h-14 bg-white p-2 outline-none border-2 border-redProject rounded-xl pr-8">
-            <option value="" disabled selected>Status</option>
-            <option [value]="true">Available</option>
-            <option [value]="false">Unavailable</option>
-          </select>
-  
-          <!-- Photo (file input) -->
-          <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-72 file:mr-2 file:py-2 file:px-4 file:w-44 file:h-full file:text-[18px] file:font-koulen file:rounded-xl file:border-2 file:border-redProject file:bg-transparent file:text-redProject" />
-          
-        </div>
-  
-        <div class="flex justify-between">
-          <button type="button" class="font-koulen text-[18px] w-28 h-10 text-redProject items-center justify-center rounded-xl border-2 border-redProject hover:bg-[#B70A1A] hover:text-white transition-all duration-200"
-            (click)="closePopup()">Cancel</button>
-          <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-200">Update Item</button>
+
+        <div class="h-20 w-1/2">
+          <input type="number" placeholder="price" id="price"
+            class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+            formControlName='price' min="1" step="any" [ngClass]="{
+                'input-error': boardgameForm.get('price')?.touched && boardgameForm.get('price')?.invalid,
+                'input-valid': !boardgameForm.get('price')?.touched || boardgameForm.get('price')?.valid }">
+          <div
+            *ngIf="boardgameForm.get('price')?.invalid && (boardgameForm.get('price')?.dirty || boardgameForm.get('price')?.touched)"
+            class="text-orangePro text-sm -mt-5 mb-2">
+            price is required
+          </div>
         </div>
       </div>
+
+      <!-- Description -->
+      <div class=" w-full">
+        <textarea type="text" placeholder="Details.."
+          class="font-noto text-[14px] w-full pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
+          formControlName='description'
+          [ngClass]="{
+            'input-error': boardgameForm.get('description')?.touched && boardgameForm.get('description')?.invalid,
+            'input-valid': !boardgameForm.get('description')?.touched || (boardgameForm.get('description')?.valid && boardgameForm.get('description')?.value !== '')}"></textarea>
+        <div
+          *ngIf="boardgameForm.get('description')?.invalid && (boardgameForm.get('description')?.dirty || boardgameForm.get('description')?.touched)"
+          class="text-orangePro text-sm -mt-5 mb-2">
+          description is required
+        </div>
+      </div>
+      <div class="flex flex-row gap-4">
+        <!-- Category (type) -->
+        <select formControlName="type"
+          class="font-koulen text-[18px] text-redProject w-[50%] h-14 bg-white p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400">
+          <option value="" disabled selected>Category</option>
+          <!-- Assuming typeItems are being looped from component -->
+          <option *ngFor="let type of typeItems" [value]="type._id">{{type.name}}</option>
+        </select>
+
+        <!-- Quantity -->
+          <div class="h-20 w-1/2">
+            <input type="number" placeholder="Quantity" id="quantity"
+                class="font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-white rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"
+                formControlName='quantity' min="1" step="any"
+                [ngClass]="{
+                'input-error': boardgameForm.get('quantity')?.touched && boardgameForm.get('quantity')?.invalid,
+                'input-valid': !boardgameForm.get('quantity')?.touched || boardgameForm.get('quantity')?.valid }">
+            <div *ngIf="boardgameForm.get('quantity')?.invalid && (boardgameForm.get('quantity')?.dirty || boardgameForm.get('quantity')?.touched)"
+                class="text-orangePro text-sm -mt-5 mb-2">
+                quantity is required
+            </div>
+        </div>
+      </div>
+
+      <div class="flex flex-row gap-4 pb-8">
+        <!-- Status -->
+        <select formControlName="status"
+          class="form-control font-koulen text-[18px] text-redProject w-[50%] h-14 bg-white p-2 outline-none border-2 border-redProject rounded-xl pr-8">
+          <option value="" disabled selected>Status</option>
+          <option [value]="true">Available</option>
+          <option [value]="false">Unavailable</option>
+        </select>
+
+        <!-- Photo (file input) -->
+        <input id="photo" type="file" (change)="onFileSelected($event)"
+          class="form-control text-[16px] text-redProject font-koulen w-72 file:mr-2 file:py-2 file:px-4 file:w-44 file:h-full file:text-[18px] file:font-koulen file:rounded-xl file:border-2 file:border-redProject file:bg-transparent file:text-redProject" />
+
+      </div>
+
+      <div class="flex justify-between">
+        <button type="button"
+          class="font-koulen text-[18px] w-28 h-10 text-redProject items-center justify-center rounded-xl border-2 border-redProject hover:bg-[#B70A1A] hover:text-white transition-all duration-200"
+          (click)="closePopup()">Cancel</button>
+        <button type="submit"
+          class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-200">Update
+          Item</button>
+      </div>
     </div>
-  </form>
+  </div>
+</form>

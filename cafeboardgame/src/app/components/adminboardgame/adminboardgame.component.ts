@@ -52,9 +52,9 @@ export class AdminboardgameComponent implements OnInit {
   boardgameForm = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    quantity: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
-    price: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
-    photo: new FormControl(),
+    quantity: new FormControl('', [Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
+    price: new FormControl('',[Validators.required,Validators.min(1)]), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
+    photo: new FormControl<File | null>(null, [Validators.required]),
     create_at: new FormControl(new Date()), // ตั้งค่าเริ่มต้นเป็นวันที่ปัจจุบัน
     status: new FormControl(null, Validators.required),
     type: new FormControl(null, Validators.required),

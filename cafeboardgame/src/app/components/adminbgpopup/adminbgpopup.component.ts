@@ -31,13 +31,13 @@ export class AdminbgpopupComponent implements OnInit  {
   ngOnInit(): void {
     this.boardgameForm = this.fb.group({
       name: ['', Validators.required],
-      description: [''],
-      quantity: [null, Validators.required],
-      price: [null, Validators.required],
+      description: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      price: ['', [Validators.required, Validators.min(1)]],
       photo: [],
       create_at: [new Date()],
       status: [null, Validators.required],
-      type: [''],
+      type: [null, Validators.required],
     });
     this.loadBoardgameByID();
     this.loadBoardgameTypeItem();

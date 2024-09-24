@@ -31,3 +31,12 @@ div {
   .unavailable {
     color: red;
   }
+
+/* สีขอบเมื่อมีข้อผิดพลาด */
+.input-error {
+    border-color: #FF4A00; 
+}
+
+.input-error::placeholder {
+    color: rgba(255, 74, 0, 0.8); /* สีของ placeholder เมื่อมีข้อผิดพลาด */
+}
