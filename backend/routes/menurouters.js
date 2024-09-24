@@ -70,7 +70,7 @@ router.get('/recommended_coffee', async (req, res, next) => {
       const photoUrl = `${req.protocol}://${req.get('host')}/${coffeemenu.photo.filePath}`;
       return {
         ...coffeemenu._doc,
-        photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+        photoUrl,
       };
     });
     res.json(coffemenusWithPhotoUrl);
@@ -98,10 +98,8 @@ router.get('/coffeemenu/:id', async (req, res, next) => {
 router.post('/coffeemenu', upload.single("photo"), async (req, res, next) => {
   try {
     const { name, s_price, m_price, l_price, type_coffee, status } = req.body;
-
     const parsedType_coffee = JSON.parse(type_coffee);
 
-    // Create a new CoffeeMenu document
     const newCoffeeMenu = new Coffeemenu({
       name,
       s_price,
@@ -116,14 +114,11 @@ router.post('/coffeemenu', upload.single("photo"), async (req, res, next) => {
       type_coffee: parsedType_coffee,
       status
     });
-
-    // Save the new menu to the database
+   
     const savedCoffeeMenu = await newCoffeeMenu.save();
 
-    // Respond with the newly created menu
     res.status(201).json(savedCoffeeMenu);
   } catch (err) {
-    // Pass any errors to the error handler
     next(err);
   }
 });
@@ -274,7 +269,7 @@ router.get('/cakemenu/:id', async (req, res, next) => {
     const photoUrl = `${req.protocol}://${req.get('host')}/${cakemenu.photo.filePath}`;
     const cakemenuWithPhotoUrl = {
       ...cakemenu._doc,
-      photoUrl,  // เพิ่ม URL ของรูปภาพเข้าไปในผลลัพธ์
+      photoUrl,  
     };
 
     res.json(cakemenuWithPhotoUrl);
@@ -289,7 +284,6 @@ router.post('/cakemenu', upload.single("photo"), async (req, res, next) => {
   try {
     const { name, price, description } = req.body;
 
-    // Create a new Cake document
     const newCakeMenu = new CakeMenu({
       name,
       price,
@@ -302,13 +296,10 @@ router.post('/cakemenu', upload.single("photo"), async (req, res, next) => {
       },
     });
 
-    // Save the new menu to the database
     const savedCakeMenu = await newCakeMenu.save();
 
-    // Respond with the newly created menu
     res.status(201).json(savedCakeMenu);
   } catch (err) {
-    // Pass any errors to the error handler
     next(err);
   }
 });
