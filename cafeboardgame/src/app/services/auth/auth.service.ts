@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap, map, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/enviroment';
+import { jwtDecode } from 'jwt-decode';
+
+export interface JwtToken {
+  userId: string;  
+  role: string;    
+ 
+}
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +27,6 @@ export class AuthService {
       return this.userIdSubject.asObservable();
     }
 
-    getUserRole(): Observable<string | null> {
-      return this.roleSubject.asObservable();
-    }
 
     getRole(): string | null {
       return this.roleSubject.getValue(); // ส่งคืนบทบาทจาก BehaviorSubject
@@ -46,7 +50,8 @@ export class AuthService {
       }).pipe(
         tap((response: any) => {
           // สมมติว่า response มี userId อยู่ในข้อมูลที่ตอบกลับ
-          this.userIdSubject.next(response.userId); // เก็บ userId ใน BehaviorSubject
+          const decodedToken : JwtToken = jwtDecode(response.token);
+          this.roleSubject.next(decodedToken['role']); // เก็บ role
         })
       );
     }

@@ -12,19 +12,23 @@ export const authGuard: CanActivateFn = (route) => {
 
   return authService.isAuthenticated().pipe(
     map((isAuthenticated) => {
-      
-       // หากไม่ใช่ผู้ใช้ที่รับรอง
-       if (!isAuthenticated) {
+      // หากไม่ใช่ผู้ใช้ที่รับรอง
+      if (!isAuthenticated) {
         return false; // ไม่อนุญาตให้เข้าถึง
       }
-
 
       // ตรวจสอบบทบาทและเส้นทาง
       const role = authService.getRole(); // สมมติว่าได้สร้างฟังก์ชันนี้ใน AuthService
       const path = route.routeConfig?.path;
 
-      if (role === 'admin') { 
-        return true; // Admin สามารถเข้าถึงทุกอย่าง
+      if (role === 'admin') {
+        // Admin สามารถเข้าถึงได้เฉพาะเส้นทางที่กำหนด
+        if (path === 'admin' || path === 'adminboardgame' || path === 'adminpayment') {
+          return true; // อนุญาตให้เข้าถึง
+        } else {
+          router.navigate(['/home']); // เปลี่ยนเส้นทางไปหน้าโฮม
+          return false; // ไม่อนุญาต
+        }
       } else if (role === 'user') {
         // User สามารถเข้าถึงได้ทุกหน้ายกเว้น admin และ adminboardgame
         if (path === 'admin' || path === 'adminboardgame' || path === 'adminpayment') {

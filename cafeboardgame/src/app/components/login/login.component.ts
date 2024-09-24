@@ -30,18 +30,23 @@ export class LoginComponent {
             detail: 'Login failed. Please try again.',
           });
         } else {
+          // ตรวจสอบบทบาทของผู้ใช้
+          const role = this.authService.getRole(); // สมมติว่ามีฟังก์ชันนี้ใน AuthService
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Login successful!',
           });
-          setTimeout(() => {
-            this.router.navigate(['/home']);
-          }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
+  
+          // เปลี่ยนเส้นทางตามบทบาท
+          if (role === 'admin') {
+            this.router.navigate(['/admin']); // ไปยังหน้า admin
+          } else {
+            this.router.navigate(['/home']); // ไปยังหน้า home สำหรับผู้ใช้ทั่วไป
+          }
         }
       },
       error => {
-      
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -50,4 +55,5 @@ export class LoginComponent {
       }
     );
   }
+  
 }

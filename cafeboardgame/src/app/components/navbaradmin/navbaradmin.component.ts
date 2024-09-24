@@ -79,7 +79,7 @@ export class NavbaradminComponent {
       this.userData = null;
       this.userId = null;
 
-      window.location.reload(); // Reload หน้าเพื่ออัปเดตการแสดงผล
+      this.router.navigate(['/home']);
     });
   }
 
