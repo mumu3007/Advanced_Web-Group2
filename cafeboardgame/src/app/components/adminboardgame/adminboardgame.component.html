@@ -4,8 +4,9 @@
     <div class=" pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-8">
         <span class="grow h-[2px] bg-redProject"></span>
         <div class="flex justify-center space-x-32 mx-12">
-            <a (click)="showSection('all-boardgame')" class="cursor-pointer hover:text-red-600">ALL boardgame</a>
-            <a (click)="showSection('boardgame')" class="cursor-pointer hover:text-red-600">boardgame</a>
+            <!-- <a (click)="showSection('all-boardgame')" class="cursor-pointer hover:text-red-600">ALL boardgame</a> -->
+            <!-- *ngIf="currentSection === 'boardgame'" id="boardgame" -->
+            <a class="cursor-pointer hover:text-red-600">boardgame</a>
         </div>
         <span class="grow h-[2px] bg-redProject"></span>
     </div>
@@ -17,7 +18,7 @@
     <!-- --------popup-------- -->
     <p-toast></p-toast>
 
-    <div *ngIf="currentSection === 'boardgame'" id="boardgame" class="flex justify-center gap-10 ">
+    <div  class="flex justify-center gap-10 ">
         <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-[40%]">
             <div class="">
                 <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
@@ -96,11 +97,11 @@
                                     <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT
                                     </p>
                                     <p class="text-[12px] text-black/80 font-koulen">
-                                        status : 
+                                        status :
                                         <span [ngClass]="{'text-green-600': boardgame.status, 'text-redProject': !boardgame.status}">
-                                          {{ boardgame.status ? 'Available' : 'Unavailable' }}
+                                            {{ boardgame.status ? 'Available' : 'Unavailable' }}
                                         </span>
-                                      </p>
+                                    </p>
                                 </div>
                             </div>
                             <div class="w-32">
@@ -126,42 +127,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- boardgame -->
-
-    <div *ngIf="currentSection === 'all-boardgame'" id="all-boardgame" class="flex justify-center h-[70%] ">
-        <div class="w-[60%] overflow-auto h-full">
-            <div *ngFor="let boardgame of boardgames"  >
-                <div class=" h-full border-redProject border-b-2 pt-3">
-                    <div class="flex justify-between h-full ">
-                        <div class="w-[15%] flex justify-center ">
-                            <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
-                        </div>
-                        <div class="content-center">
-                            <div>
-                                <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                                <p class="text-[14px] text-black/80 font-koulen ">category : {{boardgame.type.name}}</p>
-                            </div>
-                        </div>
-                        <div class="ml-52 content-center">
-                            <div>
-                                <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
-                            </div>
-
-                        </div>
-                        <div class="w-28 ml-40 content-center">
-                            <div>
-                                <h2 class="text-[20px] font-koulen">{{boardgame.price}} BAHT</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- boardgame -->
 
 
 
