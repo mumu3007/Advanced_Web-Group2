@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
   cartCakeDetails: any[] = [];
   cartAllName: any[] = [];
   cakeItems: any[] = [];
+  nocart= true;
 
   constructor(private cartsService: CartsService, private authService: AuthService,private messageService: MessageService ) { }
 
@@ -148,10 +149,16 @@ export class CartComponent implements OnInit {
         console.log("cakeItems:",this.cakeItems)
         console.log("cartItems:",this.cartItems)
         console.log("cartAllName:", this.cartAllName)
+        if (!this.cartCoffeeDetails.length && !this.cakeItems.length && !this.cartItems.length){
+          this.nocart = false;
+        }
         this.calculateTotalPrice()
 
       },
-      (error) => console.error('Error loading cart:', error)
+      (error) => {
+        this.nocart= false;
+        console.error('Error loading cart:', error)
+      }
     );
   }
 

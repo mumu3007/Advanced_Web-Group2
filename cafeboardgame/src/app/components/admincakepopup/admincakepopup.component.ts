@@ -31,7 +31,7 @@ export class AdmincakepopupComponent {
     this.updatecakeForm = this.fb.group({
       name: ['', Validators.required],
       cakedescription: ['', Validators.required],
-      cakeprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]], // ต้องระบุค่าและระบุค่าเป็นตัวเล
+      cakeprice: [null, [Validators.required, Validators.min(1)]], // ต้องระบุค่าและระบุค่าเป็นตัวเล
       photo: [''],
       create_at: [new Date()],
     });

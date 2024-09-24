@@ -40,7 +40,7 @@
       </button>
       <!-- Card Carousel -->
       <div
-        class="flex justify-between space-x-4 sm:space-x-10 overflow-hidden w-full sm:w-[80%] carousel-container"
+        class="flex justify-between space-x-4 sm:space-x-10 overflow-hidden w-full sm:w-[80%] h-80 carousel-container"
       >
         <div
           *ngFor="let item of menuItems; let i = index"
@@ -58,7 +58,7 @@
           />
           <h2 class="text-center text-red-600 text-sm sm:text-lg">{{ item.name }}</h2>
           <p class="text-center text-sm sm:text-lg font-bold text-red-600">
-            {{ item.price }} BATH
+            {{ item.price }} BAHT
           </p>
           <div *ngIf="i === currentIndex" class="mt-4">
             <a routerLink="/menu">
@@ -77,7 +77,7 @@
   
   
   <!------------------------------------------------------------->
-  <section class="flex flex-col items-center mt-20">
+  <section class="flex flex-col items-center mt-20 pb-14">
     <h1 class="text-red-600 text-3xl lg:text-5xl font-bold mb-10">OUR BOARDGAME</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
       <!-- Left side with text -->
@@ -108,10 +108,13 @@
             <label class="font-bold text-lg">WISHLIST</label>
             <label class="font-bold text-lg">$64</label>
           </div>
-          <p class="text-sm">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut,
-            magni dolorum ipsa cumque esse saepe labore ullam unde praesentium
-            fugit officiis quas optio maiores reprehenderit.
+          <p class="text-sm font-noto">
+            เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่างตัดสินกันที่การ์ดใบเดียว โดยนำเกมสุดฮิตและคลาสสิกอย่าง “จดหมายรัก”
+            มาใส่อาร์ตในสไตล์ “เหมียวระเบิด” เพิ่มความสนุกด้วยการ์ดที่มากขึ้น
+            พร้อมประชันกันกับแก๊งเพื่อนก๊วนต้าวเหมียวสุดน่ารักวิธีเล่นการ์ดทุกใบจะมีทั้งหมายเลข และวิธีการทรมานผู้เล่นคนอื่น ๆ
+            การ์ดยิ่งมีหมายเลขสูงก็จะยิ่งแข็งแกร่ง ในเกมคุณจะมีการ์ดบนมือสองใบแต่จะสามารถเลือกเก็บไว้ได้ ใบเดียวเท่านั้น
+            คุณจะต้องตัดสินใจว่าจะเก็บใบไหนไว้ แล้วเล่นใบไหนเพื่อทำลายเหล่าคู่แข่งให้สิ้นซาก เมื่อจบเกม
+            ผู้ที่ถือการ์ดหมายเลขสูงที่สุดจะเป็นผู้ชนะ!
           </p>
           <button class="bg-red-600 text-white text-sm py-2 px-4 rounded-lg mt-4">
             LEARN MORE
@@ -135,10 +138,13 @@
             <label class="font-bold text-lg">WISHLIST</label>
             <label class="font-bold text-lg">$64</label>
           </div>
-          <p class="text-sm">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut,
-            magni dolorum ipsa cumque esse saepe labore ullam unde praesentium
-            fugit officiis quas optio maiores reprehenderit.
+          <p class="text-sm font-noto">
+            เกมเบาสมองประลองกลยุทธ์ที่ทุกสิ่งทุกอย่างตัดสินกันที่การ์ดใบเดียว โดยนำเกมสุดฮิตและคลาสสิกอย่าง “จดหมายรัก”
+            มาใส่อาร์ตในสไตล์ “เหมียวระเบิด” เพิ่มความสนุกด้วยการ์ดที่มากขึ้น
+            พร้อมประชันกันกับแก๊งเพื่อนก๊วนต้าวเหมียวสุดน่ารักวิธีเล่นการ์ดทุกใบจะมีทั้งหมายเลข และวิธีการทรมานผู้เล่นคนอื่น ๆ
+            การ์ดยิ่งมีหมายเลขสูงก็จะยิ่งแข็งแกร่ง ในเกมคุณจะมีการ์ดบนมือสองใบแต่จะสามารถเลือกเก็บไว้ได้ ใบเดียวเท่านั้น
+            คุณจะต้องตัดสินใจว่าจะเก็บใบไหนไว้ แล้วเล่นใบไหนเพื่อทำลายเหล่าคู่แข่งให้สิ้นซาก เมื่อจบเกม
+            ผู้ที่ถือการ์ดหมายเลขสูงที่สุดจะเป็นผู้ชนะ!
           </p>
           <button class="bg-red-600 text-white text-sm py-2 px-4 rounded-lg mt-4">
             LEARN MORE

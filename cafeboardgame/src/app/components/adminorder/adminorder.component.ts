@@ -38,9 +38,9 @@ export class AdminorderComponent {
 
   BeveragemenuForm = new FormGroup({
     name: new FormControl('',Validators.required),
-    tallcupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]), //ต้องระบุค่าและระบุค่าเป็นตัวเลข
-    grandecupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    venticupprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+    tallcupprice: new FormControl('', [Validators.required, Validators.min(1)]), //ต้องระบุค่าและระบุค่าเป็นตัวเลข
+    grandecupprice: new FormControl('', [Validators.required, Validators.min(1)]),
+    venticupprice: new FormControl('', [Validators.required, Validators.min(1)]),
     hot: new FormControl(false),
     iced: new FormControl(false),
     frappe: new FormControl(false),
@@ -53,7 +53,7 @@ export class AdminorderComponent {
   CakemenuForm = new FormGroup({
     name: new FormControl('',Validators.required),
     cakedescription: new FormControl('',Validators.required),
-    cakeprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+    cakeprice: new FormControl('', [Validators.required, Validators.min(1)]),
     upload: new FormControl<File | null>(null, [Validators.required]), // ยอมรับไฟล์หรือค่า null
     create_at: new FormControl(new Date()),
 
@@ -125,7 +125,7 @@ export class AdminorderComponent {
       .map(type => type.toUpperCase());
 
       const status = this.BeveragemenuForm.get('status')?.value;
-      const statusValue = status === 'true' ? 'regular' : 'recommended';
+      const statusValue = status === 'regular' ? 'regular' : 'recommended';
       // รับค่าจากฟอร์ม
       const formData = new FormData();
       formData.append('name', this.BeveragemenuForm.get('name')?.value || '');

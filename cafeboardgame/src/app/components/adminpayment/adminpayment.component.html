@@ -41,9 +41,10 @@
               <p class="text-[15px] md:text-[17px] text-black/80 font-koulen">
                 tel : {{ payment.user_id.phone }}
               </p>
-              <p class="text-[15px] md:text-[17px] text-black/80 font-koulen">
-                status : {{ payment.status }}
-              </p>
+              <div class="flex flex-row text-[15px] md:text-[17px] text-black/80 font-koulen">
+                status : 
+                <p class="font-noto text-[15px] md:text-[17px]">{{ payment.status }}</p>
+              </div>
             </div>
 
             <form
@@ -58,7 +59,7 @@
                 <select
                   [(ngModel)]="payment.status"
                   name="status"
-                  class="form-control font-koulen text-[14px] md:text-[17px] text-redProject w-full md:w-[8rem] h-8 bg-bgPro outline-none border-2 border-redProject rounded-xl"
+                  class="form-control font-noto text-[14px] md:text-[17px] text-redProject w-full md:w-[8.5rem] h-8 bg-bgPro outline-none border-2 border-redProject rounded-lg"
                 >
                   <option value="รอการตรวจสอบ">รอการตรวจสอบ</option>
                   <option value="ตรวจสอบแล้ว">ตรวจสอบแล้ว</option>
@@ -66,7 +67,7 @@
                 <!-- ปุ่มสำหรับยืนยันการเปลี่ยนแปลง -->
                 <button
                   type="submit"
-                  class="font-koulen text-[14px] md:text-[17px] w-full md:w-28 h-8 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-500 mt-2 md:m-2"
+                  class="font-noto text-[14px] md:text-[17px] w-full md:w-28 h-8 bg-redProject text-white items-center justify-center rounded-lg hover:bg-[#B70A1A] transition-all duration-500 mt-2 md:m-2 md:ml-0"
                 >
                   อัปเดตสถานะ
                 </button>
