@@ -80,17 +80,17 @@ export class AdminorderComponent {
     hot: new FormControl(false),
     iced: new FormControl(false),
     frappe: new FormControl(false),
-    upload: new FormControl(),
+    upload: new FormControl<File | null>(null, [Validators.required]), // ยอมรับไฟล์หรือค่า null
     status: new FormControl('status', [Validators.required, Validators.pattern('^(?!status$).*$')]), // ต้องไม่เท่ากับค่า 'status'
     create_at: new FormControl(new Date()),
 
   });
 
   CakemenuForm = new FormGroup({
-    name: new FormControl(''),
-    cakedescription: new FormControl(''),
-    cakeprice: new FormControl(),
-    upload: new FormControl(),
+    name: new FormControl('',Validators.required),
+    cakedescription: new FormControl('',Validators.required),
+    cakeprice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+    upload: new FormControl<File | null>(null, [Validators.required]), // ยอมรับไฟล์หรือค่า null
     create_at: new FormControl(new Date()),
 
   });
@@ -109,6 +109,7 @@ export class AdminorderComponent {
     }
     
   }
+  
 
   // ตรวจสอบประเภทและขนาดของไฟล์
   isValidFile(file: File): boolean {
@@ -238,6 +239,7 @@ export class AdminorderComponent {
 
   //เพิ่มเมนูเค้ก
   AddCakeMenuItem() {
+    this.CakemenuForm.markAllAsTouched(); // ทำให้ทุกฟิลด์ถูกสัมผัส
     if (this.CakemenuForm.valid) {
       
       // รับค่าจากฟอร์ม
