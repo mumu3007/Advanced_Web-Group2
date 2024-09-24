@@ -70,7 +70,7 @@
               />
               <div class="mt-4 sm:mt-0 sm:ml-4 flex-1">
                 <h2 class="text-xl sm:text-2xl font-koulen text-orange-500">{{ card.name }}</h2>
-                <p class="mt-2 text-base sm:text-lg max-h-[150px] max-w-[200px] sm:max-h-[100px] md:max-w-[250px] md:max-h-[200px] lg:max-h-[150px] lg:max-w-[250px] overflow-y-auto custom-scrollbar">{{ card.description }}</p>
+                <p class="mt-2 font-noto text-base sm:text-lg max-h-[150px] max-w-[200px] sm:max-h-[100px] md:max-w-[250px] md:max-h-[200px] lg:max-h-[150px] lg:max-w-[250px] overflow-y-auto custom-scrollbar">{{ card.description }}</p>
                 <p class="mt-4 text-lg sm:text-xl font-bold text-orange-500 lowercase">COMING SOON</p>
               </div>
             </div>
@@ -94,7 +94,7 @@
           <img [src]="boardgameItemsdesc[2].photoUrl" class="w-32 md:w-44" />
           <h2 class="ml-5 text-[32px] md:text-[48px] text-white font-koulen">{{boardgameItemsdesc[2].name}}</h2>
         </div>
-        <p class="mt-4 text-lg md:text-[24px] text-white indent-8 select-none overflow-y-auto">{{boardgameItemsdesc[2].description}}</p>
+        <p class="mt-4 font-noto text-lg md:text-[24px] text-white indent-8 select-none overflow-y-auto">{{boardgameItemsdesc[2].description}}</p>
       </div>
       <div class="flex flex-col items-center justify-center row-start-2 col-span-1 row-span-2 bg-orangePro rounded-3xl" [ngClass]="sectionlefttoright">
         <img [src]="boardgameItemsdesc[1].photUrl" class="w-24 md:w-32 mt-2" />
@@ -163,7 +163,7 @@
           <img [src]="selectedItem.photoUrl" class="h-48 md:h-[349px] rounded-3xl w-full md:w-auto object-cover">
           <div class="flex flex-col relative flex-1 ">
             <label class="text-lg md:text-xl font-koulen">{{ selectedItem.name}}</label>
-            <label class="text-sm md:text-base ml-0 md:ml-5 mt-2 md:mt-0">{{ selectedItem.description}}</label>
+            <label class="text-sm font-noto md:text-base ml-0 md:ml-5 mt-2 md:mt-0">{{ selectedItem.description}}</label>
             <div class="flex md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-start md:items-end justify-start mt-auto ">
               <div class="flex  space-x-3 flex-col gap-4">
                 <label class="font-koulen text-sm md:text-base mt-2">Price: {{ selectedItem.price}} BAHT</label>

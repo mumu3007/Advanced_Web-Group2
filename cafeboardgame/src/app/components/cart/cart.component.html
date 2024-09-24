@@ -1,100 +1,116 @@
-<div class="bg-[#F4F1EC] min-h-screen">
+<div class="bg-orange-100/50 min-h-screen">
   <app-navbar></app-navbar>
   <p-toast></p-toast>
-  <div class="container mx-auto px-4 pt-12">
-    <div class="flex flex-col md:flex-row gap-8 pt-5">
-      <!-- Cart Items Section -->
-      <div class="w-full md:w-3/5">
-        <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
-        <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
-          <!-- Coffee Cart Items -->
-          <div *ngFor="let item of cartCoffeeDetails" class="flex-container">
-            <div class="flex w-full pl-8 pr-4">
-              <div class="flex-center w-[20%]">
-                <img [src]="item.photo" class="w-full h-full object-cover">
-              </div>
-              <div class="pl-10 w-full pt-2">
-                <div class="flex justify-between items-start text-xl">
-                  <div class="">
-                    <p class="">{{item.name}}</p>
-                    <label for="sizeandsweet" class="text-sm">Sweet: {{item.sweetness_level}}%, Size: {{item.size}}</label>
-                  </div>
-                  <button class="delete-button" (click)="deleteOrderCoffee(item._id)">DELETE</button>
+  <div *ngIf="nocart">
+    <div class="container mx-auto px-4 pt-12">
+      <div class="flex flex-col md:flex-row gap-8 pt-5">
+        <!-- Cart Items Section -->
+        <div class="w-full md:w-3/5">
+          <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
+          <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
+            <!-- Coffee Cart Items -->
+            <div *ngFor="let item of cartCoffeeDetails" class="flex-container">
+              <div class="flex w-full pl-8 pr-4">
+                <div class="flex-center w-[20%]">
+                  <img [src]="item.photo" class="w-full h-full object-cover">
                 </div>
-                <div class="flex-space-between pt-3 text-md">
-                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
-                  <p class="text-xl">{{item.total_price}} BAHT</p>
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between items-start text-xl">
+                    <div class="">
+                      <p class="">{{item.name}}</p>
+                      <label for="sizeandsweet" class="text-sm">Sweet: {{item.sweetness_level}}%, Size:
+                        {{item.size}}</label>
+                    </div>
+                    <button class="delete-button" (click)="deleteOrderCoffee(item._id)">DELETE</button>
+                  </div>
+                  <div class="flex-space-between pt-3 text-md">
+                    <span class="py-1">Quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.total_price}} BAHT</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <!-- Cake Cart Items -->
-          <div *ngFor="let item of cakeItems" class="flex-container">
-            <div class="flex w-full pl-8 pr-4">
-              <div class="flex-center w-[20%]">
-                <img [src]="item.photo" class="w-full h-full object-cover">
-              </div>
-              <div class="pl-10 w-full pt-2">
-                <div class="flex justify-between items-start">
-                  <div class="font-koulen">
-                    <p class="text-xl">{{item.name}}</p>
-                    <label for="sizeandsweet" class="font-noto text-sm">{{item.description}}</label>
-                  </div>
-                  <button class="delete-button" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
+
+            <!-- Cake Cart Items -->
+            <div *ngFor="let item of cakeItems" class="flex-container">
+              <div class="flex w-full pl-8 pr-4">
+                <div class="flex-center w-[20%]">
+                  <img [src]="item.photo" class="w-full h-full object-cover">
                 </div>
-                <div class="flex-space-between pt-3 font-koulen text-md">
-                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
-                  <p class="text-xl">{{item.total_price}} BAHT</p>
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between items-start">
+                    <div class="font-koulen">
+                      <p class="text-xl">{{item.name}}</p>
+                      <label for="sizeandsweet" class="font-noto text-sm">{{item.description}}</label>
+                    </div>
+                    <button class="delete-button" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
+                  </div>
+                  <div class="flex-space-between pt-3 font-koulen text-md">
+                    <span class="py-1">Quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.total_price}} BAHT</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <!-- Boardgame Cart Items -->
-          <div *ngFor="let item of cartItems" class="flex-container">
-            <div class="flex w-full pl-8 pr-4">
-              <div class="flex-center w-[20%]">
-                <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
-              </div>
-              <div class="pl-10 w-full pt-2">
-                <div class="flex justify-between items-start">
-                  <div class="font-koulen">
-                    <p class="text-xl">{{item.name}}</p>
-                    <label for="category" class="text-sm">Category: {{item.type}}</label>
-                  </div>
-                  <button class="delete-button" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
+
+            <!-- Boardgame Cart Items -->
+            <div *ngFor="let item of cartItems" class="flex-container">
+              <div class="flex w-full pl-8 pr-4">
+                <div class="flex-center w-[20%]">
+                  <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
                 </div>
-                <div class="flex justify-between pt-3 font-koulen text-md">
-                  <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
-                  <p class="text-xl">{{item.price * item.quantity}} BAHT</p>
+                <div class="pl-10 w-full pt-2">
+                  <div class="flex justify-between items-start">
+                    <div class="font-koulen">
+                      <p class="text-xl">{{item.name}}</p>
+                      <label for="category" class="text-sm">Category: {{item.type}}</label>
+                    </div>
+                    <button class="delete-button" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
+                  </div>
+                  <div class="flex justify-between pt-3 font-koulen text-md">
+                    <span class="py-1">Quantity: {{ item.quantity }}</span>
+                    <p class="text-xl">{{item.price * item.quantity}} BAHT</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Total Price Section -->
+        <div class="relative w-full md:w-[45%] px-8 py-14 rounded-3xl border-2 border-redProject mt-4">
+          <h2 class="absolute -top-5 left-16 bg-[#F4F1EC] px-4 text-redProject font-koulen text-4xl mb-4">TOTAL PRICE
+          </h2>
+          <div *ngFor="let item of cartAllName" class="flex justify-between mb-4 font-koulen text-xl">
+            <span>{{ item.name }}</span>
+            <span>{{ item.total_price }} BAHT</span>
+          </div>
+          <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
+            <span>{{items.name}}</span>
+            <span>{{ items.price * items.quantity}} BAHT</span>
+          </div>
+          <div class="border-t border-redProject pt-4 mt-4">
+            <div class="flex justify-between font-bold">
+              <span>TOTAL</span>
+              <span>{{ totalPrice }} BAHT</span>
+            </div>
+          </div>
+          <button (click)="togglePopup()"
+            class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen w-full mt-6">PROCESS TO
+            CHECKOUT</button>
+          <app-payment *ngIf="showPopup" [price]="totalPrice" [cart_id]="selectedCartId"
+            (close)="togglePopup()"></app-payment>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!nocart">
+    <div class="mt-4 flex justify-center items-center  h-[38.7rem] font-koulen">
+      <div class="flex flex-col justify-center items-center border-2 border-redProject w-[90%] h-[90%] text-6xl rounded-3xl">
+        <img src="../../../assets/empty-cart.png" class="w-[10%] mb-4">
+        Your Cart is Empty
       </div>
 
-      <!-- Total Price Section -->
-      <div class="relative w-full md:w-[45%] px-8 py-14 rounded-3xl border-2 border-redProject mt-4">
-        <h2 class="absolute -top-5 left-16 bg-[#F4F1EC] px-4 text-redProject font-koulen text-4xl mb-4">TOTAL PRICE</h2>
-        <div *ngFor="let item of cartAllName" class="flex justify-between mb-4 font-koulen text-xl">
-          <span>{{ item.name }}</span>
-          <span>{{ item.total_price }} BAHT</span>
-        </div>
-        <div *ngFor="let items of cartItems" class="flex justify-between mb-4 font-koulen text-xl">
-          <span>{{items.name}}</span>
-          <span>{{ items.price * items.quantity}} BAHT</span>
-        </div>
-        <div class="border-t border-redProject pt-4 mt-4">
-          <div class="flex justify-between font-bold">
-            <span>TOTAL</span>
-            <span>{{ totalPrice }} BAHT</span>
-          </div>
-        </div>
-        <button (click)="togglePopup()" class="bg-orangePro border rounded-lg px-3 py-1 text-white font-koulen w-full mt-6">PROCESS TO CHECKOUT</button>
-        <app-payment *ngIf="showPopup" [price]="totalPrice" [cart_id]="selectedCartId" (close)="togglePopup()"></app-payment>
-      </div>
     </div>
   </div>
 </div>

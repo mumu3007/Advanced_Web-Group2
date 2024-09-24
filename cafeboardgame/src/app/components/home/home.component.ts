@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit{
   }
   // ข้อมูลการ์ด
   menuItems = [
-    { name: 'LATTE CROISSANT', price: 150, image: '../../../assets/loginImage_bg1.png' },
-    { name: 'STRAWBERRY MATCHA', price: 80, image: '../../../assets/Remove-bg.ai_1725442470506 1.png' },
-    { name: 'PEPSI', price: 20, image: '../../../assets/pepsi__products@2x.png' }
+    { name: 'Cookies\'n Cream Shake', price: 60, image: 'http://localhost:3000/uploads/1727024977368-Cookies and Cream Shake.png' },
+    { name: 'Yujahibi', price: 50, image: 'http://localhost:3000/uploads/1727203793050-Yujahibi.png' },
+    { name: 'Strawberry Yogurt Smoothie', price: 80, image: 'http://localhost:3000/uploads/1727025187438-Strawberry Yogurt Smoothie.png' }
   ];
 
   loadMenuItems() {

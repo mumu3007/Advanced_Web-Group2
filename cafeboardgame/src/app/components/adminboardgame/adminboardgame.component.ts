@@ -122,8 +122,8 @@ export class AdminboardgameComponent implements OnInit {
       );
     } else {
       this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
+        severity: 'warn',
+        summary: 'Warning!',
         detail: 'Please fill all required fields.',
       });
       this.boardgameForm.markAllAsTouched(); // ทำให้ทุกฟิลด์ถูก mark ว่า touched เพื่อแสดงข้อผิดพลาด
