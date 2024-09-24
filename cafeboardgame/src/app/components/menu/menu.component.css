@@ -145,15 +145,28 @@ div {
 
 
 @keyframes opacityfade {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .animate-opacityfade2 {
-    animation: opacityfade 2s ease-in 1;
+    animation: opacityfade 1s ease-in 1;
+}
+
+@keyframes lefttoright {
+    0% { transform: translateX(-500px); opacity: 0; }
+    100% { transform: translateX(0px); opacity: 1; }
+}
+
+.animate-lefttoright2 {
+    animation: lefttoright 1s ease-in-out 1;
+}
+
+@keyframes righttoleft {
+    0% {transform: translateX(500px); opacity: 0;}
+    100% {transform: translateX(0px); opacity: 1;}
+}
+
+.animate-righttoleft2 {
+    animation: righttoleft 1s ease-in-out 1;
 }

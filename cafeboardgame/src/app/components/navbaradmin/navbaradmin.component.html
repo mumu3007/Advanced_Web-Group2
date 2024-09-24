@@ -1,5 +1,6 @@
-<nav [ngClass]="{'bg-white/80 text-white shadow-md saturate-[180%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled}" 
-     class="fixed top-0 left-0 right-0 transition-all duration-300 z-50 p-3">
+<nav
+  [ngClass]="{'bg-white/40 text-black shadow-md saturate-[130%] backdrop-blur-md': scrolled, 'bg-transparent text-black': !scrolled,'bg-white': showMobileMenu}"
+  class="sticky top-0 left-0 right-0 transition-all duration-300 z-50 p-3 ">
   <div class="container mx-auto">
     <div class="flex justify-between items-center">
       <div>
@@ -7,17 +8,82 @@
           <img src="../../../assets/CafeBOARDgame.png" alt="Logo" />
         </a>
       </div>
-      <ul class="flex space-x-10 font-semibold text-base font-sans">
+      <div class="lg:hidden space-x-4 ">
+        <button (click)="toggleMenu()" class="text-3xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+      <ul class="hidden lg:flex space-x-10 font-semibold text-base font-sans">
         <li class="hover:border-b-2 transition-all ease-in-out">
-          <a routerLink="/admin"> Menu management</a>
+          <a routerLink="/admin">Menu</a>
         </li>
         <li class="hover:border-b-2 transition-all ease-in-out">
-          <a routerLink="/adminboardgame">Boardgame management</a>
+          <a routerLink="/adminboardgame">Boardgame</a>
         </li>
         <li class="hover:border-b-2 transition-all ease-in-out">
-          <a>Payment management</a>
+          <a routerLink="/adminpayment">Payment</a>
         </li>
+
+        <!-- แสดงถ้าผู้ใช้ล็อกอินแล้ว -->
+        <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+          <div class="relative" (mouseenter)="openDropdown()" (mouseleave)="closeDropdown()">
+            <!-- ชื่อผู้ใช้ -->
+            <p class="cursor-pointer text-2xl"><i class="fa-solid fa-user"></i></p>
+
+            <!-- เมนู Dropdown -->
+            <ul *ngIf="showDropdown"
+              class="absolute right-0 mt-2 w-48 bg-white border shadow-lg origin-top-right rounded-lg transition-transform duration-300 ease-in-out"
+              [ngClass]="{'scale-100 opacity-100': showDropdown, 'animate-closedrop': !showDropdown}">
+
+              <li class="py-2 px-4 hover:bg-red-500 cursor-pointer text-center text-xl hover:text-white">nǐ hǎo <span
+                  class="text-amber-400 text-xl">{{userData.name}}</span></li>
+              <li class="py-2 px-4 hover:bg-red-500 cursor-pointer text-center text-xl hover:text-white"
+                (click)="logout()">Sign out</li>
+            </ul>
+          </div>
+        </ng-container>
+
+
+        <!-- แสดงถ้าผู้ใช้ยังไม่ล็อกอิน -->
+        <ng-template #notLoggedIn>
+          <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold">
+            <a routerLink="/login">Sign in</a>
+          </li>
+          <li class="border-2 border-white rounded-full px-3 bg-redProject text-white text-lg font-semibold">
+            <a routerLink="/register">Sign up</a>
+          </li>
+        </ng-template>
       </ul>
     </div>
+    <ul *ngIf="showMobileMenu"
+      class="lg:hidden space-y-4 mt-5 font-semibold text-base font-sans text-center bg-inherit p-5">
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0s">
+        <a routerLink="/" (click)="toggleMenu()">Home</a>
+      </li>
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0.1s">
+        <a routerLink="/menu" (click)="toggleMenu()">Menu</a>
+      </li>
+      <li class="hover:border-b-2 transition-all ease-in-out fade-in-stagger" style="animation-delay: 0.2s">
+        <a routerLink="/boardgame" (click)="toggleMenu()">Boardgame</a>
+      </li>
+
+      <ng-container *ngIf="isLoggedIn; else mobileNotLoggedIn">
+        <li (click)="logout()" class="text-xl font-bold cursor-pointer hover:underline fade-in-stagger"
+          style="animation-delay: 0.3s">Sign out</li>
+      </ng-container>
+
+      <ng-template #mobileNotLoggedIn>
+        <li class="border-2 border-white rounded-full px-3 bg-white text-black text-lg font-semibold fade-in-stagger"
+          style="animation-delay: 0.3s">
+          <a routerLink="/login" (click)="toggleMenu()">Sign in</a>
+        </li>
+        <li
+          class="border-2 border-white rounded-full px-3 bg-redProject text-white text-lg font-semibold fade-in-stagger"
+          style="animation-delay: 0.4s">
+          <a routerLink="/register" (click)="toggleMenu()">Sign up</a>
+        </li>
+      </ng-template>
+    </ul>
+
   </div>
 </nav>
