@@ -1,27 +1,31 @@
-<app-navbar></app-navbar>
 <p-toast></p-toast>
 <div class="bg-orange-100/50 -z-10 ">
+  <app-navbar></app-navbar>
   <div *ngIf="showPopup" class="popup-overlay"></div>
   <div *ngIf="showCakePopup" class="popup-overlay"></div>
 
   <!-- ตัว Popup -->
-  <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (onOrderSuccess)="handleOrderSuccess()" (close)="closePopup()"></app-menu-popup>
-  <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (onOrderSuccess)="handleOrderSuccess()"(close)="closePopup()"></app-cake-popup>
+  <app-menu-popup *ngIf="showPopup" [menuId]="selectedMenuId" (onOrderSuccess)="handleOrderSuccess()"
+    (close)="closePopup()"></app-menu-popup>
+  <app-cake-popup *ngIf="showCakePopup" [cakeId]="selectedCakeId" (onOrderSuccess)="handleOrderSuccess()"
+    (close)="closePopup()"></app-cake-popup>
 
   <!-- รูปตกแต่ง -->
-  <div class="flex-space-between mb-16">
-    <img src="../../../assets/menu_left.png" alt="" class=" sm:w-0 md:w-96 lg:w-[26rem]">
+  <div class="flex-space-between mb-16 ">
+    <img src="../../../assets/menu_left.png" alt="" class=" sm:w-0 md:w-96 lg:w-[26rem] animate-lefttoright">
     <div class="flex-center pl-12 ">
-      <div class="lg:flex-col font-koulen leading-tight md720:pl-12">
-        <p class="text-border text-redProject text-4xl md:text-5xl lg:text-[64px] tracking-wider pt-16">Take a break and</p>
-        <p class="text-border text-redProject text-5xl  md:text-6xl lg:text-[64px] tracking-wider">enjoy your coffee!</p>
+      <div class="lg:flex-col font-koulen leading-tight md720:pl-12 lg:text-center animate-opacityfade2 ">
+        <p class="text-border text-redProject text-4xl md:text-5xl lg:text-[64px] tracking-wider pt-16">Take a break and
+        </p>
+        <p class="text-border text-redProject text-5xl  md:text-6xl lg:text-[64px] tracking-wider">enjoy your coffee!
+        </p>
       </div>
     </div>
-    <img src="../../../assets/menu_right.png" alt="" class=" sm:w-80 md:w-0 lg1200:w26rem">
+    <img src="../../../assets/menu_right.png" alt="" class=" sm:w-80 md:w-0 lg1200:w26rem animate-righttoleft">
   </div>
 
   <!-- menu-nav -->
-  <div class="flex-center relative mb-24">
+  <div class="flex-center relative animate-opacityfade2">
     <span class="span-nav-line"></span>
     <div class="flex-center  mx-12 tracking-wider flex-col gap-7 text-center lg:flex-row lg:gap-24 menu-text">
       <a (click)="scrollToSection('todays-special')" class="menu-nav-section">TODAY'S SPECIAL</a>
@@ -32,66 +36,75 @@
   </div>
 
   <!-- SPECIAL -->
-  <section id="todays-special" class="pt-24">
+  <section id="todays-special" class="pt-40">
     <div class="text-4xl md:text-5xl font-color pl-24">SPECIALLY CURATED MENU FOR YOU!</div>
-    <div class="flex gap-40 overflow-x-auto h-96 items-center py-8 px-20">
+    <div class="flex gap-10 overflow-x-auto h-96 items-center py-8 pl-10 pr-20">
 
       <div *ngFor="let item of recommendedItems">
         <div class="relative flex-center ml-24">
           <div class="rounded-3xl border-[3px] border-redProject p-5 w-[390px] h-[260px] relative flex justify-end ">
-            <div class="w-[75%]">
-              <p class="font-koulen text-orange-500 text-3xl text-center">{{item.name}}</p>
-              <div class="flex text-2xl">
-                <div class="text-start font-koulen pt-1">
-                  <p>TALL</p>
-                  <p>GRANDE</p>
-                  <p>VENTI</p>
+            <div class="w-[75%] font-koulen">
+              <div class="flex flex-col pt-1  px-4">
+                <div class="text-center">
+                  <div class="flex-center">
+                    <div class="font-koulen text-redProject text-3xl text-center whitespace-normal break-words w-[80%]">
+                      {{ item.name.length > 16 ? (item.name | slice:0:12) + '...' : item.name }}
+                    </div>
+                  </div>
                 </div>
-                <div class="px-2">
-                  <p>__________</p>
-                  <p>__________</p>
-                  <p>__________</p>
+                <div class="mt-4">
+                  <div *ngFor="let size of sizes; let i = index" class="flex text-start text-2xl pt-1">
+                    <p class="w-[25%]">{{ size }}</p>
+                    <span class="flex w-full border-b-2 border-black mb-2"></span>
+                    <p class="w-[80%] text-end">{{ getPriceBySize(item, i) }} BAHT</p>
+                  </div>
                 </div>
-                <div class="text-end  font-koulen pt-1">
-                  <p>{{item.s_price}} ฿</p>
-                  <p>{{item.m_price}} ฿</p>
-                  <p>{{item.l_price}} ฿</p>
+                <div class="flex-center mt-4">
+                  <button class="button-primary" (click)="openPopup(item._id)">Add to Cart</button>
                 </div>
               </div>
             </div>
           </div>
-          <img [src]="item.photoUrl" alt="Left character" class="absolute left-[-30%] w-[220px] " />
+          <img [src]="item.photoUrl" alt="Left character" class="absolute left-[-30%] w-[270px] " />
         </div>
       </div>
     </div>
   </section>
 
   <!-- beverage -->
-  <section id="beverage" class=" pt-24">
+  <section id="beverage" class=" pt-20">
     <div class="text-center menu-text">BEVERAGE MENU</div>
     <div class="flex-center">
 
       <button (click)="prevPage('beverage')" [disabled]="currentPage === 0" class="button-custom">&lt;</button>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-5 mx-12 font-koulen">
-        <div *ngFor="let beverage of displayedMenuItems" class="menu-card">
+        <div *ngFor="let beverage of displayedMenuItems" class="menu-card flex flex-col justify-between h-full">
           <div class="px-4">
-            <div class="mb-2 flex-center"><img class="max-h-24 " [src]="beverage.photoUrl" alt=""></div>
+            <!-- ส่วนของรูปภาพและชื่อเครื่องดื่ม -->
+            <div class="mb-2 flex-center"><img class="max-h-44 " [src]="beverage.photoUrl" alt=""></div>
+
+          </div>
+
+          <!-- ส่วนของรายละเอียด size และปุ่ม add to cart -->
+          <div class="flex flex-col pt-1  px-4">
             <div class="text-center">
-              <div class="text-lg  ">{{ beverage.name }}</div>
-              <div class="flex flex-col pt-1">
-                <div>
-                  <div *ngFor="let size of sizes; let i = index" class="flex text-start  pt-1">
-                    <p class="w-[25%]">{{ size }}</p>
-                    <span class="flex w-full border-b-2 border-black mb-2"></span>
-                    <p class="w-[45%] text-end">{{ getPriceBySize(beverage, i) }} BAHT</p>
-                  </div>
+              <div class="flex-center">
+                <div class="text-xl whitespace-normal break-words w-[80%]">
+                  {{ beverage.name.length > 16 ? (beverage.name | slice:0:17) + '...' : beverage.name }}
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex-center  mt-auto">
-            <button class="button-primary" (click)="openPopup(beverage._id)">Add to Cart</button>
+            <div class="mt-2">
+              <div *ngFor="let size of sizes; let i = index" class="flex text-start text-lg pt-1">
+                <p class="w-[25%]">{{ size }}</p>
+                <span class="flex w-full border-b-2 border-black mb-2"></span>
+                <p class="w-[52%] text-end">{{ getPriceBySize(beverage, i) }} BAHT</p>
+              </div>
+            </div>
+            <div class="flex-center mt-4">
+              <button class="button-primary" (click)="openPopup(beverage._id)">Add to Cart</button>
+            </div>
           </div>
         </div>
       </div>
@@ -101,7 +114,7 @@
   </section>
 
   <!-- cake -->
-  <section id="cake" class="pt-24">
+  <section id="cake" class="pt-20 ">
     <div class="text-center menu-text">CAKE AND BAKERY MENU</div>
     <div class="flex-center">
 
@@ -109,21 +122,25 @@
       </button>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-5">
-        <div *ngFor="let cake of displayedCakeItems" class="menu-card">
+        <div *ngFor="let cake of displayedCakeItems" class="menu-card2">
           <div class="px-4 font-koulen">
-            <div class="mb-2 flex-center">
-              <img class="max-h-32 max-w-32" [src]="cake.photoUrl" alt="">
+            <div class="flex-center">
+              <img class="max-h-44" [src]="cake.photoUrl" alt="">
             </div>
-            <div class="w-full text-start text-xl">{{ cake.name }}</div>
-            <div class="flex-space-between pt-1">
-              <span class="border-line"></span>
-              <p class=" pt-1 px-3 text-xl">{{ cake.price }} BAHT</p>
-              <span class="border-line"></span>
+            <div class="flex-col justify-between">
+              <div class="w-full text-start text-xl">{{ truncateName(cake.name) }}</div>
+              <div class="flex-space-between pt-1">
+                <span class="border-line"></span>
+                <p class=" pt-1 px-3 text-xl">{{ cake.price }} BAHT</p>
+                <span class="border-line"></span>
+              </div>
+              <div class="flex-center mt-2">
+                <button (click)="openCakePopup(cake._id)" class="button-primary">ADD TO CART</button>
+              </div>
             </div>
+
           </div>
-          <div class="flex-center mt-auto">
-            <button (click)="openCakePopup(cake._id)" class="button-primary">ADD TO CART</button>
-          </div>
+
         </div>
       </div>
       <button (click)="nextPage('cake')" [disabled]="(currentCakePage + 1) * itemsPerPage >= cakeItems.length"
@@ -131,4 +148,12 @@
       </button>
     </div>
   </section>
+
+  <div class="flex justify-center overflow-hidden w-full">
+    <p class="overflow-visible -right-22 mt-44 font-seymour text-[12rem] leading-no whitespace-nowrap text-redProject">
+      OUR MENU
+    </p>
+  </div>
+
+
 </div>
