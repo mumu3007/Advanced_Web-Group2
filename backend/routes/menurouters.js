@@ -246,7 +246,7 @@ router.delete('/coffeemenu/:id', async (req, res, next) => {
 
 router.get('/cakemenu', async (req, res, next) => {
   try {
-    const cakemenus = await CakeMenu.find();
+    const cakemenus = await CakeMenu.find().sort({ create_at: -1 });;
 
     // เพิ่ม URL ของรูปภาพให้แต่ละ payment
     const cakemenusWithPhotoUrl = cakemenus.map(cakemenu => {
