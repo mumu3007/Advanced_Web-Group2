@@ -11,19 +11,19 @@ export class ItemlistpopupService {
   constructor(private http: HttpClient) { }
 
   getCoffeemenuByID(coffeemenuId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`);
+    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`,{withCredentials: true});
   }
   
   getCakeByID(cakeId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`);
+    return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`,{withCredentials: true});
   }
 
   updateCoffeemenu(coffeemenuId: string, formData: FormData): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`, formData);
+    return this.http.patch(`${this.apiUrl}/menu/coffeemenu/${coffeemenuId}`, formData,{withCredentials: true});
   }
 
   updateCakemenu(cakeId: string, formData: FormData): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/menu/cakemenu/${cakeId}`, formData);
+    return this.http.patch(`${this.apiUrl}/menu/cakemenu/${cakeId}`, formData,{withCredentials: true});
   }
 
 }

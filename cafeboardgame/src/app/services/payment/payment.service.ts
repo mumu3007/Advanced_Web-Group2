@@ -13,11 +13,11 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   createPayment(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.Url}/payment/upload`, formData);
+    return this.http.post<any>(`${this.Url}/payment/upload`, formData,{withCredentials: true});
   }
 
   getAllPayments(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.Url}/payment`);
+    return this.http.get<any[]>(`${this.Url}/payment`,{withCredentials: true});
   }
 }
 

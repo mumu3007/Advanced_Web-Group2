@@ -21,14 +21,14 @@ router.use('/uploads', express.static('uploads'));
 router.use('/register',registerRoutes); 
 router.use('/auth', authRoutes);
 
-router.use('/user',userRoutes); 
-router.use('/boardgame', boardgameRoutes);  
-router.use('/menu', menuRoutes); 
-router.use('/boardgametype', boardgameTypeRoutes); 
-router.use('/ordercoffee', orderRoutes); 
-router.use('/ordercake', orderCakeRoutes);
-router.use('/cart', cartRoutes); 
-router.use('/payment', paymentRoutes); 
+router.use('/user',authMiddleware,userRoutes); 
+router.use('/boardgame',authMiddleware, boardgameRoutes);  
+router.use('/menu',authMiddleware ,menuRoutes); 
+router.use('/boardgametype',authMiddleware, boardgameTypeRoutes); 
+router.use('/ordercoffee',authMiddleware, orderRoutes); 
+router.use('/ordercake',authMiddleware, orderCakeRoutes);
+router.use('/cart', authMiddleware,cartRoutes); 
+router.use('/payment', authMiddleware,paymentRoutes); 
 
 
 

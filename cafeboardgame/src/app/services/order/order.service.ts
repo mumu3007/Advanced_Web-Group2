@@ -16,11 +16,11 @@ export class OrdersService {
 
   // Create a cart or add items to the cart
   addOrdersItem(order: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/order`, order);
+    return this.http.post(`${this.apiUrl}/order`, order,{withCredentials: true});
   }
 
   addCakesItem(cakeorder: any): Observable<any> {
-    return this.http.post(`${this.apiUrl2}/order`, cakeorder);
+    return this.http.post(`${this.apiUrl2}/order`, cakeorder,{withCredentials: true});
   }
 
 

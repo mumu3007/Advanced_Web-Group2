@@ -15,24 +15,24 @@ export class CartsService {
 
   // Create a cart or add items to the cart
   addCartItem(cart: CartItem): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, cart);
+    return this.http.post(`${this.apiUrl}/add`, cart,{withCredentials: true});
   }
 
   // Get cart for a specific user by userId
   getCart(userId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${userId}`);
+    return this.http.get(`${this.apiUrl}/${userId}`,{withCredentials: true});
   }
 
   deleteOrdercoffee(orderCoffeeId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/ordercoffee/${orderCoffeeId}`);
+    return this.http.delete(`${this.apiUrl}/ordercoffee/${orderCoffeeId}`,{withCredentials: true});
   }
 
   deleteOrdercake(userId: string, cakeId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/ordercake/${userId}/${cakeId}`);
+    return this.http.delete(`${this.apiUrl}/ordercake/${userId}/${cakeId}`,{withCredentials: true});
   }
 
   deleteOrderboardgame(userId:string, boardgameId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/boardgame/${userId}/${boardgameId}`);
+    return this.http.delete(`${this.apiUrl}/boardgame/${userId}/${boardgameId}`,{withCredentials: true});
   }
 
   getBaseUrl(): string {
