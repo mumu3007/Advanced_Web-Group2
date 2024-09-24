@@ -41,7 +41,7 @@ export class AdminbgpopupService {
 
   updateBoardgame(boardgameId: string, formData: FormData): Observable<any> {
     // เรียก PATCH request ไปยัง API เพื่ออัปเดตบอร์ดเกม
-    return this.http.patch(`${this.apiUrl}/boardgame/${boardgameId}`, formData);
+    return this.http.patch(`${this.apiUrl}/boardgame/${boardgameId}`, formData,{withCredentials: true});
   }
 }
 

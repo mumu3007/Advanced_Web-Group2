@@ -11,11 +11,11 @@ export class MenupopupService {
   constructor(private http: HttpClient) { }
 
   getMenuDetails(menuId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${menuId}`);
+    return this.http.get(`${this.apiUrl}/menu/coffeemenu/${menuId}`,{withCredentials: true});
   }
 
   getCakeDetails(cakeId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`);
+    return this.http.get(`${this.apiUrl}/menu/cakemenu/${cakeId}`,{withCredentials: true});
   }
 }
 
