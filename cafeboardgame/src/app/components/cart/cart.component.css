@@ -23,3 +23,35 @@ div {
     scrollbar-color: #D2091C #f1f1f1;
     /* สีของ thumb และ track */
 }
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 2px solid theme('colors.redProject');
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    scroll-snap-align: center;
+    font-family: 'Koulen', cursive;
+}
+
+.delete-button{
+    font-family: 'koulen', cursive;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: theme('colors.redProject')
+}
+

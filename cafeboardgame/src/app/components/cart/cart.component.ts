@@ -25,11 +25,11 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     if (!this.userId) {
       this.authService.getUserId().subscribe((id) => {
-        console.log('User ID:', id); // ตรวจสอบว่ามีค่า id ถูกส่งกลับมาหรือไม่
+        console.log('User ID:', id); 
         if (id && !this.userId) {
           this.userId = id;
           this.loadUserData(this.userId);
-          this.loadCart(this.userId); // เรียกฟังก์ชัน loadCart() ที่นี่
+          this.loadCart(this.userId); 
         } else {
           console.error('User ID not found');
         }
@@ -64,7 +64,7 @@ export class CartComponent implements OnInit {
           const coffeeSweet = ordercoffee.sweetness_level
           const coffeeQuantity = ordercoffee.quantity || 0;
           const coffeeTotalPrice = ordercoffee.total_price;
-          const coffeePhoto = `${this.cartsService.getBaseUrl()}/${ordercoffee.coffee_id.photo.filePath}`; // ใช้ service ที่สร้างขึ้น
+          const coffeePhoto = `${this.cartsService.getBaseUrl()}/${ordercoffee.coffee_id.photo.filePath}`; 
 
           this.cartCoffeeDetails.push({
             _id: orderId,
@@ -93,7 +93,7 @@ export class CartComponent implements OnInit {
           const cakeQuantity = ordercake.quantity || 0;
           const cakeTotalPrice = ordercake.total_price;
           const cakeDescription = ordercake.cake_id.description
-          const cakePhotoUrl = `${this.cartsService.getBaseUrl()}/${ordercake.cake_id.photo.filePath}`; // สร้าง URL
+          const cakePhotoUrl = `${this.cartsService.getBaseUrl()}/${ordercake.cake_id.photo.filePath}`;
 
           if (!sameCakeItems[cakeName]) {
             sameCakeItems[cakeName] = {
@@ -101,37 +101,33 @@ export class CartComponent implements OnInit {
               cake_id: cakeId,
               name: cakeName,
               description: cakeDescription,
-              quantity: cakeQuantity, // เริ่มต้นด้วยจำนวน 1
-              total_price: cakeTotalPrice, // เพิ่มประเภทสินค้า (ถ้ามี)
+              quantity: cakeQuantity, 
+              total_price: cakeTotalPrice, 
               photo: cakePhotoUrl
             };
 
           } else {
             sameCakeItems[cakeName].quantity += cakeQuantity;
-            sameCakeItems[cakeName].total_price += cakeTotalPrice; // ถ้ามีสินค้าซ้ำ ให้เพิ่มจำนวน
+            sameCakeItems[cakeName].total_price += cakeTotalPrice; 
           }
 
           const existingItemIndex = this.cartAllName.findIndex((item) => item._id === cakeId);
 
           if (existingItemIndex !== -1) {
-            // ถ้ามีรายการอยู่แล้ว ให้ทำการอัปเดตราคา
             this.cartAllName[existingItemIndex].total_price += cakeTotalPrice;
           } else {
-            // ถ้าไม่มีรายการนั้นใน cartAllName ให้ทำการเพิ่มใหม่
             this.cartAllName.push({
               _id: cakeId,
               name: cakeName,
               total_price: cakeTotalPrice,
             });
           }
-
-          // this.totalPrice += cakeTotalPrice
         });
 
         const combinedItems: { [key: string]: any } = {};
         boardgameItems.forEach((item: any) => {
           console.log(item)
-          const boardgamePhotoUrl = `${this.cartsService.getBaseUrl()}/${item.photo.filePath}`; // สร้าง URL
+          const boardgamePhotoUrl = `${this.cartsService.getBaseUrl()}/${item.photo.filePath}`; 
           const id = item._id.toString();
 
           if (!combinedItems[id]) {
@@ -164,13 +160,8 @@ export class CartComponent implements OnInit {
       (response) => {
         console.log('Delete successful:', response);
 
-        // อัพเดตข้อมูล cartCoffeeDetails
         this.cartCoffeeDetails = this.cartCoffeeDetails.filter(item => item._id !== ordercoffee_id);
-
-        // อัพเดตราคาหลังจากลบสำเร็จ
         this.totalPrice = this.cartCoffeeDetails.reduce((sum, item) => sum + item.total_price, 0);
-
-        // โหลดข้อมูลตะกร้าใหม่ หรืออัพเดตข้อมูลใหม่
         this.loadCart(this.userId!);
       },
       (error) => {
@@ -186,12 +177,8 @@ export class CartComponent implements OnInit {
       (response) => {
         console.log('Delete successful:', response);
 
-        // อัพเดตข้อมูล cartCakeDetails
         this.cakeItems = this.cakeItems.filter(item => item.cake_id !== cakeId);
-        // อัพเดตราคาหลังจากลบสำเร็จ
         this.totalPrice = this.cakeItems.reduce((sum, item) => sum + item.total_price, 0);
-
-        // โหลดข้อมูลตะกร้าใหม่ หรืออัพเดตข้อมูลใหม่
         this.loadCart(this.userId!);
       },
       (error) => {
@@ -207,12 +194,8 @@ export class CartComponent implements OnInit {
       (response) => {
         console.log('Delete successful:', response);
 
-        // อัพเดตข้อมูล cartCakeDetails
         this.cartItems = this.cartItems.filter(item => item._id !== boardgameId);
-        // อัพเดตราคาหลังจากลบสำเร็จ
         this.totalPrice = this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-        // โหลดข้อมูลตะกร้าใหม่ หรืออัพเดตข้อมูลใหม่
         this.loadCart(this.userId!);
       },
       (error) => {
@@ -230,6 +213,7 @@ export class CartComponent implements OnInit {
 
   togglePopup() {
 
+
     const hasCoffeeItems = this.cartCoffeeDetails.length > 0;
     const hasCakeItems = this.cakeItems.length > 0;
     const hasBoardgameItems = this.cartItems.length > 0;
@@ -244,6 +228,7 @@ export class CartComponent implements OnInit {
         detail: 'No items in the cart',
       });
     }
+
 
   }
 }

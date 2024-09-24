@@ -1,19 +1,63 @@
 <form [formGroup]="updateorderForm" (ngSubmit)="updateCoffeemenu()">
     <div class="fixed inset-0 flex items-center justify-center z-50" >
-        <div class="bg-white rounded-3xl py-5 px-8 w-[32rem]">
+        <div class="bg-white rounded-3xl py-5 px-8 w-[36rem]">
             <h3 class="text-redProject font-koulen text-[30px]">Update {{coffeemenuData.name}}</h3>
 
-            <!--ชื่อและราคา-->
+            <!-- ชื่อและราคา -->
             <div class="mt-4 font-koulen">
-                <input formControlName="name" type="text" placeholder="Name" 
-                    class=" p-2 w-full min-h-12 resize-none border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
-                <input formControlName="tallcupprice" type="number" min="0" step="any" placeholder="TALL CUP PRICE" 
-                    class=" p-2 w-full min-h-12 resize-none border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
-                <input formControlName="grandecupprice" type="number" min="0" step="any" placeholder="GRANDE CUP PRICE" 
-                    class=" p-2 w-full min-h-12 resize-none border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
-                <input formControlName="venticupprice" type="number" min="0" step="any" placeholder="VENTI CUP PRICE" 
-                    class=" p-2 w-full min-h-12 resize-none border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 mb-4">
+                <div class="h-20">
+                    <input formControlName="name" type="text" placeholder="Name" 
+                        class="input-style"
+                        [ngClass]="{
+                            'input-error': updateorderForm.get('name')?.touched && updateorderForm.get('name')?.invalid,
+                            'input-valid': !updateorderForm.get('name')?.touched || (updateorderForm.get('name')?.valid && updateorderForm.get('name')?.value !== '')
+                        }">
+                    <div *ngIf="updateorderForm.get('name')?.invalid && (updateorderForm.get('name')?.touched || updateorderForm.get('name')?.dirty)" 
+                        class="text-orangePro text-sm -mt-5 mb-2">
+                        Please specify the name of the beverages. <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์ชื่อว่าง -->
+                    </div>
+                </div>
+
+                <div class="h-20 -mt-1">
+                    <input formControlName="tallcupprice" type="number" min="0" step="any" placeholder="TALL CUP PRICE" 
+                        class="input-style"
+                        [ngClass]="{
+                            'input-error': updateorderForm.get('tallcupprice')?.touched && updateorderForm.get('tallcupprice')?.invalid,
+                            'input-valid': !updateorderForm.get('tallcupprice')?.touched || (updateorderForm.get('tallcupprice')?.valid && updateorderForm.get('tallcupprice')?.value !== '')
+                        }">
+                    <div *ngIf="updateorderForm.get('tallcupprice')?.invalid && (updateorderForm.get('tallcupprice')?.touched || updateorderForm.get('tallcupprice')?.dirty)" 
+                        class="text-orangePro text-sm -mt-5 mb-2">
+                        Please specify the price of the beverages.
+                    </div>
+                </div>
+
+                <div class="h-20 -mt-1">
+                    <input formControlName="grandecupprice" type="number" min="0" step="any" placeholder="GRANDE CUP PRICE" 
+                        class="input-style"
+                        [ngClass]="{
+                            'input-error': updateorderForm.get('grandecupprice')?.touched && updateorderForm.get('grandecupprice')?.invalid,
+                            'input-valid': !updateorderForm.get('grandecupprice')?.touched || (updateorderForm.get('grandecupprice')?.valid && updateorderForm.get('grandecupprice')?.value !== '')
+                        }">
+                    <div *ngIf="updateorderForm.get('grandecupprice')?.invalid && (updateorderForm.get('grandecupprice')?.touched || updateorderForm.get('grandecupprice')?.dirty)" 
+                        class="text-orangePro text-sm -mt-5 mb-2">
+                        Please specify the price of the beverages.
+                    </div>
+                </div>
+
+                <div class="h-20 -mt-1">
+                    <input formControlName="venticupprice" type="number" min="0" step="any" placeholder="VENTI CUP PRICE" 
+                        class="input-style"
+                        [ngClass]="{
+                            'input-error': updateorderForm.get('venticupprice')?.touched && updateorderForm.get('venticupprice')?.invalid,
+                            'input-valid': !updateorderForm.get('venticupprice')?.touched || (updateorderForm.get('venticupprice')?.valid && updateorderForm.get('venticupprice')?.value !== '')
+                        }">
+                    <div *ngIf="updateorderForm.get('venticupprice')?.invalid && (updateorderForm.get('venticupprice')?.touched || updateorderForm.get('venticupprice')?.dirty)" 
+                        class="text-orangePro text-sm -mt-5 mb-2">
+                        Please specify the price of the beverages.
+                    </div>
+                </div>
             </div>
+
 
             <!--ร้อน ปั่น เย็น-->
             <div class="flex justify-between mb-5 font-koulen">

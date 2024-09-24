@@ -8,20 +8,20 @@
         <h1 class="text-4xl text-redProject pb-7 font-koulen">YOUR CART</h1>
         <div class="max-h-[26rem] overflow-auto pr-4 snap-y">
           <!-- Coffee Cart Items -->
-          <div *ngFor="let item of cartCoffeeDetails" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+          <div *ngFor="let item of cartCoffeeDetails" class="flex-container">
             <div class="flex w-full pl-8 pr-4">
-              <div class="flex justify-center items-center w-[20%]">
+              <div class="flex-center w-[20%]">
                 <img [src]="item.photo" class="w-full h-full object-cover">
               </div>
               <div class="pl-10 w-full pt-2">
-                <div class="flex justify-between items-start">
-                  <div class="font-koulen">
-                    <p class="text-xl">{{item.name}}</p>
+                <div class="flex justify-between items-start text-xl">
+                  <div class="">
+                    <p class="">{{item.name}}</p>
                     <label for="sizeandsweet" class="text-sm">Sweet: {{item.sweetness_level}}%, Size: {{item.size}}</label>
                   </div>
-                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCoffee(item._id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderCoffee(item._id)">DELETE</button>
                 </div>
-                <div class="flex justify-between pt-3 font-koulen text-md">
+                <div class="flex-space-between pt-3 text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
                   <p class="text-xl">{{item.total_price}} BAHT</p>
                 </div>
@@ -30,20 +30,20 @@
           </div>
           
           <!-- Cake Cart Items -->
-          <div *ngFor="let item of cakeItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+          <div *ngFor="let item of cakeItems" class="flex-container">
             <div class="flex w-full pl-8 pr-4">
-              <div class="flex justify-center items-center w-[20%]">
+              <div class="flex-center w-[20%]">
                 <img [src]="item.photo" class="w-full h-full object-cover">
               </div>
               <div class="pl-10 w-full pt-2">
                 <div class="flex justify-between items-start">
                   <div class="font-koulen">
                     <p class="text-xl">{{item.name}}</p>
-                    <label for="sizeandsweet" class="font-noto">{{item.description}}</label>
+                    <label for="sizeandsweet" class="font-noto text-sm">{{item.description}}</label>
                   </div>
-                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
                 </div>
-                <div class="flex justify-between pt-3 font-koulen text-md">
+                <div class="flex-space-between pt-3 font-koulen text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
                   <p class="text-xl">{{item.total_price}} BAHT</p>
                 </div>
@@ -52,9 +52,9 @@
           </div>
           
           <!-- Boardgame Cart Items -->
-          <div *ngFor="let item of cartItems" class="flex flex-col w-full justify-between border-b-2 border-redProject py-4 snap-center">
+          <div *ngFor="let item of cartItems" class="flex-container">
             <div class="flex w-full pl-8 pr-4">
-              <div class="flex justify-center items-center w-[20%]">
+              <div class="flex-center w-[20%]">
                 <img [src]="item.photo" class="w-full h-full object-cover rounded-xl">
               </div>
               <div class="pl-10 w-full pt-2">
@@ -63,7 +63,7 @@
                     <p class="text-xl">{{item.name}}</p>
                     <label for="category" class="text-sm">Category: {{item.type}}</label>
                   </div>
-                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
                 </div>
                 <div class="flex justify-between pt-3 font-koulen text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
