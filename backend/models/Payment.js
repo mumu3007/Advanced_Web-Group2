@@ -13,8 +13,8 @@ const paymentSchema = new mongoose.Schema({
     },
     status: {
       type: String,
-      enum: ['pending', 'paid', 'failed'], // สถานะของการชำระเงิน
-      default: 'pending',
+      enum: ['รอการตรวจสอบ', 'ตรวจสอบแล้ว'], // สถานะของการชำระเงิน
+      default: 'รอการตรวจสอบ',
       required: true,
     },
     image: {
