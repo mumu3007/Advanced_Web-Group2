@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Boardgame } from '../../models/boardgame.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
-import { MessageService } from 'primeng/api'; 
+import { MessageService } from 'primeng/api';
+import { PaymentService } from '../../services/payment/payment.service';
 
 @Component({
   selector: 'app-adminboardgame',
@@ -15,7 +16,7 @@ export class AdminboardgameComponent implements OnInit {
 
   boardgame: Boardgame = { name: '', description: '', quantity: 0, price: 0, photo: '', create_at: new Date(), status: false, type: "", }
 
-  currentSection: string = 'all-boardgame'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
+  // currentSection: string = 'all-boardgame'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
   // menuSection: string = 'all-menu';
   message: string = '';
   selectedFile: File | null = null;
@@ -38,9 +39,9 @@ export class AdminboardgameComponent implements OnInit {
     this.loadBoardgames();
   }
 
-  showSection(sectionId: string): void {
-    this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
-  }
+  // showSection(sectionId: string): void {
+  //   this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
+  // }
 
   constructor(
     private boardgameService: BoardgameserviceService,
@@ -50,13 +51,13 @@ export class AdminboardgameComponent implements OnInit {
 
   boardgameForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    description: new FormControl('',Validators.required),
+    description: new FormControl('', Validators.required),
     quantity: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
     price: new FormControl([Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าราคาที่ถูกต้อง
     photo: new FormControl(),
     create_at: new FormControl(new Date()), // ตั้งค่าเริ่มต้นเป็นวันที่ปัจจุบัน
-    status: new FormControl(null,Validators.required),
-    type: new FormControl(null,Validators.required),
+    status: new FormControl(null, Validators.required),
+    type: new FormControl(null, Validators.required),
 
   });
   // quantity: new FormControl(0, [Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
@@ -91,7 +92,7 @@ export class AdminboardgameComponent implements OnInit {
       formData.append('price', this.boardgameForm.get('price')?.value?.toString() || '0');
       formData.append('photo', this.boardgameForm.get('photo')?.value || '');
       formData.append('create_at', this.boardgameForm.get('create_at')?.value?.toString() || new Date().toISOString());
-      formData.append('status', this.boardgameForm.get('status')?.value ? 'true' : 'false');
+      formData.append('status', this.boardgameForm.get('status')?.value!);
       formData.append('type', this.boardgameForm.get('type')?.value || '');
 
       // ส่งข้อมูลไปยัง backend API
@@ -104,13 +105,13 @@ export class AdminboardgameComponent implements OnInit {
               summary: 'Error',
               detail: 'Failed to add boardgame. Please try again.',
             });
-          }else {
+          } else {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
               detail: 'Boardgame added successfully!',
             });
-            setTimeout(() => {            
+            setTimeout(() => {
               this.boardgameForm.reset();
               this.loadBoardgames();
               // window.location.reload();
@@ -161,7 +162,7 @@ export class AdminboardgameComponent implements OnInit {
     // this.boardgameForm.get('type')?.setValue(null);
     // this.boardgameForm.get('photo')?.setValue('');
 
-    // window.location.reload();
+    window.location.reload();
 
   }
 
@@ -191,6 +192,6 @@ export class AdminboardgameComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBoardgameTypeItem();
-    this.loadBoardgames();
-  }
+    this.loadBoardgames();   
+    };  
 }
