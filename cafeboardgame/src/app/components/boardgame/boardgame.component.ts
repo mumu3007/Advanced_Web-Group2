@@ -124,6 +124,7 @@ selectedBoardgameIds: string[] = []; // Store selected boardgame IDs to add to c
           detail: 'Boardgames added to cart',
         });
         resolve()
+        this.selectedBoardgameIds = [];
       },
       (error) => {
         this.messageService.add({
