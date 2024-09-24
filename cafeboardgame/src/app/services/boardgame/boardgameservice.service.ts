@@ -22,7 +22,7 @@ export class BoardgameserviceService {
     return this.http.get(`${this.apiUrl}/boardgame/inactive`,{withCredentials: true});
   }
 
-  // ---------for adminBoardgame----
+  // ---------for adminBoardgame-----------//
   getAllBoardgames(): Observable<any> {
     return this.http.get(`${this.apiUrl}/boardgame/allboardgame`,{withCredentials: true}) ;
   }

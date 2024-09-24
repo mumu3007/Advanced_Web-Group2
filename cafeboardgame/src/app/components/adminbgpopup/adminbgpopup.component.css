@@ -1,0 +1,41 @@
+textarea::placeholder {
+    font-family: 'Koulen', cursive;
+}
+
+.submit-button {
+    font-family: 'Koulen', cursive;
+    font-size: 18px;
+    width: 7rem; /* 28 * 0.25rem */
+    height: 2.5rem; /* 10 * 0.25rem */
+    background-color: theme('colors.redProject'); /* Replace with the specific hex code for "redProject" */
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem; /* 12px */
+    transition: all 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #B70A1A;
+  }
+
+  .clear-button {
+    font-family: 'Koulen', cursive;
+    font-size: 18px;
+    width: 7rem; /* 28 * 0.25rem */
+    height: 2.5rem; /* 10 * 0.25rem */
+    border-width: 2px;
+    border-color: theme('colors.redProject'); /* Replace with the specific hex code for "redProject" */
+    color: theme('colors.redProject'); /* Replace with the specific hex code for "redProject" */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem; /* 12px */
+    transition: all 0.5s ease;
+  }
+  
+  .clear-button:hover {
+    background-color: theme('colors.redProject'); /* Replace with the specific hex code for "redProject" */
+    color: #ffffff;
+  }

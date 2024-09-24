@@ -1,7 +1,6 @@
-<app-navbaradmin></app-navbaradmin>
-
 <div class="bg-bgPro h-full lg:h-screen">
-    <div class=" pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-8">
+    <app-navbaradmin></app-navbaradmin>
+    <div class=" pt-8 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-8">
         <span class="grow h-[2px] bg-redProject"></span>
         <div class="flex justify-center space-x-32 mx-12">
             <!-- <a (click)="showSection('all-boardgame')" class="cursor-pointer hover:text-red-600">ALL boardgame</a> -->
@@ -56,7 +55,7 @@
                     <div class="flex flex-row  ">
                         <div class=" w-full">
                             <textarea type="text" placeholder="Details.."
-                                class="font-koulen text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
+                                class="font-noto text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
                                 formControlName='description'
                                 [ngClass]="{
                             'input-error': boardgameForm.get('description')?.touched && boardgameForm.get('description')?.invalid,
@@ -137,11 +136,9 @@
                     </div>
                     <!-- hover:bg-[#B70A1A] -->
                     <div class="flex justify-between ">
-                        <button type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
-                             hover:bg-redProject hover:text-white transition-all duration-500"
+                        <button type="button" class="clear-button"
                             (click)="ClearBoardgameForm()">CLEAR</button>
-                        <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
-                            hover:bg-[#B70A1A] transition-all duration-200">ADD ITEM</button>
+                        <button type="submit" class="submit-button ">ADD ITEM</button>
                     </div>
                 </div>
             </div>
@@ -152,16 +149,16 @@
                     <div class=" h-full border-redProject  border-b-2 pt-3">
                         <div class="flex justify-between h-full">
                             <div class="w-[15%]  flex justify-center ">
-                                <img class="w-[96%] h-[90%] rounded-2xl" [src]="boardgame.photoUrl" alt="">
+                                <p-image class="w-[96%] h-[90%] rounded-3xl" [src]="boardgame.photoUrl" alt="" [preview]="true" />
                             </div>
                             <div class="w-80">
-                                <div>
-                                    <h2 class="text-[20px] font-koulen">{{ boardgame.name }}</h2>
-                                    <p class="text-[12px] text-black/80 font-koulen ">category : {{boardgame.type.name}}
+                                <div class="font-koulen">
+                                    <h2 class="text-[20px] ">{{ boardgame.name }}</h2>
+                                    <p class="text-[12px] text-black/80 ">category : {{boardgame.type.name}}
                                     </p>
-                                    <p class="text-[12px] text-black/80 font-koulen ">price : {{boardgame.price}} BAHT
+                                    <p class="text-[12px] text-black/80 ">price : {{boardgame.price}} BAHT
                                     </p>
-                                    <p class="text-[12px] text-black/80 font-koulen">
+                                    <p class="text-[12px] text-black/80 ">
                                         status :
                                         <span
                                             [ngClass]="{'text-green-600': boardgame.status, 'text-redProject': !boardgame.status}">
@@ -174,16 +171,15 @@
                                 <div>
                                     <h2 class="text-[20px] font-koulen">X{{boardgame.quantity}}</h2>
                                 </div>
-
                             </div>
                             <div class="w-16">
                                 <button type="button"
-                                    class="font-koulen text-[20px]    text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
+                                    class="update-delete"
                                     (click)="openPopup(boardgame._id)">update</button>
                             </div>
                             <div class=" w-16">
                                 <button type="button"
-                                    class="font-koulen text-[20px]  text-redProject items-center justify-center  hover:text-redProject hover:underline transition-all duration-500"
+                                    class="update-delete"
                                     (click)="deleteBoardgameItem(boardgame._id)">DELETE</button>
                             </div>
                         </div>

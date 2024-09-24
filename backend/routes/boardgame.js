@@ -215,11 +215,11 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
 
      // ค้นหาบอร์ดเกมเก่าก่อน
      const existingBoardgame = await Boardgame.findById(id);
-     console.log(existingBoardgame.photo)
+    //  console.log(existingBoardgame.photo)
 
     // ถ้ามีรูปภาพใหม่ถูกอัปโหลด ให้ทำการอัปเดตรูปภาพ
     if (req.file) {
-      console.log('File uploaded:', req.file);
+      // console.log('File uploaded:', req.file);
       updatedBoardgame.photo = {
         filename: req.file.filename,
         filePath: req.file.path,
@@ -232,7 +232,7 @@ router.patch('/:id', upload.single("photo"), async (req, res, next) => {
           if (err) {
             console.error('เกิดข้อผิดพลาดในการลบรูปภาพเก่า:', err);
           } else {
-            console.log('ลบรูปภาพเก่าเรียบร้อยแล้ว:', oldImagePath);
+            console.log('ลบรูปภาพเก่าเรียบร้อยแล้ว');
           }
         });
       }
