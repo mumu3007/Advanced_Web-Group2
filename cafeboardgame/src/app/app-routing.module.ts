@@ -12,6 +12,7 @@ import { AdminorderComponent } from './components/adminorder/adminorder.componen
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
 import { AdminboardgameComponent } from './components/adminboardgame/adminboardgame.component';
 import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup.component';
+import { AdminpaymentComponent } from './components/adminpayment/adminpayment.component';
 
 
 
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminorderComponent,canActivate:[authGuard] },
   { path: 'itempop', component: ItemlistpopupComponent,canActivate: [authGuard] },
   { path: 'adminboardgame', component: AdminboardgameComponent,canActivate:[authGuard]},
+  { path: 'adminpayment', component: AdminpaymentComponent,canActivate:[authGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   { path: '**', redirectTo: '/home' }  
  

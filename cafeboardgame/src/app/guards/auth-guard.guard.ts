@@ -27,7 +27,7 @@ export const authGuard: CanActivateFn = (route) => {
         return true; // Admin สามารถเข้าถึงทุกอย่าง
       } else if (role === 'user') {
         // User สามารถเข้าถึงได้ทุกหน้ายกเว้น admin และ adminboardgame
-        if (path === 'admin' || path === 'adminboardgame') {
+        if (path === 'admin' || path === 'adminboardgame' || path === 'adminpayment') {
           router.navigate(['/home']); // เปลี่ยนเส้นทางไปหน้าโฮม
           return false; // ไม่อนุญาต
         }

@@ -1,0 +1,73 @@
+<app-navbaradmin></app-navbaradmin>
+<p-toast></p-toast>
+
+<div class="bg-bgPro min-h-screen">
+  <!-- Use min-h-screen for full height -->
+  <div
+    class="pt-24 flex justify-center text-[24px] md:text-[32px] font-koulen text-redProject items-center relative mb-8"
+  >
+    <span class="grow h-[1px] md:h-[2px] bg-redProject"></span>
+    <div class="flex justify-center space-x-8 md:space-x-32 mx-4 md:mx-12">
+      <a class="hover:text-red-600">payment</a>
+    </div>
+    <span class="grow h-[1px] md:h-[2px] bg-redProject"></span>
+  </div>
+
+  <div class="flex justify-center min-h-full">
+    <!-- Add min-h-full here -->
+    <div class="w-full sm:w-[90%] md:w-[60%] h-full overflow-auto">
+      <div *ngFor="let payment of payments">
+        <div class="h-full border-redProject border-b-2 p-4 md:p-0">
+          <div class="flex flex-col md:flex-row justify-between h-full pt-3 pb-3">
+            <div class="w-full xl:w-[15%] md:w-[50%] flex justify-center mb-4 md:mb-0 ">
+              <img
+                class="w-[70%] md:w-[90%] h-auto rounded-2xl"
+                [src]="payment.imageUrl"
+                alt=""
+              />
+            </div>
+
+            <div class="w-full md:w-96  mb-4 md:mb-0">
+              <h2 class="text-[18px] md:text-[20px] font-koulen">
+                Username : {{ payment.user_id.name }}
+              </h2>
+              <p class="text-[15px] md:text-[17px] text-black/80 font-koulen">
+                tel : {{ payment.user_id.phone }}
+              </p>
+              <p class="text-[15px] md:text-[17px] text-black/80 font-koulen">
+                status : {{ payment.status }}
+              </p>
+            </div>
+
+            <form
+              (ngSubmit)="updatePaymentStatus(payment._id, payment.status)"
+              class="w-full md:w-60 ml-0 md:ml-9"
+            >
+              <div>
+                <h2 class="text-[18px] md:text-[20px] font-koulen">
+                  total price : {{ payment.cart_id.total_price }} BAHT
+                </h2>
+                <!-- ใช้ [(ngModel)] เพื่อ binding ข้อมูลกับ payment.status -->
+                <select
+                  [(ngModel)]="payment.status"
+                  name="status"
+                  class="form-control font-koulen text-[14px] md:text-[17px] text-redProject w-full md:w-[8rem] h-8 bg-bgPro  outline-none border-2 border-redProject rounded-xl"
+                >
+                  <option value="รอการตรวจสอบ">รอการตรวจสอบ</option>
+                  <option value="ตรวจสอบแล้ว">ตรวจสอบแล้ว</option>
+                </select>
+                <!-- ปุ่มสำหรับยืนยันการเปลี่ยนแปลง -->
+                <button
+                  type="submit"
+                  class="font-koulen text-[14px] md:text-[17px] w-full md:w-28 h-8 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-500  mt-2 md:m-2"
+                >
+                  อัปเดตสถานะ
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

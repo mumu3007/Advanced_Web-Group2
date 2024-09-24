@@ -132,14 +132,28 @@
           </label>
         </div>
 
+
+        
+        
         <div class="flex flex-row justify-between gap-5 h-20">
           <input id="photo" type="file" (change)="onFileSelected($event)"  formControlName="upload"
+
               class="form-control text-[16px] text-redProject font-koulen w-80 
               file:mr-4 file:py-2 file:px-4
               file:w-44 file:h-12
               file:text-[18px] file:font-koulen
               file:rounded-xl file:border-2 file:border-redProject
-              file:bg-transparent file:text-redProject" />
+              file:bg-transparent file:text-redProject" 
+              [ngClass]="{
+                'input-error': BeveragemenuForm.get('upload')?.touched && BeveragemenuForm.get('upload')?.invalid,
+                'input-valid': !BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.valid
+              }">
+          
+            <div *ngIf="BeveragemenuForm.get('upload')?.invalid && (BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.dirty)"
+              class="text-orangePro text-sm mt-1 mb-2">
+              Please upload a valid file. <!-- Error message for invalid file -->
+            </div>
+          </div>
               <div class="flex flex-col"> <!-- เพิ่ม div นี้เพื่อจัดเรียง -->
                 <select
                   class="form-control font-koulen text-[18px] text-redProject w-[14rem] h-12 bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8"
@@ -211,28 +225,70 @@
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
           style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
-
         <div class="form-control">
-          <input type="text" placeholder="Name" formControlName='name'
-            class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
-          <textarea type="text" placeholder="Details.."
-          class="font-koulen text-[18px] w-full h-[14rem]  pt-1 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"
-          formControlName='cakedescription'></textarea>
+          <div class="h-20">
+            <input type="text" id="name" formControlName="name" class="form-control input-style" placeholder="Name"
+              [ngClass]="{
+                'input-error': CakemenuForm.get('name')?.touched && CakemenuForm.get('name')?.invalid,
+                'input-valid': !CakemenuForm.get('name')?.touched || (CakemenuForm.get('name')?.valid && CakemenuForm.get('name')?.value !== '')
+              }">
+              <div *ngIf="CakemenuForm.get('name')?.invalid && (CakemenuForm.get('name')?.touched || CakemenuForm.get('name')?.dirty)" 
+                class="text-orangePro text-sm -mt-4 mb-2">
+                Please specify the name of the cake..  <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์ชื่อว่าง -->
+              </div>
+          </div>
+          <div class="h-20 -mt-1">
+            <textarea placeholder="Details.."
+              class="font-koulen text-[18px] w-full h-[12rem]  p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"
+              formControlName='cakedescription'
+              [ngClass]="{
+                'input-error': CakemenuForm.get('cakedescription')?.touched && CakemenuForm.get('cakedescription')?.invalid,
+                'input-valid': !CakemenuForm.get('cakedescription')?.touched || (CakemenuForm.get('cakedescription')?.valid && CakemenuForm.get('cakedescription')?.value !== '')
+              }"></textarea>
+            
+            <div *ngIf="CakemenuForm.get('cakedescription')?.invalid && (CakemenuForm.get('cakedescription')?.touched || CakemenuForm.get('cakedescription')?.dirty)" 
+              class="text-orangePro text-sm -mt-5 mb-2">
+              Please specify the details of the cake..  <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์รายละเอียดว่าง -->
+            </div>
+          </div>
         </div>
         
-        <div class="flex flex-row justify-between gap-4 pb-8">
-          <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
-            class="form-control text-[16px] text-redProject font-koulen w-80 
-            file:mr-4 file:py-2 file:px-4
-            file:w-44 file:h-14
-            file:text-[18px] file:font-koulen
-            file:rounded-xl file:border-2 file:border-redProject
-            file:bg-transparent file:text-redProject" />
-          <input type="number" placeholder="PRICE" formControlName='cakeprice' min="0" step="any"
-            class="form-control font-koulen text-[18px] w-[18rem] h-14 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
+
+        <div class="flex flex-row gap-4 h-20 pb-8 mt-36">
+          <div class="flex flex-col"> <!-- เพิ่ม div เพื่อจัดเรียง -->
+            <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
+              class="form-control text-[16px] text-redProject font-koulen w-80 
+              file:mr-4 file:py-2 file:px-4
+              file:w-44 file:h-12
+              file:text-[18px] file:font-koulen
+              file:rounded-xl file:border-2 file:border-redProject
+              file:bg-transparent file:text-redProject" 
+              [ngClass]="{
+                'input-error': CakemenuForm.get('upload')?.touched && CakemenuForm.get('upload')?.invalid,
+                'input-valid': !CakemenuForm.get('upload')?.touched || CakemenuForm.get('upload')?.valid
+              }">
+        
+            <div *ngIf="CakemenuForm.get('upload')?.invalid && (CakemenuForm.get('upload')?.touched || CakemenuForm.get('upload')?.dirty)"
+              class="text-orangePro text-sm mt-1 mb-2">
+              Please upload a valid file. <!-- ข้อความแจ้งเตือนเมื่อไฟล์ไม่ถูกต้อง -->
+            </div>
+          </div>
+          <div class="flex flex-col"> <!-- เพิ่ม div เพื่อจัดเรียง -->
+              <input 
+                type="number" placeholder="PRICE" formControlName="cakeprice" min="0" step="any" 
+                class="form-control font-koulen text-[18px] w-[14rem] h-12 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400" 
+                [ngClass]="{
+                  'input-error': CakemenuForm.get('cakeprice')?.touched && CakemenuForm.get('cakeprice')?.invalid,
+                  'input-valid': !CakemenuForm.get('cakeprice')?.touched || (CakemenuForm.get('cakeprice')?.valid && CakemenuForm.get('cakeprice')?.value !== '')
+                }">
+                <div *ngIf="CakemenuForm.get('cakeprice')?.invalid && (CakemenuForm.get('cakeprice')?.touched || CakemenuForm.get('cakeprice')?.dirty)" 
+                  class="text-orangePro text-sm -mt-3 mb-2">
+                  Please specify the price.
+                </div>
+          </div>
         </div>
 
-        <div class="flex justify-between ">
+        <div class="flex justify-between mt-10">
           <button (click)="ClearCakemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
                hover:bg-redProject hover:text-white transition-all duration-500">CLEAR</button>
           <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
