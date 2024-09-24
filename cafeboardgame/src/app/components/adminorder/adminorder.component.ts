@@ -16,8 +16,8 @@ export class AdminorderComponent {
   menu: Menu = { name: '', s_price: 0, m_price: 0, l_price: 0, photo: '', type_coffee: [], status: '', create_at:new Date(), }
   cakemenu: CakeMenu = { name: '', description: '', price: 0, photo: '', create_at:new Date(), }
 
-  currentSection: string = 'all-orders'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
-  menuSection: string = 'all-menu';
+  currentSection: string = 'beverage-menu'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
+
   message: string = '';
   menuItems: any[] = [];
   cakeItems: any[] = [];
@@ -28,6 +28,7 @@ export class AdminorderComponent {
   selectedCakemenuId?: string;
   showPopup = false;
   showCakePopup = false;
+ 
   
 
 
@@ -47,6 +48,8 @@ export class AdminorderComponent {
 
   showSection(sectionId: string): void {
     this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
+    this.DisplayMenuItems();
+
   }
 
 
@@ -305,45 +308,5 @@ export class AdminorderComponent {
     );
   }
 
-
-  
-
-  orders = [
-    {
-      image: 'assets/images/iced-espresso-coffee.jpg',
-      name: 'Username : Nong guidemoomoo',
-      description: 'Einspanner \nmatcha chocolate ice cream \nBerry Strawberry Dutch Baby',
-      quantity: 'X3',
-      price: 279
-    },
-    {
-      image: 'assets/images/classic-chocolate-cake.jpg',
-      name: 'Username : Nong guidemoomoo',
-      description: 'Exploding Kitten \nSplendor \nExploding Kitten',
-      quantity: 'X3',
-      price: 9730
-    },
-    {
-      image: 'assets/images/iced-matcha-milk.jpg',
-      name: 'Username : Nong guidemoomoo',
-      description: 'Ematcha chocolate ice cream  \nBerry Strawberry Dutch Baby \nSplendor',
-      quantity: 'X3',
-      price: 1584
-    },
-    {
-      image: 'assets/images/iced-matcha-milk.jpg',
-      name: 'Username : Nong guidemoomoo',
-      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
-      quantity: 'X2',
-      price: 176
-    },
-    {
-      image: 'assets/images/iced-matcha-milk.jpg',
-      name: 'ICED MATCHA MILK',
-      description: 'SWEET: 75% \nSIZE: TRENTA \nUsername: myde',
-      quantity: 'X2',
-      price: 176
-    }
-  ];
 
 }

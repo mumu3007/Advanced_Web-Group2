@@ -15,6 +15,7 @@ export class ItemlistpopupComponent {
   updateorderForm! : FormGroup
   coffeemenuData: any;
   selectedFile?: File | null = null;
+  
 
   constructor(
     private apiService: ApiService,
@@ -25,15 +26,15 @@ export class ItemlistpopupComponent {
 
   ngOnInit(): void {
     this.updateorderForm = this.fb.group({
-      name: [''],
-      tallcupprice: [null],
-      grandecupprice: [null],
-      venticupprice: [null],
+      name: ['', Validators.required],
+      tallcupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]], // ต้องระบุค่าและระบุค่าเป็นตัวเลข
+      grandecupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+      venticupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
       hot: [false],
       iced: [false],
       frappe: [false],
-      photo: [''],
-      status: ['status'],
+      photo: [null], 
+      status: ['status'], 
       create_at: [new Date()],
     });
     this.loadCoffeemenuByID()

@@ -1,0 +1,34 @@
+.input-style {
+    padding: 0.5rem; 
+    width: 100%; 
+    min-height: 3rem;
+    margin-bottom: 20px; 
+    resize: none; 
+    border-width: 2px; 
+    border-color: var(--redProject); 
+    outline: none; 
+    border-radius: 0.75rem; 
+    transition: border-color 0.2s; 
+}
+
+.input-style::placeholder {
+    color: rgba(210, 9, 28, 0.7); 
+    opacity: 1; 
+}
+
+.input-error {
+    border-color: #FF4A00; 
+}
+
+.input-error::placeholder {
+    color: rgba(255, 74, 0, 0.8); 
+}
+
+.input-valid {
+    border-color: #D2091C;
+}
+
+.input-valid::placeholder {
+    color: rgba(210, 9, 28, 0.7);
+}
+

@@ -3,6 +3,9 @@
   <p-toast></p-toast>
   <div class="pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-4">
       <span class="grow h-[2px] bg-redProject"></span>
+
+        
+
           <div class="flex flex-col text-center lg:flex lg:flex-row lg:justify-center lg:space-x-16 mx-12">
             <a (click)="showSection('all-orders')" class="cursor-pointer hover:text-red-600">ALL Orders</a>
             <a (click)="showSection('beverage-menu')" class="cursor-pointer hover:text-red-600">Beverage Menu</a>
@@ -21,31 +24,7 @@
    <!-- --------popup-------- -->
 
 
-  <!-- หน้าแสดงสินค้าที่ถูกซื้อ (All Order) -->
-  <div *ngIf="currentSection === 'all-orders'" id="all-orders" class="container mx-auto">
-    <div class="overflow-auto h-[32rem] w-full pr-5 ">
-      <div *ngFor="let order of orders">
-        <div class=" h-full border-redProject  border-b-2 pt-3">
-         <div class="flex justify-start h-full gap-8">
-            <div class="w-[9rem] h-[9rem] flex justify-center ml-5 ">
-              <img class="w-[96%] h-[90%] rounded-2xl" [src]="order.image" alt="Order Image">
-            </div>
-            <div class="w-[32rem]">
-              <h2 class="text-[20px] font-koulen whitespace-normal break-words">{{ order.name }}</h2>
-              <p class="text-[18px] text-black font-koulen whitespace-pre-line ">Order list :</p>
-              <p class="text-[18px] text-black/80 font-koulen whitespace-pre-line ">{{ order.description }}</p>
-            </div>
-            <div class="w-[20rem]">
-              <h2 class="text-[20px] font-koulen text-center">Total order quantity : {{ order.quantity }}</h2>
-            </div>
-            <div class="w-[10rem] text-center">
-              <h2 class="text-[20px] font-koulen">{{ order.price }} BAHT</h2>
-            </div>
-          </div>
-        </div>           
-      </div>
-    </div> 
-  </div>
+  
 
   <!--------- หน้าเครื่องดื่ม(Beverage Menu) ------------->
   <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="lg:flex lg:flex-row lg:justify-center lg:gap-6 flex flex-col gap-7">
@@ -133,48 +112,49 @@
         </div>
 
 
-        
-        
-        <div class="flex flex-row justify-between gap-5 h-20">
-          <input id="photo" type="file" (change)="onFileSelected($event)"  formControlName="upload"
-
-              class="form-control text-[16px] text-redProject font-koulen w-80 
-              file:mr-4 file:py-2 file:px-4
-              file:w-44 file:h-12
-              file:text-[18px] file:font-koulen
-              file:rounded-xl file:border-2 file:border-redProject
-              file:bg-transparent file:text-redProject" 
-              [ngClass]="{
-                'input-error': BeveragemenuForm.get('upload')?.touched && BeveragemenuForm.get('upload')?.invalid,
-                'input-valid': !BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.valid
-              }">
-          
-            <div *ngIf="BeveragemenuForm.get('upload')?.invalid && (BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.dirty)"
-              class="text-orangePro text-sm mt-1 mb-2">
-              Please upload a valid file. <!-- Error message for invalid file -->
-            </div>
+       <!-- อัพรูปและเลือกสถานะ -->
+        <div class="flex flex-row gap-5 mb-2 h-20">
+          <div class="flex flex-col"> <!-- Wrapper for styling and layout -->
+              <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="photo"
+                  class="form-control text-[16px] text-redProject font-koulen w-80 
+                  file:mr-4 file:py-2 file:px-4
+                  file:w-44 file:h-12
+                  file:text-[18px] file:font-koulen
+                  file:rounded-xl file:border-2 file:border-redProject
+                  file:bg-transparent file:text-redProject" 
+                  [ngClass]="{
+                      'input-error': BeveragemenuForm.get('photo')?.touched && BeveragemenuForm.get('photo')?.invalid,
+                      'input-valid': !BeveragemenuForm.get('photo')?.touched || BeveragemenuForm.get('photo')?.valid
+                  }">
+              
+              <div *ngIf="BeveragemenuForm.get('photo')?.invalid && (BeveragemenuForm.get('photo')?.touched || BeveragemenuForm.get('photo')?.dirty)"
+                  class="text-orangePro text-sm mt-1 mb-2">
+                  Please upload a valid file. <!-- Error message for invalid file -->
+              </div>
           </div>
-              <div class="flex flex-col"> <!-- เพิ่ม div นี้เพื่อจัดเรียง -->
-                <select
+
+          <div class="flex flex-col"> <!-- เพิ่ม div นี้เพื่อจัดเรียง -->
+              <select
                   class="form-control font-koulen text-[18px] text-redProject w-[14rem] h-12 bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8"
                   formControlName="status"
                   [ngClass]="{
-                    'input-error': BeveragemenuForm.get('status')?.touched && BeveragemenuForm.get('status')?.invalid,
-                    'input-valid': !BeveragemenuForm.get('status')?.touched || (BeveragemenuForm.get('status')?.valid && BeveragemenuForm.get('status')?.value !== 'status')
+                      'input-error': BeveragemenuForm.get('status')?.touched && BeveragemenuForm.get('status')?.invalid,
+                      'input-valid': !BeveragemenuForm.get('status')?.touched || (BeveragemenuForm.get('status')?.valid && BeveragemenuForm.get('status')?.value !== 'status')
                   }">
                   <option [ngStyle]="{
-                    color: (BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)) ? '#FF4A00' : 'inherit'
+                      color: (BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)) ? '#FF4A00' : 'inherit'
                   }" value="status">Status</option>
-                  <option value="true">Regular Menu</option>
-                  <option value="false">Recommended Menu</option>  
-                </select>
-                
-                <div *ngIf="BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)"
+                  <option value="regular">Regular Menu</option>
+                  <option value="recommended">Recommended Menu</option>  
+              </select>
+
+              <div *ngIf="BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)"
                   class="text-orangePro text-sm">
                   Please select status. <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์สถานะไม่ถูกต้อง -->
-                </div>
               </div>
+          </div>
         </div>
+
 
         <div class="flex justify-between mt-2">
           <button (click)="ClearBeveragemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
