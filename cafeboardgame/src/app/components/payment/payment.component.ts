@@ -75,7 +75,7 @@ export class PaymentComponent implements OnInit {
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     console.log('Selected File:', file);
-    if (file && this.isValidFile(file)) {
+    if (file) {
       this.selectedFile = file;
       this.paymentForm.patchValue({ image: file });
     } else {
@@ -84,16 +84,21 @@ export class PaymentComponent implements OnInit {
   }
 
   // ตรวจสอบประเภทและขนาดของไฟล์
-  isValidFile(file: File): boolean {
-    const validTypes = ['image/jpeg', 'image/png'];
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    return validTypes.includes(file.type) && file.size <= maxSize;
-  }
+  // isValidFile(file: File): boolean {
+  //   const validTypes = ['image/jpeg', 'image/png'];
+  //   const maxSize = 5 * 1024 * 1024; // 5MB
+  //   return validTypes.includes(file.type) && file.size <= maxSize;
+  // }
 
   // เมื่อกด submit
   onSubmit(): void {
-    console.log('Form Submitted'); // ตรวจสอบว่าฟังก์ชันนี้ถูกเรียกหรือไม่
-    console.log('Form Valid:', this.paymentForm.valid); // ตรวจสอบว่าฟอร์ม valid หรือไม่
+    if(this.paymentForm.valid === false) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Image file is required.',
+      });
+    }
     if (this.paymentForm.valid && this.selectedFile) {
       const formData = new FormData();
       if (this.userId) {
@@ -114,7 +119,7 @@ export class PaymentComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
-            detail: 'Payment successful!',
+            detail: response.message,
           });
           // ทำการ redirect ไปหน้า login หลังจากสมัครสำเร็จ
           setTimeout(() => {
@@ -126,7 +131,7 @@ export class PaymentComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Payment failed! Please try again.',
+            detail: err.error.message,
           });
         },
       });

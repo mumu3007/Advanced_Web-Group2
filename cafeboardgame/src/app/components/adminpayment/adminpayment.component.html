@@ -18,16 +18,22 @@
     <div class="w-full sm:w-[90%] md:w-[60%] h-full overflow-auto">
       <div *ngFor="let payment of payments">
         <div class="h-full border-redProject border-b-2 p-4 md:p-0">
-          <div class="flex flex-col md:flex-row justify-between h-full pt-3 pb-3">
-            <div class="w-full xl:w-[15%] md:w-[50%] flex justify-center mb-4 md:mb-0 ">
-              <img
+          <div
+            class="flex flex-col md:flex-row justify-between h-full pt-3 pb-3"
+          >
+            <div
+              class="w-full xl:w-[15%] md:w-[50%] flex justify-center mb-4 md:mb-0"
+            >
+            
+              <p-image
                 class="w-[70%] md:w-[90%] h-auto rounded-2xl"
                 [src]="payment.imageUrl"
                 alt=""
+                [preview]="true"
               />
             </div>
 
-            <div class="w-full md:w-96  mb-4 md:mb-0">
+            <div class="w-full md:w-96 mb-4 md:mb-0">
               <h2 class="text-[18px] md:text-[20px] font-koulen">
                 Username : {{ payment.user_id.name }}
               </h2>
@@ -51,7 +57,7 @@
                 <select
                   [(ngModel)]="payment.status"
                   name="status"
-                  class="form-control font-koulen text-[14px] md:text-[17px] text-redProject w-full md:w-[8rem] h-8 bg-bgPro  outline-none border-2 border-redProject rounded-xl"
+                  class="form-control font-koulen text-[14px] md:text-[17px] text-redProject w-full md:w-[8rem] h-8 bg-bgPro outline-none border-2 border-redProject rounded-xl"
                 >
                   <option value="รอการตรวจสอบ">รอการตรวจสอบ</option>
                   <option value="ตรวจสอบแล้ว">ตรวจสอบแล้ว</option>
@@ -59,7 +65,7 @@
                 <!-- ปุ่มสำหรับยืนยันการเปลี่ยนแปลง -->
                 <button
                   type="submit"
-                  class="font-koulen text-[14px] md:text-[17px] w-full md:w-28 h-8 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-500  mt-2 md:m-2"
+                  class="font-koulen text-[14px] md:text-[17px] w-full md:w-28 h-8 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-500 mt-2 md:m-2"
                 >
                   อัปเดตสถานะ
                 </button>

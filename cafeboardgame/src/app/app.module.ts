@@ -10,7 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
-import { ProfileComponent } from './components/profile/profile.component';
+
 import { CartComponent } from './components/cart/cart.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
 import { NavbaradminComponent } from './components/navbaradmin/navbaradmin.component';
@@ -20,6 +20,7 @@ import { AdminboardgameComponent } from './components/adminboardgame/adminboardg
 import { MenupopupComponent } from './components/menupopup/menupopup.component';
 
 import { ToastModule } from 'primeng/toast'; // นำเข้า ToastModule
+import { ImageModule } from 'primeng/image';
 
 
 import { CakepopupComponent } from './components/cakepopup/cakepopup.component';
@@ -40,7 +41,7 @@ import { AdminpaymentComponent } from './components/adminpayment/adminpayment.co
     LoginComponent,
     HomeComponent,
     BoardgameComponent,
-    ProfileComponent,
+   
     CartComponent,
     AdminorderComponent,
     NavbaradminComponent,
@@ -65,6 +66,7 @@ import { AdminpaymentComponent } from './components/adminpayment/adminpayment.co
     
 
     ToastModule ,
+    ImageModule,
   
 
     ToastrModule.forRoot({

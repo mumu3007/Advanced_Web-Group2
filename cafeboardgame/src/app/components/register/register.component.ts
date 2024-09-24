@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { User } from '../../models/user.model';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { RegisterService } from '../../services/register/register.service';
-import { MessageService } from 'primeng/api'; // เพิ่มการนำเข้า MessageService
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -10,39 +10,46 @@ import { MessageService } from 'primeng/api'; // เพิ่มการนำ�
   styleUrls: ['./register.component.css'],
   providers: [MessageService]
 })
-export class RegisterComponent {
-  user: User = { name: '', email: '', password: '', phone: '' };
-  message: string = '';
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private registerService: RegisterService,
     private router: Router,
     private messageService: MessageService
   ) {}
 
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
+  ngOnInit() {
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   register() {
-    this.registerService.register(this.user).subscribe(
-      (response) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Registration successful!',
-        });
-        // ทำการ redirect ไปหน้า login หลังจากสมัครสำเร็จ
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Registration failed! Please try again.',
-        });
-      }
-    );
+    if (this.registerForm.valid) {
+      this.registerService.register(this.registerForm.value).subscribe(
+        (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: response.message,
+          });
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000); 
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.error.message,
+          });
+        }
+      );
+    }
   }
 }

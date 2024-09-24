@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartsService } from '../../services/carts/carts.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { MessageService } from 'primeng/api'; 
 
 @Component({
   selector: 'app-cart',
@@ -19,7 +20,7 @@ export class CartComponent implements OnInit {
   cartAllName: any[] = [];
   cakeItems: any[] = [];
 
-  constructor(private cartsService: CartsService, private authService: AuthService) { }
+  constructor(private cartsService: CartsService, private authService: AuthService,private messageService: MessageService ) { }
 
   ngOnInit(): void {
     if (!this.userId) {
@@ -211,7 +212,24 @@ export class CartComponent implements OnInit {
   }
 
   togglePopup() {
-    this.showPopup = !this.showPopup;
+
+
+    const hasCoffeeItems = this.cartCoffeeDetails.length > 0;
+    const hasCakeItems = this.cakeItems.length > 0;
+    const hasBoardgameItems = this.cartItems.length > 0;
+  
+    
+    if (hasCoffeeItems || hasCakeItems || hasBoardgameItems) {
+      this.showPopup = !this.showPopup;
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No items in the cart',
+      });
+    }
+
+
   }
 }
 
