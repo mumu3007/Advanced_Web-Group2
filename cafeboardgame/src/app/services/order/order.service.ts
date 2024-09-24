@@ -22,8 +22,6 @@ export class OrdersService {
   addCakesItem(cakeorder: any): Observable<any> {
     return this.http.post(`${this.apiUrl2}/order`, cakeorder,{withCredentials: true});
   }
-
-
 }
 
 
