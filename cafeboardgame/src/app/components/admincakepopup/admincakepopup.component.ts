@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../../services/menu/menuservice.service';
 import { ItemlistpopupService } from '../../services/itemlistpopup/itemlistpopup.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -24,14 +24,14 @@ export class AdmincakepopupComponent {
     private cakeService: ApiService,
     private ItemlistpopupService: ItemlistpopupService,
     private fb: FormBuilder,
-    private messageService: MessageService // Inject MessageService
+    private messageService: MessageService 
   ){}
 
   ngOnInit(): void {
     this.updatecakeForm = this.fb.group({
-      name: [''],
-      cakedescription: [''],
-      cakeprice: [null],
+      name: ['', Validators.required],
+      cakedescription: ['', Validators.required],
+      cakeprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]], // ต้องระบุค่าและระบุค่าเป็นตัวเล
       photo: [''],
       create_at: [new Date()],
     });
@@ -64,7 +64,6 @@ export class AdmincakepopupComponent {
         console.log('ข้อมูลที่ได้รับ:', data);
         this.cakemenuData = data;
         if (data) {
-          // ตั้งค่าให้ฟอร์มแสดงข้อมูลจาก backend
           this.updatecakeForm.patchValue({
             name: data.name,
             cakedescription: data.description,
@@ -86,15 +85,13 @@ export class AdmincakepopupComponent {
       formData.append('price', this.updatecakeForm.get('cakeprice')?.value);
       formData.append('create_at', this.updatecakeForm.get('create_at')?.value);
     
-      // ถ้ามีรูปภาพใหม่ ให้เพิ่มรูปภาพลงใน FormData
       if (this.selectedFile) {
         formData.append('photo', this.selectedFile, this.selectedFile.name);
         console.log('FormData with photo:', formData);
       }else {
         console.log('No photo selected');
       }
-  
-      // เรียกใช้ service สำหรับอัปเดตข้อมูล
+
       this.ItemlistpopupService.updateCakemenu(this.cakemenuID, formData)
         .subscribe(
           (response) => {
@@ -104,7 +101,7 @@ export class AdmincakepopupComponent {
               summary: 'Success',
               detail: 'Update menu successful!',
             });
-            this.closeCakePopup(); // ปิด popup หลังจากอัปเดตเสร็จ
+            this.closeCakePopup(); 
           },
           
           (error) => {

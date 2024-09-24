@@ -34,11 +34,10 @@ export class ItemlistpopupComponent {
       iced: [false],
       frappe: [false],
       photo: [null], 
-      status: ['status'], 
+      status: ['status',[Validators.required, Validators.pattern('^(?!status$).*$')]], 
       create_at: [new Date()],
     });
     this.loadCoffeemenuByID()
-
   }
 
 
@@ -64,7 +63,7 @@ export class ItemlistpopupComponent {
   loadCoffeemenuByID() {
     if (this.coffeemenuID) {
       this.itemlistpopupService.getCoffeemenuByID(this.coffeemenuID).subscribe((data) => {
-        console.log('Coffeemenu data received:', data); // ตรวจสอบข้อมูลที่ได้รับ
+        console.log('Coffeemenu data received:', data); 
         console.log('typecoffee',data.type_coffee);
         
         this.coffeemenuData = data
@@ -75,15 +74,15 @@ export class ItemlistpopupComponent {
             tallcupprice: data.s_price,  
             grandecupprice: data.m_price,  
             venticupprice: data.l_price,  
-            hot: data.type_coffee.includes('HOT'), // ตรวจสอบว่า HOT มีอยู่ในอาเรย์หรือไม่
-            iced: data.type_coffee.includes('ICED'), // ตรวจสอบว่า ICED มีอยู่ในอาเรย์หรือไม่
-            frappe: data.type_coffee.includes('FRAPPE'), // ตรวจสอบว่า FRAPPE มีอยู่ในอาเรย์หรือไม่
+            hot: data.type_coffee.includes('HOT'), 
+            iced: data.type_coffee.includes('ICED'), 
+            frappe: data.type_coffee.includes('FRAPPE'), 
             create_at: data.create_at,
             status: data.status
           });
 
         }
-        console.log('Form data received:', this.coffeemenuData); // ตรวจสอบข้อมูลที่ได้รับ
+        console.log('Form data received:', this.coffeemenuData);
         console.log('update order:', this.updateorderForm.getRawValue());
       });
     }
