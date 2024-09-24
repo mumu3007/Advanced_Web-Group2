@@ -27,9 +27,9 @@ export class ItemlistpopupComponent {
   ngOnInit(): void {
     this.updateorderForm = this.fb.group({
       name: ['', Validators.required],
-      tallcupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]], // ต้องระบุค่าและระบุค่าเป็นตัวเลข
-      grandecupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
-      venticupprice: [null, [Validators.required, Validators.pattern('^[0-9]+$')]],
+      tallcupprice: [null, [Validators.required, Validators.min(1)]], // ต้องระบุค่าและระบุค่าเป็นตัวเลข
+      grandecupprice: [null, [Validators.required, Validators.min(1)]],
+      venticupprice: [null, [Validators.required, Validators.min(1)]],
       hot: [false],
       iced: [false],
       frappe: [false],
