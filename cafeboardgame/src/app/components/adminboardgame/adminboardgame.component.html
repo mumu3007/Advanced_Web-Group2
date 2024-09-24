@@ -14,61 +14,126 @@
 
 
     <!-- --------popup-------- -->
-    <app-adminbgpopup *ngIf="showPopup" [boardgameID]="selectedBoardgameId"  (close)="closePopup()"></app-adminbgpopup>
+    <app-adminbgpopup *ngIf="showPopup" [boardgameID]="selectedBoardgameId" (close)="closePopup()"></app-adminbgpopup>
     <!-- --------popup-------- -->
     <p-toast></p-toast>
 
-    <div  class="flex flex-col lg:flex lg:flex-row lg:justify-center lg:gap-10 gap-6 ">
-        <form  [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-full lg:w-[40%]">
+    <div class="flex flex-col lg:flex lg:flex-row lg:justify-center lg:gap-10 gap-6 ">
+        <form [formGroup]="boardgameForm" (ngSubmit)="AddBoardgame() " class="w-full lg:w-[40%]">
             <div class="">
                 <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
                     style="font-size: 24px; display: inline-block; padding: 0 10px;">Add board game to the list</h3>
-                <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
+                <div
+                    class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
                     <div class="form-control flex flex-row gap-4">
-                        <input type="text" placeholder="Name"
-                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='name' required>
-                        <!-- <div *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)" 
-                                class="alert alert-danger">
-                                <div *ngIf="boardgameForm.get('name')?.errors?.['required']">
-                                    Name is required
-                                </div>
-                            </div> -->
-                        <input type="number" placeholder="price"
-                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='price' min="1" step="any">
+                        <div class="h-20 w-full">
+                            <input type="text" placeholder="Name" id="name"
+                                class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                                formControlName='name'
+                                [ngClass]="{
+                                'input-error': boardgameForm.get('name')?.touched && boardgameForm.get('name')?.invalid,
+                                'input-valid': !boardgameForm.get('name')?.touched || (boardgameForm.get('name')?.valid && boardgameForm.get('name')?.value !== '')}">
+
+                            <div *ngIf="boardgameForm.get('name')?.invalid && (boardgameForm.get('name')?.dirty || boardgameForm.get('name')?.touched)"
+                                class="text-orangePro text-sm -mt-5 mb-2">
+                                Name is required
+                            </div>
+                        </div>
+
+                        <div class="h-20 w-full">
+                            <input type="number" placeholder="price" id="price"
+                                class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                                formControlName='price' min="1" step="any"
+                                [ngClass]="{
+                                'input-error': boardgameForm.get('price')?.touched && boardgameForm.get('price')?.invalid,
+                                'input-valid': !boardgameForm.get('price')?.touched || boardgameForm.get('price')?.valid }">
+                            <div *ngIf="boardgameForm.get('price')?.invalid && (boardgameForm.get('price')?.dirty || boardgameForm.get('price')?.touched)"
+                                class="text-orangePro text-sm -mt-5 mb-2">
+                                price is required
+                            </div>
+                        </div>
                     </div>
-                    <textarea type="text" placeholder="Details.."
-                        class="font-koulen text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
-                        formControlName='description'></textarea>
+                    <div class="flex flex-row  ">
+                        <div class=" w-full">
+                            <textarea type="text" placeholder="Details.."
+                                class="font-koulen text-[18px] w-full  pt-1 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 min-h-32 max-h-32"
+                                formControlName='description'
+                                [ngClass]="{
+                            'input-error': boardgameForm.get('description')?.touched && boardgameForm.get('description')?.invalid,
+                            'input-valid': !boardgameForm.get('description')?.touched || (boardgameForm.get('description')?.valid && boardgameForm.get('description')?.value !== '')}"></textarea>
+                            <div *ngIf="boardgameForm.get('description')?.invalid && (boardgameForm.get('description')?.dirty || boardgameForm.get('description')?.touched)"
+                                class="text-orangePro text-sm -mt-5 mb-2">
+                                description is required
+                            </div>
+                        </div>
+
+                    </div>
+
 
                     <div class="flex flex-row gap-4">
-                        <select
-                            class=" font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400"
-                            formControlName="type">
-                            <option value="null" disabled selected>Category</option>
-                            <option *ngFor="let i of typeItems" [value]="i._id">{{i.name}}</option>
+                        <div class="flex flex-col w-[50%]">
+                            <select
+                                class=" font-koulen text-[18px] text-redProject h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 focus:ring-red-400 focus:border-red-400"
+                                formControlName="type" [ngClass]="{
+                                    'input-error': boardgameForm.get('type')?.touched && boardgameForm.get('type')?.invalid,
+                                    'input-valid': !boardgameForm.get('type')?.touched || boardgameForm.get('type')?.valid
+                                }">
+                                <option value="null" disabled selected>Category</option>
+                                <option *ngFor="let i of typeItems" [value]="i._id">{{i.name}}</option>
+                            </select>
+                            <div *ngIf="boardgameForm.get('type')?.invalid && (boardgameForm.get('type')?.touched || boardgameForm.get('type')?.dirty)"
+                                class="text-orangePro text-sm mb-3">
+                                Please select Category. <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์สถานะไม่ถูกต้อง -->
+                            </div>
+                        </div>
 
-                        </select>
-                        <input type="number" placeholder="Quantity"
-                            class="font-koulen text-[18px] w-[50%] h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
-                            formControlName='quantity' min="1" step="any">
+                        <div class="h-20 w-1/2">
+                            <input type="number" placeholder="Quantity" id="quantity"
+                                class="form-control font-koulen text-[18px] w-full h-14 p-2 mb-5 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400 "
+                                formControlName='quantity' min="1" step="any"
+                                [ngClass]="{
+                                'input-error': boardgameForm.get('quantity')?.touched && boardgameForm.get('quantity')?.invalid,
+                                'input-valid': !boardgameForm.get('quantity')?.touched || boardgameForm.get('quantity')?.valid }">
+                            <div *ngIf="boardgameForm.get('quantity')?.invalid && (boardgameForm.get('quantity')?.dirty || boardgameForm.get('quantity')?.touched)"
+                                class="text-orangePro text-sm -mt-5 mb-2">
+                                quantity is required
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="flex flex-row gap-4 pb-8">
-                        <select
-                            class=" form-control font-koulen text-[18px] text-redProject w-[50%] h-14  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
-                            formControlName="status">
-                            <option value="null" disabled selected>Status</option>
-                            <option value="true">Available</option>
-                            <option value="false">Unavailable</option>
-                        </select>
-                        <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control text-[16px] text-redProject font-koulen w-72 
+                    <div class="flex flex-row gap-4 pb-8 ">
+                        <div class="flex flex-col w-[50%] h-14">
+                            <select
+                                class=" form-control font-koulen text-[18px] text-redProject  bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8 "
+                                formControlName="status" [ngClass]="{
+                                    'input-error': boardgameForm.get('status')?.touched && boardgameForm.get('status')?.invalid,
+                                    'input-valid': !boardgameForm.get('status')?.touched || boardgameForm.get('status')?.valid
+                                }">
+                                <option value="null" disabled selected>Status</option>
+                                <option value="true">Available</option>
+                                <option value="false">Unavailable</option>
+                            </select>
+                            <div *ngIf="boardgameForm.get('status')?.invalid && (boardgameForm.get('status')?.touched || boardgameForm.get('status')?.dirty)"
+                                class="text-orangePro text-sm">
+                                Please select status. <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์สถานะไม่ถูกต้อง -->
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col w-[50%] h-[3.325rem]">
+                            <input id="photo" type="file" (change)="onFileSelected($event)" class="form-control h-full text-[16px] text-redProject font-koulen  
                             file:mr-2 file:py-2 file:px-4
                             file:w-44 file:h-full
                             file:text-[18px] file:font-koulen
                             file:rounded-xl file:border-2 file:border-redProject
-                            file:bg-transparent file:text-redProject" />
-
+                            file:bg-transparent file:text-redProject" [ngClass]="{
+                                'input-error': boardgameForm.get('photo')?.touched && boardgameForm.get('photo')?.invalid,
+                                'input-valid': !boardgameForm.get('photo')?.touched || boardgameForm.get('photo')?.valid
+                            }">
+                            <div *ngIf="boardgameForm.get('photo')?.invalid && (boardgameForm.get('photo')?.touched || boardgameForm.get('photo')?.dirty)"
+                                class="text-orangePro text-sm mt-1 mb-2">
+                                Please upload a valid file. <!-- Error message for invalid file -->
+                            </div>
+                        </div>
                     </div>
                     <!-- hover:bg-[#B70A1A] -->
                     <div class="flex justify-between ">
@@ -83,7 +148,7 @@
         </form>
         <div class="w-full lg:w-[50%] flex flex-col ">
             <div class="overflow-auto h-[32rem] w-full pr-2">
-                <div *ngFor="let boardgame of boardgames" >
+                <div *ngFor="let boardgame of boardgames">
                     <div class=" h-full border-redProject  border-b-2 pt-3">
                         <div class="flex justify-between h-full">
                             <div class="w-[15%]  flex justify-center ">
@@ -98,7 +163,8 @@
                                     </p>
                                     <p class="text-[12px] text-black/80 font-koulen">
                                         status :
-                                        <span [ngClass]="{'text-green-600': boardgame.status, 'text-redProject': !boardgame.status}">
+                                        <span
+                                            [ngClass]="{'text-green-600': boardgame.status, 'text-redProject': !boardgame.status}">
                                             {{ boardgame.status ? 'Available' : 'Unavailable' }}
                                         </span>
                                     </p>
