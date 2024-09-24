@@ -15,6 +15,7 @@ module.exports = {
         'orangePro' : '#FF4A00',
         'bgPro' : '#F4F1EC',
         'formfPro' : 'rgba(210, 9, 28, 0.7)',
+        'orangeform' : 'rgba(255, 74, 0, 0.8)',
       },
       animation: {
         lefttoright: 'lefttoright 2s ease-in-out 1',

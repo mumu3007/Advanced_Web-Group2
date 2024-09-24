@@ -1,4 +1,3 @@
-/* styles.css หรือไฟล์ CSS ของคุณ */
 .input-style {
     font-family: 'Koulen', sans-serif; 
     font-size: 18px; 
@@ -6,39 +5,35 @@
     height: 48px; 
     padding: 8px; 
     margin-bottom: 18px; 
-    border: 2px solid #D2091C; /* สีขอบเริ่มต้น */
+    border: 2px solid  theme('colors.redProject'); 
     outline: none; 
     background-color: var(--bgPro); 
     border-radius: 12px; 
-    transition: border-color 0.2s; /* เพิ่ม transition สำหรับสีขอบ */
+    transition: border-color 0.2s; 
 }
 
 .input-style::placeholder {
-    color: rgba(210, 9, 28, 0.7); /* สีของ placeholder */
-    opacity: 1; /* ทำให้แน่ใจว่า placeholder มองเห็นได้ */
+    color: theme('colors.formfPro'); 
+    opacity: 1; 
 }
 
-/* สีขอบเมื่อมีข้อผิดพลาด */
 .input-error {
-    border-color: #FF4A00; 
+    border-color: theme('colors.orangePro'); 
 }
 
 .input-error::placeholder {
-    color: rgba(255, 74, 0, 0.8); /* สีของ placeholder เมื่อมีข้อผิดพลาด */
+    color: theme('colors.orangeform'); 
 }
 
-
-/* สีขอบเมื่อถูกต้อง */
 .input-valid {
-    border-color: #D2091C;
+    border-color:  theme('colors.redProject');
 }
 
 .input-valid::placeholder {
-    color: rgba(210, 9, 28, 0.7); /* สีของ placeholder เมื่อถูกต้อง */
+    color: theme('colors.formfPro');
 }
 
 
-/* Webkit Scrollbar (Chrome, Safari) */
 div::-webkit-scrollbar {
     width: 10px;
 }
@@ -48,18 +43,13 @@ div::-webkit-scrollbar-track {
 }
 
 div::-webkit-scrollbar-thumb {
-    background-color: #D2091C;
-    /* สีของ thumb */
+    background-color:  theme('colors.redProject');
     border-radius: 10px;
-    /* ทำให้เป็นมุมโค้ง */
     border: 3px solid #f1f1f1;
-    /* ช่องว่างระหว่าง track */
+    
 }
 
-/* Firefox */
 div {
     scrollbar-width: thin;
-    /* กำหนดความกว้างของ scrollbar */
-    scrollbar-color: #D2091C #f1f1f1;
-    /* สีของ thumb และ track */
+    scrollbar-color:  theme('colors.redProject') #f1f1f1;
 }

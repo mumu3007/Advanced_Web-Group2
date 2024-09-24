@@ -1,0 +1,69 @@
+.input-style {
+    font-family: 'Koulen', sans-serif; 
+    font-size: 18px; 
+    width: 100%; 
+    height: 3.5rem; 
+    margin-bottom: 1.25rem;
+    padding: 0.5rem;
+    border-width: 2px;
+    border-style: solid; 
+    border: 2px solid theme('colors.redProject');
+    outline: none; 
+    border-radius: 0.75rem; 
+}
+
+.input-style::placeholder {
+    color: theme('colors.formfPro');
+    opacity: 1; 
+}
+
+.input-style:focus {
+    border-color: theme('colors.formfPro'); 
+}
+
+.input-error {
+    border-color: theme('colors.orangePro');
+}
+
+.input-error::placeholder {
+    color: theme('colors.orangeform'); 
+}
+
+.input-valid {
+    border-color: theme('colors.redProject');
+}
+
+.input-valid::placeholder {
+    color: theme('colors.formfPro'); 
+}
+
+.textarea-style {
+    font-family: 'Koulen', sans-serif; 
+    font-size: 18px; 
+    width: 100%;
+    height: 14rem; 
+    padding-top: 0.25rem; 
+    padding: 0.5rem; 
+    border-width: 2px; 
+    border-style: solid; 
+    border: 2px solid theme('colors.redProject');
+    outline: none; 
+    border-radius: 0.75rem; 
+}
+
+.textarea-style::placeholder {
+    color: theme('colors.formfPro'); 
+    opacity: 1; 
+}
+
+.input-error {
+    border-color: theme('colors.orangePro') !important;
+}
+
+.input-valid {
+    border-color: theme('colors.redProject') !important; 
+}
+
+.input-error::placeholder {
+    color: theme('colors.orangeform'); 
+}

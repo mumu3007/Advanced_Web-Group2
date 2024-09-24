@@ -5,30 +5,30 @@
     margin-bottom: 20px; 
     resize: none; 
     border-width: 2px; 
-    border-color: var(--redProject); 
+    border-color: theme('colors.redProject'); 
     outline: none; 
     border-radius: 0.75rem; 
     transition: border-color 0.2s; 
 }
 
 .input-style::placeholder {
-    color: rgba(210, 9, 28, 0.7); 
+    color: theme('colors.formfPro'); 
     opacity: 1; 
 }
 
 .input-error {
-    border-color: #FF4A00; 
+    border-color: theme('colors.orangePro'); 
 }
 
 .input-error::placeholder {
-    color: rgba(255, 74, 0, 0.8); 
+    color: theme('colors.orangeform'); 
 }
 
 .input-valid {
-    border-color: #D2091C;
+    border-color: theme('colors.redProject');
 }
 
 .input-valid::placeholder {
-    color: rgba(210, 9, 28, 0.7);
+    color: theme('colors.formfPro');
 }
 

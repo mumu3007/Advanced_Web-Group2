@@ -2,54 +2,45 @@
 <div class="bg-bgPro h-full lg:h-screen">
   <p-toast></p-toast>
   <div class="pt-24 flex justify-center  text-[32px] font-koulen  text-redProject items-center relative mb-4">
-      <span class="grow h-[2px] bg-redProject"></span>
-
-        
-
-          <div class="flex flex-col text-center lg:flex lg:flex-row lg:justify-center lg:space-x-16 mx-12">
-            <a (click)="showSection('all-orders')" class="cursor-pointer hover:text-red-600">ALL Orders</a>
-            <a (click)="showSection('beverage-menu')" class="cursor-pointer hover:text-red-600">Beverage Menu</a>
-            <a (click)="showSection('cake-menu')" class="cursor-pointer hover:text-red-600">Cake and Bakery Menu</a>
-          </div>
-      <span class="grow h-[2px] bg-redProject"></span>
+    <span class="grow h-[2px] bg-redProject"></span>
+      <div class="flex flex-col text-center lg:flex lg:flex-row lg:justify-center lg:space-x-16 mx-12">
+        <a (click)="showSection('beverage-menu')" class="cursor-pointer hover:text-red-600">Beverage Menu</a>
+        <a (click)="showSection('cake-menu')" class="cursor-pointer hover:text-red-600">Cake and Bakery Menu</a>
+      </div>
+    <span class="grow h-[2px] bg-redProject"></span>
   </div>
   <div *ngIf="showPopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
   <div *ngIf="showCakePopup" class="fixed inset-0 bg-black bg-opacity-50 z-30"></div>
 
-
-
-  <!-- --------popup-------- -->
+  <!--------- popup ---------->
   <app-itemlistpopup *ngIf="showPopup" [coffeemenuID]="selectedCoffeemenuId"  (close)="closePopup()"></app-itemlistpopup>
   <app-admincakepopup *ngIf="showCakePopup" [cakemenuID]="selectedCakemenuId"  (close)="closeCakePopup()"></app-admincakepopup>
-   <!-- --------popup-------- -->
-
-
-  
+   <!--------- popup --------->
 
   <!--------- หน้าเครื่องดื่ม(Beverage Menu) ------------->
   <div *ngIf="currentSection === 'beverage-menu'" id="beverage-menu" class="lg:flex lg:flex-row lg:justify-center lg:gap-6 flex flex-col gap-7">
 
     <!-- เพิ่มเมนูกาแฟ -->
-    <form  form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-full lg:w-[40%]  ">
-      <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
+    <form [formGroup]="BeveragemenuForm" (submit)="AddMenuItem()" class="w-full lg:w-[40%]  ">
+      <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative"
         style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
-      <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
+      <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-20px] relative z-10">
         <div class="form-control">
           <!--- เพิ่มชื่อ --->
-          <div class="h-20">
+          <div class="h-20 font-koulen">
             <input type="text" id="name" formControlName="name" class="form-control input-style" placeholder="Name"
               [ngClass]="{
                 'input-error': BeveragemenuForm.get('name')?.touched && BeveragemenuForm.get('name')?.invalid,
                 'input-valid': !BeveragemenuForm.get('name')?.touched || (BeveragemenuForm.get('name')?.valid && BeveragemenuForm.get('name')?.value !== '')
               }">
               <div *ngIf="BeveragemenuForm.get('name')?.invalid && (BeveragemenuForm.get('name')?.touched || BeveragemenuForm.get('name')?.dirty)" 
-                class="text-orangePro text-sm -mt-5 mb-2">
-                Please specify the name of the beverages.  <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์ชื่อว่าง -->
+                class="text-orangePro text-sm -mt-4 mb-2">
+                Please specify the name of the beverages. 
               </div>
           </div>
           
           <!--- เพิ่มราคา --->  
-          <div class="h-20 -mt-2">
+          <div class="h-20 -mt-1 font-koulen">
             <input type="number" id="tallcupprice" formControlName='tallcupprice' min="0" step="any" 
               class="form-control input-style" placeholder="TALL CUP PRICE"
               [ngClass]="{
@@ -57,11 +48,11 @@
                 'input-valid': !BeveragemenuForm.get('tallcupprice')?.touched || (BeveragemenuForm.get('tallcupprice')?.valid && BeveragemenuForm.get('tallcupprice')?.value !== '')
               }">
               <div *ngIf="BeveragemenuForm.get('tallcupprice')?.invalid && (BeveragemenuForm.get('tallcupprice')?.touched || BeveragemenuForm.get('tallcupprice')?.dirty)" 
-                class="text-orangePro text-sm -mt-5 mb-2">
+                class="text-orangePro text-sm -mt-4 mb-2">
                 Please specify the price of the beverages.
               </div>
           </div>
-          <div class="h-20 -mt-2">
+          <div class="h-20 -mt-1 font-koulen">
             <input type="number" id="grandecupprice" formControlName='grandecupprice' min="0" step="any" 
               class="form-control input-style" placeholder="GRANDE CUP PRICE"
               [ngClass]="{
@@ -69,11 +60,11 @@
                 'input-valid': !BeveragemenuForm.get('grandecupprice')?.touched || (BeveragemenuForm.get('grandecupprice')?.valid && BeveragemenuForm.get('grandecupprice')?.value !== '')
               }">
               <div *ngIf="BeveragemenuForm.get('grandecupprice')?.invalid && (BeveragemenuForm.get('grandecupprice')?.touched || BeveragemenuForm.get('grandecupprice')?.dirty)" 
-                class="text-orangePro text-sm -mt-5 mb-2">
+                class="text-orangePro text-sm -mt-4 mb-2">
                 Please specify the price of the beverages.
               </div>
           </div>
-          <div class="h-22 -mt-2">
+          <div class="h-20 -mt-1 font-koulen">
             <input type="number" id="venticupprice" formControlName='venticupprice' min="0" step="any" 
               class="form-control input-style" placeholder="VENTI CUP PRICE"
               [ngClass]="{
@@ -81,13 +72,14 @@
                 'input-valid': !BeveragemenuForm.get('venticupprice')?.touched || (BeveragemenuForm.get('venticupprice')?.valid && BeveragemenuForm.get('venticupprice')?.value !== '')
               }">
               <div *ngIf="BeveragemenuForm.get('venticupprice')?.invalid && (BeveragemenuForm.get('venticupprice')?.touched || BeveragemenuForm.get('venticupprice')?.dirty)" 
-                class="text-orangePro text-sm -mt-5 mb-2">
+                class="text-orangePro text-sm -mt-4">
                 Please specify the price of the beverages.
               </div>
           </div>
         </div>
 
-        <div class="flex justify-between mt-2 mb-5">
+        <!--- เลือกร้อน เย็น ปั่น --->  
+        <div class="flex justify-between mb-3">
           <label class="flex items-center space-x-2 cursor-pointer">
             <input type="checkbox" id="hot" formControlName="hot" class="form-control peer h-6 w-6 cursor-pointer transition-all text-[18px] 
              appearance-none rounded-md shadow border-2 border-redProject bg-bgPro checked:bg-redProject checked:border-redProject 
@@ -111,52 +103,48 @@
           </label>
         </div>
 
-
        <!-- อัพรูปและเลือกสถานะ -->
-        <div class="flex flex-row gap-5 mb-2 h-20">
-          <div class="flex flex-col"> <!-- Wrapper for styling and layout -->
-              <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="photo"
-                  class="form-control text-[16px] text-redProject font-koulen w-80 
-                  file:mr-4 file:py-2 file:px-4
-                  file:w-44 file:h-12
-                  file:text-[18px] file:font-koulen
-                  file:rounded-xl file:border-2 file:border-redProject
-                  file:bg-transparent file:text-redProject" 
-                  [ngClass]="{
-                      'input-error': BeveragemenuForm.get('photo')?.touched && BeveragemenuForm.get('photo')?.invalid,
-                      'input-valid': !BeveragemenuForm.get('photo')?.touched || BeveragemenuForm.get('photo')?.valid
-                  }">
-              
-              <div *ngIf="BeveragemenuForm.get('photo')?.invalid && (BeveragemenuForm.get('photo')?.touched || BeveragemenuForm.get('photo')?.dirty)"
-                  class="text-orangePro text-sm mt-1 mb-2">
-                  Please upload a valid file. <!-- Error message for invalid file -->
-              </div>
+        <div class="flex flex-row gap-5 h-20 font-koulen">
+          <div class="flex flex-col">
+            <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
+              class="form-control text-[16px] text-redProject font-koulen w-80 
+              file:mr-4 file:py-2 file:px-4
+              file:w-44 file:h-12
+              file:text-[18px] file:font-koulen
+              file:rounded-xl file:border-2 file:border-redProject
+              file:bg-transparent file:text-redProject" 
+              [ngClass]="{
+                'input-error': BeveragemenuForm.get('upload')?.touched && BeveragemenuForm.get('upload')?.invalid,
+                'input-valid': !BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.valid
+              }">
+            <div *ngIf="BeveragemenuForm.get('upload')?.invalid && (BeveragemenuForm.get('upload')?.touched || BeveragemenuForm.get('upload')?.dirty)"
+              class="text-orangePro text-sm mt-1 mb-2">
+              Please upload a valid file.
+            </div>
           </div>
-
-          <div class="flex flex-col"> <!-- เพิ่ม div นี้เพื่อจัดเรียง -->
-              <select
-                  class="form-control font-koulen text-[18px] text-redProject w-[14rem] h-12 bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8"
-                  formControlName="status"
-                  [ngClass]="{
-                      'input-error': BeveragemenuForm.get('status')?.touched && BeveragemenuForm.get('status')?.invalid,
-                      'input-valid': !BeveragemenuForm.get('status')?.touched || (BeveragemenuForm.get('status')?.valid && BeveragemenuForm.get('status')?.value !== 'status')
-                  }">
-                  <option [ngStyle]="{
-                      color: (BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)) ? '#FF4A00' : 'inherit'
-                  }" value="status">Status</option>
-                  <option value="regular">Regular Menu</option>
-                  <option value="recommended">Recommended Menu</option>  
-              </select>
-
-              <div *ngIf="BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)"
-                  class="text-orangePro text-sm">
-                  Please select status. <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์สถานะไม่ถูกต้อง -->
-              </div>
+          <div class="flex flex-col"> 
+            <select
+              class="form-control font-koulen text-[18px] text-redProject w-[14rem] h-12 bg-bgPro p-2 outline-none border-2 border-redProject rounded-xl pr-8"
+              formControlName="status"
+              [ngClass]="{
+                'input-error': BeveragemenuForm.get('status')?.touched && BeveragemenuForm.get('status')?.invalid,
+                'input-valid': !BeveragemenuForm.get('status')?.touched || (BeveragemenuForm.get('status')?.valid && BeveragemenuForm.get('status')?.value !== 'status')
+              }">
+              <option [ngStyle]="{
+                color: (BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)) ? '#FF4A00' : 'inherit'}" 
+                value="status"disabled selected>Status</option>
+              <option value="regular">Regular Menu</option>
+              <option value="recommended">Recommended Menu</option>  
+            </select>
+            <div *ngIf="BeveragemenuForm.get('status')?.invalid && (BeveragemenuForm.get('status')?.touched || BeveragemenuForm.get('status')?.dirty)"
+              class="text-orangePro text-sm">
+              Please select status. 
+            </div>
           </div>
         </div>
 
-
-        <div class="flex justify-between mt-2">
+        <!--------------- ปุ่ม --------------->
+        <div class="flex justify-between mt-1">
           <button (click)="ClearBeveragemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
                hover:bg-redProject hover:text-white transition-all duration-500">CLEAR</button>
           <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl
@@ -185,7 +173,6 @@
               <div class="flex justify-between items-start ml-8 gap-3">
                 <button (click)="openPopup(item._id)" type="button" 
                   class="text-[20px] text-redProject font-koulen w-30 text-end hover:text-redProject hover:underline transition-all duration-500">Update</button>
-              
                 <button type="button" (click)="deleteMenuItem(item._id)" 
                   class="text-[20px] text-redProject font-koulen w-30 text-end hover:text-redProject hover:underline transition-all duration-500">Delete</button>
               </div>
@@ -203,9 +190,11 @@
     <!-- เพิ่มเมนูเค้ก -->
     <form [formGroup]="CakemenuForm" (submit)="AddCakeMenuItem()" class="w-full lg:w-[40%] ">
       <h3 class="text-redProject text-center font-koulen bg-bgPro w-45 ml-6 z-20 relative "
-          style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
+        style="font-size: 24px; display: inline-block; padding: 0 10px;">Add items to the menu</h3>
       <div class="w-full min-h-[500px] border-2 border-redProject p-6 pb-3 rounded-2xl mt-[-16px] relative z-10">
-        <div class="form-control">
+
+        <!-- ชื่อและรายละเอียด -->
+        <div class="form-control font-koulen">
           <div class="h-20">
             <input type="text" id="name" formControlName="name" class="form-control input-style" placeholder="Name"
               [ngClass]="{
@@ -214,7 +203,7 @@
               }">
               <div *ngIf="CakemenuForm.get('name')?.invalid && (CakemenuForm.get('name')?.touched || CakemenuForm.get('name')?.dirty)" 
                 class="text-orangePro text-sm -mt-4 mb-2">
-                Please specify the name of the cake..  <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์ชื่อว่าง -->
+                Please specify the name of the cake..  
               </div>
           </div>
           <div class="h-20 -mt-1">
@@ -224,18 +213,18 @@
               [ngClass]="{
                 'input-error': CakemenuForm.get('cakedescription')?.touched && CakemenuForm.get('cakedescription')?.invalid,
                 'input-valid': !CakemenuForm.get('cakedescription')?.touched || (CakemenuForm.get('cakedescription')?.valid && CakemenuForm.get('cakedescription')?.value !== '')
-              }"></textarea>
-            
+              }">
+            </textarea>
             <div *ngIf="CakemenuForm.get('cakedescription')?.invalid && (CakemenuForm.get('cakedescription')?.touched || CakemenuForm.get('cakedescription')?.dirty)" 
               class="text-orangePro text-sm -mt-5 mb-2">
-              Please specify the details of the cake..  <!-- แสดงข้อความแจ้งเตือนเมื่อฟิลด์รายละเอียดว่าง -->
+              Please specify the details of the cake..  
             </div>
           </div>
         </div>
         
-
-        <div class="flex flex-row gap-4 h-20 pb-8 mt-36">
-          <div class="flex flex-col"> <!-- เพิ่ม div เพื่อจัดเรียง -->
+        <!-- อัพโหลดและราคา -->
+        <div class="flex flex-row gap-4 h-20 pb-8 mt-36 font-koulen">
+          <div class="flex flex-col">
             <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="upload" 
               class="form-control text-[16px] text-redProject font-koulen w-80 
               file:mr-4 file:py-2 file:px-4
@@ -247,13 +236,12 @@
                 'input-error': CakemenuForm.get('upload')?.touched && CakemenuForm.get('upload')?.invalid,
                 'input-valid': !CakemenuForm.get('upload')?.touched || CakemenuForm.get('upload')?.valid
               }">
-        
             <div *ngIf="CakemenuForm.get('upload')?.invalid && (CakemenuForm.get('upload')?.touched || CakemenuForm.get('upload')?.dirty)"
               class="text-orangePro text-sm mt-1 mb-2">
-              Please upload a valid file. <!-- ข้อความแจ้งเตือนเมื่อไฟล์ไม่ถูกต้อง -->
+              Please upload a valid file.
             </div>
           </div>
-          <div class="flex flex-col"> <!-- เพิ่ม div เพื่อจัดเรียง -->
+          <div class="flex flex-col"> 
               <input 
                 type="number" placeholder="PRICE" formControlName="cakeprice" min="0" step="any" 
                 class="form-control font-koulen text-[18px] w-[14rem] h-12 p-2 mb-4 border-2 border-redProject outline-none bg-bgPro rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400" 
@@ -261,13 +249,14 @@
                   'input-error': CakemenuForm.get('cakeprice')?.touched && CakemenuForm.get('cakeprice')?.invalid,
                   'input-valid': !CakemenuForm.get('cakeprice')?.touched || (CakemenuForm.get('cakeprice')?.valid && CakemenuForm.get('cakeprice')?.value !== '')
                 }">
-                <div *ngIf="CakemenuForm.get('cakeprice')?.invalid && (CakemenuForm.get('cakeprice')?.touched || CakemenuForm.get('cakeprice')?.dirty)" 
-                  class="text-orangePro text-sm -mt-3 mb-2">
-                  Please specify the price.
-                </div>
+              <div *ngIf="CakemenuForm.get('cakeprice')?.invalid && (CakemenuForm.get('cakeprice')?.touched || CakemenuForm.get('cakeprice')?.dirty)" 
+                class="text-orangePro text-sm -mt-3 mb-2">
+                Please specify the price.
+              </div>
           </div>
         </div>
 
+        <!-------- ปุ่ม --------->
         <div class="flex justify-between mt-10">
           <button (click)="ClearCakemenuForm()" type="button" class="font-koulen text-[18px] w-28 h-10 border-2 border-redProject text-redProject items-center justify-center rounded-xl
                hover:bg-redProject hover:text-white transition-all duration-500">CLEAR</button>

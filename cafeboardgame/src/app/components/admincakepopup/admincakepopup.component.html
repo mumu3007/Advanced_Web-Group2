@@ -1,18 +1,42 @@
 <form [formGroup]="updatecakeForm" (ngSubmit)="updateCakemenu()">
     <div class="fixed inset-0 flex items-center justify-center z-50" >
-        <div class="bg-white rounded-3xl py-5 px-8 w-[36rem]">
+        <div class="bg-white rounded-3xl py-5 px-8 w-[40rem]">
             <h3 class="text-redProject font-koulen text-[30px]">Update {{cakemenuData.name}} </h3>
 
-            <!--ชื่อและรายละเอียด-->
-            <div class="mt-5 font-koulen mb-4">
-                <input type="text" placeholder="Name" formControlName='name'
-                    class="font-koulen text-[18px] w-full h-14 mb-5 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
-                <textarea type="text" placeholder="Details.." formControlName='cakedescription'
-                    class="font-koulen text-[18px] w-full h-[14rem]  pt-1 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400"></textarea>
+            <!-- ชื่อและรายละเอียด -->
+            <div class="mt-4 font-koulen mb-[11rem]">
+                <div class="h-20 mb-2">
+                    <input type="text" placeholder="Name" formControlName="name"
+                      class="input-style"
+                      [ngClass]="{
+                        'input-error': (updatecakeForm.get('name')?.touched && updatecakeForm.get('name')?.invalid) || (updatecakeForm.get('name')?.value === ''),
+                        'input-valid': !updatecakeForm.get('name')?.touched || (updatecakeForm.get('name')?.valid && updatecakeForm.get('name')?.value !== ''),
+                        'border-orangePro': updatecakeForm.get('name')?.value === ''
+                      }">
+                    <div *ngIf="updatecakeForm.get('name')?.invalid && (updatecakeForm.get('name')?.touched || updatecakeForm.get('name')?.dirty)" 
+                      class="text-orangePro text-sm -mt-4 ">
+                      Please specify the name of the cake..
+                    </div>
+                </div>
+                  
+                <div class="h-20 mb-5">
+                    <textarea placeholder="Details.." formControlName="cakedescription"
+                      class="textarea-style"
+                      [ngClass]="{
+                        'input-error': (updatecakeForm.get('cakedescription')?.touched && updatecakeForm.get('cakedescription')?.invalid) || (updatecakeForm.get('cakedescription')?.value === ''),
+                        'input-valid': !updatecakeForm.get('cakedescription')?.touched || (updatecakeForm.get('cakedescription')?.valid && updatecakeForm.get('cakedescription')?.value !== ''),
+                        'border-orangePro': updatecakeForm.get('cakedescription')?.value === ''
+                      }">
+                    </textarea>
+                    <div *ngIf="updatecakeForm.get('cakedescription')?.invalid && (updatecakeForm.get('cakedescription')?.touched || updatecakeForm.get('cakedescription')?.dirty)" 
+                      class="text-orangePro text-sm -mt-1 mb-2">
+                      Please specify the details of the cake..
+                    </div>
+                </div>
             </div>
 
-            <!--อัพรูปและราคา-->
-            <div class="flex justify-between mb-8">
+            <!-- อัพรูปและราคา -->
+            <div class="flex justify-between h-24">
                 <input id="photo" type="file" (change)="onFileSelected($event)" formControlName="photo" 
                     class="form-control text-[16px] text-redProject font-koulen w-80 
                     file:mr-4 file:py-2 file:px-4
@@ -20,18 +44,27 @@
                     file:text-[18px] file:font-koulen
                     file:rounded-xl file:border-2 file:border-redProject
                     file:bg-transparent file:text-redProject"/>
-                <input type="number" placeholder="PRICE" formControlName='cakeprice' min="0" step="any"
-                    class="font-koulen text-[18px] w-[14rem] h-14 p-2 border-2 border-redProject outline-none rounded-xl placeholder:text-formfPro focus:ring-red-400 focus:border-red-400">
+                <div class="flex flex-col">
+                    <input 
+                        type="number" placeholder="PRICE" formControlName="cakeprice" min="0" step="any" 
+                        class="input-style"
+                        [ngClass]="{
+                            'input-error': updatecakeForm.get('cakeprice')?.touched && updatecakeForm.get('cakeprice')?.invalid,
+                            'input-valid': !updatecakeForm.get('cakeprice')?.touched || (updatecakeForm.get('cakeprice')?.valid && updatecakeForm.get('cakeprice')?.value !== '')
+                        }">
+                    <div *ngIf="updatecakeForm.get('cakeprice')?.invalid && (updatecakeForm.get('cakeprice')?.touched || updatecakeForm.get('cakeprice')?.dirty)" 
+                        class="text-orangePro text-sm -mt-5">
+                        Please specify the price.
+                    </div>
+                </div>
             </div>
 
-            <!--ปุ่ม-->
+            <!-- ปุ่ม -->
             <div class="flex justify-between">
                 <button type="button" class="font-koulen text-[18px] w-28 h-10 text-redProject items-center justify-center rounded-xl border-2 border-redProject hover:bg-[#B70A1A] hover:text-white transition-all duration-200"
                   (click)="closeCakePopup()">Cancel</button>
                 <button type="submit" class="font-koulen text-[18px] w-28 h-10 bg-redProject text-white items-center justify-center rounded-xl hover:bg-[#B70A1A] transition-all duration-200">Update Item</button>
-              </div>
-
-
+            </div>
         </div>
     </div>
 </form>
