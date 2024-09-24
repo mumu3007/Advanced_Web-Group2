@@ -19,6 +19,10 @@ export class PaymentService {
   getAllPayments(): Observable<any[]> {
     return this.http.get<any[]>(`${this.Url}/payment`,{withCredentials: true});
   }
+
+  updatePaymentStatus(paymentId: string, newStatus: string): Observable<any> {
+    return this.http.patch<any>(`${this.Url}/payment/${paymentId}`, { status: newStatus }, { withCredentials: true });
+  }
 }
 
 

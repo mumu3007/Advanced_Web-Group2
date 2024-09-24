@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 import { ItemlistpopupComponent } from './components/itemlistpopup/itemlistpopup.component';
 import { AdminbgpopupComponent } from './components/adminbgpopup/adminbgpopup.component';
 import { AdmincakepopupComponent } from './components/admincakepopup/admincakepopup.component';
+import { AdminpaymentComponent } from './components/adminpayment/adminpayment.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AdmincakepopupComponent } from './components/admincakepopup/admincakepo
     CakepopupComponent,
     AdminbgpopupComponent,
     AdmincakepopupComponent,
+    AdminpaymentComponent,
 
   ],
   imports: [
