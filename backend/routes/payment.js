@@ -38,9 +38,28 @@ const upload = multer({
   limits: limits
 });
 
+// Middleware สำหรับจัดการ error ที่เกิดจาก multer
+const handleMulterErrors = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    // ข้อผิดพลาดจาก multer (เช่น ขนาดไฟล์เกิน)
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ message: "File size should not exceed 5MB." });
+    }
+  } else if (err) {
+    // ข้อผิดพลาดจาก fileFilter
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
+
 // Import โมเดล Boardgame
 
-router.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/upload", upload.single("image"), handleMulterErrors,async (req, res) => {
+
+  if (!req.file) {
+    return res.status(400).json({ message: "Image file is required." });
+  }
+  
   try {
     // สร้างเอกสาร payment ใหม่
     const newPayment = new Payment({
@@ -102,7 +121,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Payment created successfully!",
+      message: "Payment has been successfully processed!",
       payment: savedPayment, // ส่งข้อมูลการชำระเงินกลับไป
       updatedCart: updatedCart,  // ส่งข้อมูล Cart ที่ถูกอัปเดตกลับไป
     });

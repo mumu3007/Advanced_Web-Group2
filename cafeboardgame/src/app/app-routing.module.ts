@@ -5,7 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { BoardgameComponent } from './components/boardgame/boardgame.component';
-import { ProfileComponent } from './components/profile/profile.component';
+
 import { authGuard } from './guards/auth-guard.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { AdminorderComponent } from './components/adminorder/adminorder.component';
@@ -23,7 +23,6 @@ const routes: Routes = [
   { path: 'boardgame', component: BoardgameComponent ,canActivate: [authGuard]},
   { path: 'cart', component: CartComponent,canActivate: [authGuard]},
   { path: 'menu', component: MenuComponent,canActivate: [authGuard]},
-  { path: 'profile', component: ProfileComponent ,canActivate: [authGuard]},
   { path: 'admin', component: AdminorderComponent,canActivate:[authGuard] },
   { path: 'itempop', component: ItemlistpopupComponent,canActivate: [authGuard] },
   { path: 'adminboardgame', component: AdminboardgameComponent,canActivate:[authGuard]},

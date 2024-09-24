@@ -41,11 +41,11 @@ export class LoginComponent {
         }
       },
       error => {
-        console.log('Login failed', error);
+      
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Login failed. Please try again.',
+          detail: error.error.message,
         });
       }
     );
