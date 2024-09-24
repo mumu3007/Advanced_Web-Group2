@@ -30,16 +30,12 @@
 
 /* สีขอบเมื่อถูกต้อง */
 .input-valid {
-    border-color: var#D2091C;
+    border-color: #D2091C;
 }
 
 .input-valid::placeholder {
     color: rgba(210, 9, 28, 0.7); /* สีของ placeholder เมื่อถูกต้อง */
 }
-
-
-
-
 
 
 /* Webkit Scrollbar (Chrome, Safari) */
