@@ -18,7 +18,7 @@
                     <p class="">{{item.name}}</p>
                     <label for="sizeandsweet" class="text-sm">Sweet: {{item.sweetness_level}}%, Size: {{item.size}}</label>
                   </div>
-                  <button class="text-redProject " (click)="deleteOrderCoffee(item._id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderCoffee(item._id)">DELETE</button>
                 </div>
                 <div class="flex-space-between pt-3 text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
@@ -40,7 +40,7 @@
                     <p class="text-xl">{{item.name}}</p>
                     <label for="sizeandsweet" class="font-noto text-sm">{{item.description}}</label>
                   </div>
-                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderCake(item.cake_id)">DELETE</button>
                 </div>
                 <div class="flex-space-between pt-3 font-koulen text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>
@@ -62,7 +62,7 @@
                     <p class="text-xl">{{item.name}}</p>
                     <label for="category" class="text-sm">Category: {{item.type}}</label>
                   </div>
-                  <button class="font-koulen text-redProject text-xl" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
+                  <button class="delete-button" (click)="deleteOrderBoardgame(item._id)">DELETE</button>
                 </div>
                 <div class="flex justify-between pt-3 font-koulen text-md">
                   <span class="py-1 bg-gray-100">Quantity: {{ item.quantity }}</span>

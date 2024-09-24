@@ -44,7 +44,7 @@ export class MenupopupComponent implements OnInit {
       type_order: ['', Validators.required],
       sweetness_level: [0, Validators.required],
       size: ['', Validators.required],
-      description: [''],
+      description: ['',Validators.maxLength(100) ],
       coffee_id: ['', Validators.required],
       quantity: [1, [Validators.required, Validators.min(1)]],
       total_price: [0, Validators.min(0)],
@@ -160,12 +160,9 @@ export class MenupopupComponent implements OnInit {
           }
         );
       } else {
+        this.checkInvalidFields()  
         reject('Form is invalid');
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Type or Size Missing',
-          detail: 'Please select a type of order and size.',
-        });
+        console.log("wodwodwodwdowdjwodw")
       }
     });
   } 
@@ -173,4 +170,41 @@ export class MenupopupComponent implements OnInit {
   closePopup() {
     this.close.emit();
   }
+
+  checkInvalidFields() {
+    const controls = this.orderForm.controls;
+
+    if (controls['type_order'].invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Type Order Missing',
+        detail: 'Please select a type of order.',
+      });
+    }
+
+    if (controls['size'].invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Size Missing',
+        detail: 'Please select a size.',
+      });
+    }
+
+    if (controls['description'].invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Description Invalid',
+        detail: 'Description should not more than 100 characters.',
+      });
+    }
+
+    if (controls['quantity'].invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Quantity Invalid',
+        detail: 'Please enter a valid quantity.',
+      });
+    }
+  }
+
 }
