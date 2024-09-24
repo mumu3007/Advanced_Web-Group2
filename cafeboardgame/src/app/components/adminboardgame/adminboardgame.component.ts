@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Boardgame } from '../../models/boardgame.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BoardgameserviceService } from '../../services/boardgame/boardgameservice.service';
 import { MessageService } from 'primeng/api';
-import { PaymentService } from '../../services/payment/payment.service';
 
 @Component({
   selector: 'app-adminboardgame',
@@ -14,10 +12,6 @@ import { PaymentService } from '../../services/payment/payment.service';
 })
 export class AdminboardgameComponent implements OnInit {
 
-  boardgame: Boardgame = { name: '', description: '', quantity: 0, price: 0, photo: '', create_at: new Date(), status: false, type: "", }
-
-  // currentSection: string = 'all-boardgame'; // กำหนดค่าเริ่มต้นให้กับ section ที่จะแสดง
-  // menuSection: string = 'all-menu';
   message: string = '';
   selectedFile: File | null = null;
 
@@ -26,22 +20,6 @@ export class AdminboardgameComponent implements OnInit {
 
   selectedBoardgameId?: string;
   showPopup = false;
-
-  openPopup(boardgameId: string) {
-    this.selectedBoardgameId = boardgameId;
-    this.showPopup = true;
-    console.log(boardgameId);
-  }
-
-
-  closePopup() {
-    this.showPopup = false;
-    this.loadBoardgames();
-  }
-
-  // showSection(sectionId: string): void {
-  //   this.currentSection = sectionId; // เปลี่ยน section ที่จะแสดงตามการคลิก
-  // }
 
   constructor(
     private boardgameService: BoardgameserviceService,
@@ -60,7 +38,23 @@ export class AdminboardgameComponent implements OnInit {
     type: new FormControl(null, Validators.required),
 
   });
-  // quantity: new FormControl(0, [Validators.required, Validators.min(1)]), // ตรวจสอบให้กรอกค่าเป็นตัวเลขที่มากกว่า 0
+
+  //เปิดpopup
+  openPopup(boardgameId: string) {
+    this.selectedBoardgameId = boardgameId;
+    this.showPopup = true;
+    console.log(boardgameId);
+  }
+  //ปิดpopup
+  closePopup() {
+    this.showPopup = false;
+    this.loadBoardgames();
+  }
+  //เคลียร์ช่องinput
+  ClearBoardgameForm() {
+    this.boardgameForm.reset();
+    window.location.reload();
+  }
 
   // เมื่อเลือกไฟล์
   onFileSelected(event: any): void {
@@ -113,9 +107,8 @@ export class AdminboardgameComponent implements OnInit {
             });
             setTimeout(() => {
               this.boardgameForm.reset();
-              this.loadBoardgames();
-              // window.location.reload();
-            }, 2000); // หน่วงเวลา 2 วินาที ก่อน redirect
+              window.location.reload();
+            }, 1000); // หน่วงเวลา 1 วินาที ก่อน redirect
           }
         },
         error => {
@@ -156,16 +149,6 @@ export class AdminboardgameComponent implements OnInit {
     )
   }
 
-  ClearBoardgameForm() {
-    this.boardgameForm.reset();
-    // this.boardgameForm.get('status')?.setValue(null);
-    // this.boardgameForm.get('type')?.setValue(null);
-    // this.boardgameForm.get('photo')?.setValue('');
-
-    window.location.reload();
-
-  }
-
   // ลบบอร์ดเกม
   deleteBoardgameItem(id: number) {
     this.boardgameService.deletedBoardgame(id).subscribe(
@@ -188,7 +171,6 @@ export class AdminboardgameComponent implements OnInit {
       }
     );
   }
-
 
   ngOnInit(): void {
     this.loadBoardgameTypeItem();
