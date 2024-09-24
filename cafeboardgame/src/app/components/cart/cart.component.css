@@ -23,3 +23,36 @@ div {
     scrollbar-color: #D2091C #f1f1f1;
     /* สีของ thumb และ track */
 }
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-container {
+    display: flex;
+    /* ใช้ flexbox */
+    flex-direction: column;
+    /* จัดเรียงในแนวตั้ง */
+    width: 100%;
+    /* ความกว้างเต็มที่ */
+    justify-content: space-between;
+    /* จัดระยะห่างระหว่างองค์ประกอบ */
+    border-bottom: 2px solid theme('colors.redProject');
+    /* เพิ่มขอบล่างสีแดง (ปรับสีตามที่ต้องการ) */
+    padding-top: 1rem;
+    /* เว้นระยะด้านบน 1rem (ปรับตามที่ต้องการ) */
+    padding-bottom: 1rem;
+    /* เว้นระยะด้านล่าง 1rem (ปรับตามที่ต้องการ) */
+    scroll-snap-align: center;
+    /* จัดให้สอดคล้องกับการเลื่อน (ปรับตามที่ต้องการ) */
+    font-family: 'Koulen', cursive;
+
+}
