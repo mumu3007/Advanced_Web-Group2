@@ -12,7 +12,7 @@
 .font-color {
     font-family: "Koulen", cursive;
     --tw-text-opacity: 1;
-    color: rgb(210 9 28 / var(--tw-text-opacity));
+    color: theme('colors.redProject');;
 }
 
 .menu-text {
@@ -20,13 +20,13 @@
     font-size: 2.25rem;
     line-height: 2.5rem;
     --tw-text-opacity: 1;
-    color: rgb(210 9 28 / var(--tw-text-opacity));
+    color: theme('colors.redProject');
 }
 
 .span-nav-line {
     flex-grow: 1;
     height: 2px;
-    background-color: #D2091C;
+    background-color: theme('colors.redProject');;
 }
 
 .menu-nav-section {
@@ -70,7 +70,20 @@
     display: flex;
     flex-direction: column;
     border-width: 3px;
-    border-color: #D2091C;
+    border-color: theme('colors.redProject');;
+    outline-width: 3px;
+    outline-color: rgba(254, 242, 242);
+    border-radius: 30px;
+    width: 18rem;
+}
+
+.menu-card2 {
+    padding: 0 1rem 1rem 1rem; 
+    display: flex;
+    flex-direction: column;
+    border-width: 3px;
+    border-color: theme('colors.redProject');
+    ;
     outline-width: 3px;
     outline-color: rgba(254, 242, 242);
     border-radius: 30px;
@@ -80,7 +93,7 @@
 .button-custom {
     height: 3rem;
     font-size: 2.25rem;
-    color: #D2091C;
+    color: theme('colors.redProject');
     transition: transform 0.2s ease;
 }
 
@@ -97,13 +110,13 @@
     flex-grow: 1;
     height: 100%;
     border-bottom-width: 2px;
-    border-bottom-color: #D2091C;
+    border-bottom-color: theme('colors.redProject');;
 }
 
 .popup-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 10;
 }
 
@@ -116,12 +129,31 @@ div::-webkit-scrollbar-track {
 }
 
 div::-webkit-scrollbar-thumb {
-    background-color: #D2091C;
+    background-color: theme('colors.redProject');
     border-radius: 10px;
     border: 3px solid #f1f1f1;
 }
 
 div {
     scrollbar-width: thin;
-    scrollbar-color: #D2091C #f1f1f1;
+    scrollbar-color: theme('colors.redProject') #f1f1f1;
+}
+
+.leading-no {
+    line-height: 0.7;
+}
+
+
+@keyframes opacityfade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.animate-opacityfade2 {
+    animation: opacityfade 2s ease-in 1;
 }

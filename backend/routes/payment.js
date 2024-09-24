@@ -46,7 +46,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     const newPayment = new Payment({
       user_id: req.body.user_id,
       cart_id: req.body.cart_id, // รับ cart_id จาก body request
-      status: "pending", // กำหนดสถานะเริ่มต้น
+      status: "รอการตรวจสอบ", // กำหนดสถานะเริ่มต้น
       image: {
         filename: req.file.filename,
         filePath: req.file.path,
@@ -115,7 +115,18 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     // ดึงข้อมูล payment ทั้งหมด
-    const payments = await Payment.find();
+    const payments = await Payment.find()
+    .populate({
+      path: 'cart_id',
+      select: 'total_price',
+    })
+    .populate({
+      path: 'user_id',
+      populate: {
+        path: '_id',
+        select: 'username',
+      }
+    });
 
     if (!payments.length) {
       return res.status(404).json({ message: "No payments found" });
@@ -135,6 +146,36 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch payments", error: error.message });
   }
 });
+
+// เปลี่ยนจาก router.put เป็น router.patch
+router.patch("/:id", async (req, res) => {
+  try {
+    const paymentId = req.params.id;
+    const { status } = req.body;
+
+    if (!['รอการตรวจสอบ', 'ตรวจสอบแล้ว'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    const updatedPayment = await Payment.findByIdAndUpdate(
+      paymentId,
+      { status: status },
+      { new: true }
+    );
+
+    if (!updatedPayment) {
+      return res.status(404).json({ message: 'Payment not found' });
+    }
+
+    res.status(200).json({
+      message: 'Payment status updated successfully!',
+      payment: updatedPayment,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update payment status', error: error.message });
+  }
+});
+
 
 
 module.exports = router;
